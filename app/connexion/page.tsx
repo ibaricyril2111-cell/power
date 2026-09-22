@@ -170,6 +170,8 @@ export default function ConnexionPage() {
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                       <Input
                         id="firstName"
+                        name="given-name"
+                        autoComplete="given-name"
                         value={formData.firstName}
                         onChange={(e) => handleInputChange("firstName", e.target.value)}
                         className="pl-10 bg-black/40 border-white/10 text-white rounded-xl"
@@ -185,6 +187,8 @@ export default function ConnexionPage() {
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                       <Input
                         id="lastName"
+                        name="family-name"
+                        autoComplete="family-name"
                         value={formData.lastName}
                         onChange={(e) => handleInputChange("lastName", e.target.value)}
                         className="pl-10 bg-black/40 border-white/10 text-white rounded-xl"
@@ -203,7 +207,10 @@ export default function ConnexionPage() {
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                   <Input
                     id="email"
+                    name="email"
                     type="email"
+                    autoComplete="email"
+                    inputMode="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     className="pl-10 bg-black/40 border-white/10 text-white rounded-xl"
@@ -220,7 +227,9 @@ export default function ConnexionPage() {
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                   <Input
                     id="password"
+                    name="password"
                     type={showPassword ? "text" : "password"}
+                    autoComplete={mode === "login" ? "current-password" : "new-password"}
                     value={formData.password}
                     onChange={(e) => handleInputChange("password", e.target.value)}
                     className="pl-10 pr-10 bg-black/40 border-white/10 text-white rounded-xl"
@@ -255,7 +264,9 @@ export default function ConnexionPage() {
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                     <Input
                       id="confirmPassword"
+                      name="confirm-password"
                       type="password"
+                      autoComplete="new-password"
                       value={formData.confirmPassword}
                       onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
                       className="pl-10 bg-black/40 border-white/10 text-white rounded-xl"
