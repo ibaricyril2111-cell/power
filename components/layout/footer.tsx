@@ -2,21 +2,28 @@ import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className="bg-orange-500 text-white">
-      <div className="container mx-auto max-w-7xl px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <span className="font-extrabold text-lg tracking-tight">Power<span className="text-white">.</span></span>
-          <span className="text-white text-sm">
-            &copy; {new Date().getFullYear()} by <Link href="https://github.com/Haeim8" target="_blank" rel="noopener noreferrer" className="hover:text-white hover:underline transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none rounded">djangode</Link>.
-          </span>
+    <footer className="bg-[#102e25] text-white">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1.3fr_1fr_1fr]">
+        <div>
+          <span className="text-2xl font-black tracking-tight">POWER<span className="text-orange-400">.</span></span>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/65">Primeur, frais & local. Livraison à domicile et click & collect à Alfortville.</p>
+          <p className="mt-4 text-sm text-white/80">114 rue Paul Vaillant-Couturier, 94140 Alfortville</p>
         </div>
-        <nav className="flex items-center gap-6 text-sm text-white font-medium">
-          <Link href="/contact" className="hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none rounded">Contact</Link>
-          <Link href="/faq" className="hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none rounded">FAQ</Link>
-          <Link href="/mentions-legales" className="hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none rounded">Mentions légales</Link>
-          <Link href="/cgv" className="hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none rounded">CGV</Link>
+        <nav className="flex flex-col gap-3 text-sm text-white/70">
+          <p className="font-bold uppercase tracking-widest text-white">Commander</p>
+          <Link href="/#marketplace" className="hover:text-orange-400">Boutique</Link>
+          <Link href="/#paniers" className="hover:text-orange-400">Paniers de saison</Link>
+          <Link href="/livraison" className="hover:text-orange-400">Livraison & retrait</Link>
+        </nav>
+        <nav className="flex flex-col gap-3 text-sm text-white/70">
+          <p className="font-bold uppercase tracking-widest text-white">Power</p>
+          <Link href="/contact" className="hover:text-orange-400">Contact</Link>
+          <Link href="/faq" className="hover:text-orange-400">FAQ</Link>
+          <Link href="/mentions-legales" className="hover:text-orange-400">Mentions légales</Link>
+          <Link href="/cgv" className="hover:text-orange-400">CGV</Link>
         </nav>
       </div>
+      <div className="border-t border-white/10 px-5 py-5 text-center text-xs text-white/45">© {new Date().getFullYear()} Power Primeur — Tous droits réservés.</div>
     </footer>
   )
 }

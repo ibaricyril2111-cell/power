@@ -63,11 +63,11 @@ export default function Header() {
 
   return (
     <>
-      <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-        <header className="w-full max-w-6xl flex items-center justify-between pointer-events-auto">
+      <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+        <header className="w-full max-w-7xl flex items-center justify-between pointer-events-auto">
 
           {/* Logo + Menu mobile */}
-          <div className="flex items-center space-x-1 glassmorphism bg-black/60 px-2 sm:px-5 py-1.5 sm:py-3 rounded-full border border-white/10 hover:bg-black/80 transition-colors shadow-2xl backdrop-blur-xl">
+          <div className="flex items-center space-x-1 bg-[#173f32]/95 px-2 sm:px-5 py-1.5 sm:py-3 rounded-full border border-white/15 transition-colors shadow-xl backdrop-blur-xl">
             {/* Menu hamburger mobile - à gauche du logo */}
             <DropdownMenu open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <DropdownMenuTrigger asChild>
@@ -75,7 +75,7 @@ export default function Header() {
                   <Menu className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="glassmorphism bg-black/90 border-white/10 text-white rounded-2xl p-2 mt-2 backdrop-blur-xl w-56 shadow-2xl md:hidden">
+              <DropdownMenuContent align="start" className="bg-[#173f32]/95 border-white/10 text-white rounded-2xl p-2 mt-2 backdrop-blur-xl w-56 shadow-2xl md:hidden">
                 <DropdownMenuItem onClick={() => { scrollToMarketplace(); setMobileMenuOpen(false) }} className="rounded-xl focus:bg-white/10 cursor-pointer">
                   Boutique
                 </DropdownMenuItem>
@@ -109,11 +109,14 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Pas de navigation centrale : la boutique se découvre au scroll, le panier a
-              son bouton à droite, et Contact vit dans le pied de page. */}
+          <nav className="hidden md:flex items-center gap-1 rounded-full border border-white/15 bg-[#173f32]/90 p-1.5 text-sm font-semibold text-white shadow-xl backdrop-blur-xl">
+            <button onClick={scrollToMarketplace} className="rounded-full px-5 py-2.5 transition hover:bg-white/10">Boutique</button>
+            <Link href="/#paniers" className="rounded-full px-5 py-2.5 transition hover:bg-white/10">Paniers</Link>
+            <Link href="/livraison" className="rounded-full px-5 py-2.5 transition hover:bg-white/10">Livraison</Link>
+          </nav>
 
           {/* Boutons Droite */}
-          <div className="flex items-center space-x-2 glassmorphism bg-black/60 px-2 py-1.5 rounded-full border border-white/10 shadow-2xl backdrop-blur-xl">
+          <div className="flex items-center space-x-2 bg-[#173f32]/95 px-2 py-1.5 rounded-full border border-white/15 shadow-xl backdrop-blur-xl">
             <Button
               variant="ghost"
               size="icon"
