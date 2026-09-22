@@ -5,7 +5,7 @@ export default async function ProductSection() {
   const [products, compositions] = await Promise.all([
     prisma.product.findMany({
       where: { inStock: true },
-      orderBy: { name: 'asc' },
+      orderBy: [{ category: { name: 'asc' } }, { name: 'asc' }],
       include: { category: true }
     }),
     prisma.composition.findMany({
@@ -56,14 +56,15 @@ export default async function ProductSection() {
   const categories = [...new Set(products.map(p => p.category.name))]
 
   return (
-    <section id="fruits" className="py-20 px-4 w-full bg-gradient-to-b from-[#f5f0e8] via-[#e8e0d4] to-[#d4cbbe]">
-      <div className="w-full max-w-none px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-black mb-4 text-zinc-900 tracking-tight">
-            Notre <span className="text-orange-500">Marketplace</span>
+    <section id="fruits" className="py-20 px-5 sm:px-8 w-full bg-[#f7f4ed] md:py-28">
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="mb-12 max-w-2xl">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-600">La boutique Power</p>
+          <h2 className="mt-3 text-4xl md:text-6xl font-black text-[#173f32] tracking-[-0.05em]">
+            Le marché, rayon par rayon.
           </h2>
-          <p className="text-zinc-600 max-w-2xl mx-auto text-lg italic font-medium">
-            Fruits, légumes, jus pressés à froid, soupes et découpés frais.
+          <p className="mt-4 text-zinc-600 max-w-xl text-lg leading-relaxed">
+            Choisissez vos produits à l’unité ou gagnez du temps avec une composition prête à personnaliser.
           </p>
         </div>
         <ProductGrid
