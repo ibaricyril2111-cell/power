@@ -74,7 +74,12 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
     const tabs: { id: string; label: string }[] = [{ id: "tout", label: "Tout" }]
 
     // Ajouter chaque catégorie réelle de produits depuis la DB
-    categories.forEach(cat => {
+    const categoryOrder = ["Fruits", "Fruits rouges", "Légumes", "Aromates", "Exotiques"]
+    ;[...categories].sort((a, b) => {
+      const ai = categoryOrder.indexOf(a)
+      const bi = categoryOrder.indexOf(b)
+      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi)
+    }).forEach(cat => {
       const id = cat.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-")
       tabs.push({ id, label: cat })
     })
@@ -126,27 +131,27 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
   return (
     <>
       {/* Search + Tabs centré */}
-      <div className="flex flex-col items-center mb-8">
-        <div className="relative w-full max-w-md mb-4">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+      <div className="mb-10 flex flex-col gap-5">
+        <div className="relative w-full max-w-xl">
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
           <input
             type="text"
             placeholder="Rechercher un produit..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 bg-zinc-900 border border-zinc-700 rounded-2xl text-white placeholder:text-zinc-400 focus:outline-none focus:border-orange-500/50 transition-colors text-sm"
+            className="w-full pl-12 pr-4 py-4 bg-white border border-black/10 rounded-2xl text-zinc-900 placeholder:text-zinc-400 shadow-sm focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition text-sm"
           />
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center flex-wrap">
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide md:flex-wrap">
           {visibleTabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${
                 activeTab === tab.id
-                  ? "bg-orange-500 text-white"
-                  : "bg-zinc-900 text-white border border-zinc-700 hover:border-orange-500/50"
+                  ? "bg-[#173f32] text-white shadow-md"
+                  : "bg-white text-zinc-700 border border-black/10 hover:border-[#173f32]/40"
               }`}
             >
               {tab.label}
@@ -162,7 +167,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
       ) : (
         <>
           {/* Mobile */}
-          <div className="sm:hidden flex flex-col gap-2">
+          <div className="sm:hidden grid grid-cols-2 gap-3">
             {filtered.products.map((product) => (
               <ProductCardMobile
                 key={product.id}
@@ -186,7 +191,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
           </div>
 
           {/* Desktop */}
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {filtered.products.map((product) => (
               <ProductCard
                 key={product.id}
@@ -197,7 +202,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
             {filtered.compositions.map((comp) => (
               <div
                 key={comp.id}
-                className="group bg-zinc-950 border border-zinc-800 rounded-[40px] overflow-hidden hover:border-orange-500/50 transition-all duration-500 h-full flex flex-col cursor-pointer"
+                className="group bg-white border border-black/5 rounded-[28px] overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer"
                 onClick={() => setSelectedComposition(comp)}
               >
                 <div className="relative aspect-square overflow-hidden bg-zinc-800">
@@ -209,28 +214,28 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute top-6 left-6">
-                    <span className="bg-black/60 backdrop-blur-xl border border-white/10 text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                    <span className="bg-white/90 backdrop-blur-xl border border-black/5 text-[#173f32] px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">
                       {comp.type.charAt(0).toUpperCase() + comp.type.slice(1).replace(/-/g, " ")}
                     </span>
                   </div>
                   <div className="absolute bottom-6 left-6 right-6">
-                    <div className="bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
-                      <span className="text-2xl font-black text-white italic leading-none">
+                    <div className="inline-flex bg-white/95 backdrop-blur-xl rounded-full px-4 py-2 shadow-lg">
+                      <span className="text-xl font-black text-[#173f32] leading-none">
                         {comp.basePrice.toFixed(2)}€
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="p-8 pb-4 flex-1">
-                  <h3 className="text-2xl font-black uppercase italic text-white mb-2 line-clamp-1 group-hover:text-orange-500 transition-colors">
+                <div className="p-6 pb-4 flex-1">
+                  <h3 className="text-xl font-black text-[#173f32] mb-2 line-clamp-1 group-hover:text-orange-600 transition-colors">
                     {comp.name}
                   </h3>
-                  <p className="text-zinc-500 font-medium line-clamp-2 min-h-[48px] text-sm leading-relaxed">
+                  <p className="text-zinc-500 line-clamp-2 min-h-[42px] text-sm leading-relaxed">
                     {comp.description}
                   </p>
                 </div>
-                <div className="p-8 pt-0 mt-auto">
-                  <button className="w-full h-14 rounded-[24px] bg-orange-500 hover:bg-orange-600 text-white font-black uppercase italic text-sm tracking-widest transition-colors">
+                <div className="p-6 pt-0 mt-auto">
+                  <button className="w-full h-12 rounded-full bg-[#173f32] hover:bg-[#225943] text-white font-bold text-sm transition-colors">
                     Composer
                   </button>
                 </div>

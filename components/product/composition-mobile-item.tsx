@@ -15,31 +15,31 @@ interface Composition {
 export default function CompositionMobileItem({ composition, onCompose }: { composition: Composition; onCompose?: () => void }) {
   return (
     <div
-      className="flex items-center gap-3 bg-zinc-900/60 border border-white/5 rounded-2xl p-3 active:bg-zinc-800/60 transition-colors"
+      className="flex min-w-0 flex-col overflow-hidden bg-white border border-black/5 rounded-[22px] shadow-sm active:scale-[0.99] transition"
       onClick={onCompose}
     >
-      <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-zinc-800">
+      <div className="relative w-full aspect-square overflow-hidden bg-[#eee9df]">
         <ImageWithFallback
           src={composition.imageUrl || "/placeholder.svg"}
           alt={composition.name}
           fill
-          sizes="(max-width: 768px) 100vw, 300px"
+          sizes="50vw"
           className="object-cover"
         />
       </div>
-      <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-bold text-white truncate">{composition.name}</h3>
-        <span className="text-orange-500 font-black text-sm">{composition.basePrice.toFixed(2)}€</span>
+      <div className="min-w-0 p-3 pb-2">
+        <p className="mb-1 text-[9px] font-bold uppercase tracking-wider text-orange-600">À composer</p>
+        <h3 className="text-sm font-bold text-[#173f32] truncate">{composition.name}</h3>
+        <span className="text-[#173f32] font-black text-sm">Dès {composition.basePrice.toFixed(2)}€</span>
       </div>
       <Button
         onClick={(e) => {
           e.stopPropagation()
           onCompose?.()
         }}
-        size="icon"
-        className="flex-shrink-0 h-10 w-10 rounded-xl bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/20 transition-all active:scale-95"
+        className="mx-3 mb-3 h-9 w-auto rounded-full bg-[#173f32] hover:bg-[#225943] text-white transition-all active:scale-95"
       >
-        <ChefHat className="w-4 h-4" />
+        <ChefHat className="mr-2 w-4 h-4" /> Composer
       </Button>
     </div>
   )
