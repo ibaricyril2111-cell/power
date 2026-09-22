@@ -7,8 +7,22 @@ import { Leaf, ArrowLeft, ShieldCheck, Truck, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import AddToCartButton from "@/components/product/add-to-cart-button"
+import type { Metadata } from "next"
 
 export const dynamic = 'force-dynamic'
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+    const { id } = await params
+    const product = await prisma.product.findUnique({ where: { id }, include: { category: true } })
+    if (!product) return { title: 'Produit introuvable' }
+    const description = product.description || `${product.name} frais disponible chez Power Primeur à Alfortville, en livraison ou click & collect.`
+    return {
+        title: `${product.name} frais`,
+        description,
+        alternates: { canonical: `/produits/${id}` },
+        openGraph: { title: `${product.name} — Power Primeur`, description, url: `/produits/${id}`, images: product.image ? [product.image] : undefined },
+    }
+}
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
@@ -21,9 +35,27 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         notFound()
     }
 
+    const productJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.name,
+        description: product.description || `${product.name} frais chez Power Primeur Alfortville`,
+        image: product.image ? [`https://powerprimeur.com${product.image}`] : undefined,
+        category: product.category.name,
+        offers: {
+            '@type': 'Offer',
+            url: `https://powerprimeur.com/produits/${product.id}`,
+            priceCurrency: 'EUR',
+            price: (product.promoPrice ?? product.price).toFixed(2),
+            availability: product.inStock && product.currentStock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            seller: { '@type': 'Organization', name: 'Power Primeur' },
+        },
+    }
+
     return (
         <div className="min-h-screen bg-black text-white">
             <Header />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
             <main className="max-w-7xl mx-auto px-4 pt-44 pb-32">
                 <Link href="/produits" className="inline-flex items-center gap-2 text-zinc-500 hover:text-orange-500 font-black uppercase italic tracking-widest text-xs mb-12 group transition-all">
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-2 transition-transform" />
