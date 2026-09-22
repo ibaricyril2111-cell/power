@@ -5,8 +5,21 @@ import Footer from "@/components/layout/footer"
 import Image from "next/image"
 import { Leaf, ShoppingBag } from "lucide-react"
 import AddToCartButton from "@/components/product/add-to-cart-button"
+import type { Metadata } from "next"
 
 export const dynamic = 'force-dynamic'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params
+    const category = await prisma.category.findUnique({ where: { slug }, select: { name: true, description: true } })
+    if (!category) return { title: 'Rayon introuvable' }
+    return {
+        title: `${category.name} frais à Alfortville`,
+        description: category.description || `Commandez nos ${category.name.toLowerCase()} frais : livraison à domicile et click & collect chez Power Primeur à Alfortville.`,
+        alternates: { canonical: `/categories/${slug}` },
+        openGraph: { title: `${category.name} frais — Power Primeur`, url: `/categories/${slug}` },
+    }
+}
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params
