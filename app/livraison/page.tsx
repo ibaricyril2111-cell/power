@@ -1,6 +1,13 @@
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 import { Truck, Clock, Shield, Globe } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: 'Livraison de fruits et légumes à Alfortville',
+    description: 'Commandez vos fruits, légumes et paniers de saison chez Power. Livraison à domicile à Alfortville et click & collect au 114 rue Paul Vaillant-Couturier.',
+    alternates: { canonical: '/livraison' },
+}
 
 export default function LivraisonPage() {
     return (
