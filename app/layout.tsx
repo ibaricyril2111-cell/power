@@ -8,19 +8,29 @@ import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://powerprimeur.com'),
-  title: 'Power - Primeur Frais à Alfortville & Livraison Île-de-France',
-  description: 'Votre primeur spécialiste des produits frais, livrés chez vous en Île-de-France (94, 75, 92, 91). Retrouvez notre boutique à Alfortville / Vitry.',
-  keywords: 'primeur, alfortville, vitry, fruits et légumes, livraison, ile de france, 94, 75, 92, 91',
+  title: {
+    default: 'Power Primeur Alfortville | Fruits, légumes & livraison',
+    template: '%s | Power Primeur Alfortville',
+  },
+  description: 'Primeur à Alfortville : fruits et légumes frais, paniers de saison, Power Bowls, livraison à domicile et click & collect au 114 rue Paul Vaillant-Couturier.',
+  keywords: ['primeur Alfortville', 'fruits et légumes Alfortville', 'livraison fruits légumes 94', 'panier fruits légumes', 'click and collect Alfortville', 'Power Primeur'],
   verification: {
     google: '1KOJaBLd_oa4Z8ePRSGeHxczLAFYL3s781AYso9Twfc',
   },
   openGraph: {
-    title: 'Power - Primeur Frais à Alfortville',
-    description: 'Votre primeur de confiance en Île-de-France. Livraison de produits frais, fruits et légumes.',
+    title: 'Power Primeur Alfortville | Le frais du marché',
+    description: 'Fruits et légumes frais, paniers de saison, livraison à domicile et retrait en boutique à Alfortville.',
     url: 'https://powerprimeur.com',
     siteName: 'Power Primeur',
     locale: 'fr_FR',
     type: 'website',
+    images: [{ url: '/opengraph-image.png', width: 1200, height: 630, alt: 'Power Primeur à Alfortville' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Power Primeur Alfortville',
+    description: 'Le frais du marché en livraison et click & collect.',
+    images: ['/twitter-image.png'],
   },
   alternates: {
     canonical: '/',
@@ -58,6 +68,19 @@ const jsonLd = {
     addressCountry: 'FR'
   },
   telephone: '+33659845017',
+  image: 'https://powerprimeur.com/opengraph-image.png',
+  priceRange: '€€',
+  currenciesAccepted: 'EUR',
+  paymentAccepted: 'Cash, Credit Card',
+  hasMap: 'https://www.google.com/maps/search/?api=1&query=Power+Primeur+114+Rue+Paul+Vaillant+Couturier+94140+Alfortville',
+  sameAs: ['https://www.instagram.com/power_alfortville/'],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+33659845017',
+    contactType: 'customer service',
+    areaServed: 'FR',
+    availableLanguage: 'French',
+  },
   areaServed: [
     'Alfortville',
     'Vitry-sur-Seine',
