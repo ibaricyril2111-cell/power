@@ -211,6 +211,9 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
+                    name="email"
+                    autoComplete="email"
+                    inputMode="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
@@ -228,6 +231,8 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
+                    name="password"
+                    autoComplete={mode === "login" ? "current-password" : "new-password"}
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
                     onChange={(e) => handleInputChange("password", e.target.value)}
@@ -256,6 +261,8 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                     <Input
                       id="confirmPassword"
                       type="password"
+                      name="confirm-password"
+                      autoComplete="new-password"
                       value={formData.confirmPassword}
                       onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
                       className="pl-10"
