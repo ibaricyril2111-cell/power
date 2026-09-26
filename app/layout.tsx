@@ -7,7 +7,7 @@ import PwaRegister from '@/components/pwa-register'
 import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://powerprimeur.com'),
+  metadataBase: new URL('https://power-ecru-pi.vercel.app'),
   title: {
     default: 'Power Primeur Alfortville | Fruits, légumes & livraison',
     template: '%s | Power Primeur Alfortville',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Power Primeur Alfortville | Le frais du marché',
     description: 'Fruits et légumes frais, paniers de saison, livraison à domicile et retrait en boutique à Alfortville.',
-    url: 'https://powerprimeur.com',
+    url: 'https://power-ecru-pi.vercel.app',
     siteName: 'Power Primeur',
     locale: 'fr_FR',
     type: 'website',
@@ -57,7 +57,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'GroceryStore',
   name: 'Power Primeur',
-  url: 'https://powerprimeur.com',
+  url: 'https://power-ecru-pi.vercel.app',
   description: 'Votre primeur de confiance en Île-de-France. Livraison de produits frais, fruits et légumes sur Alfortville, Vitry (94), Paris (75), Hauts-de-Seine (92) et Essonne (91).',
   address: {
     '@type': 'PostalAddress',
@@ -68,7 +68,7 @@ const jsonLd = {
     addressCountry: 'FR'
   },
   telephone: '+33659845017',
-  image: 'https://powerprimeur.com/opengraph-image.png',
+  image: 'https://power-ecru-pi.vercel.app/opengraph-image.png',
   priceRange: '€€',
   currenciesAccepted: 'EUR',
   paymentAccepted: 'Cash, Credit Card',
