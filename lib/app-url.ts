@@ -1,4 +1,4 @@
-const PRODUCTION_URL = "https://powerprimeur.com"
+const PRODUCTION_URL = "https://power-ecru-pi.vercel.app"
 
 /** URL canonique contrôlée par le serveur. Ne jamais construire une redirection de
  * paiement depuis l'en-tête Origin, qui est fourni par l'appelant. */
