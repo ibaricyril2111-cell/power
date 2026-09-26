@@ -40,11 +40,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         '@type': 'Product',
         name: product.name,
         description: product.description || `${product.name} frais chez Power Primeur Alfortville`,
-        image: product.image ? [`https://powerprimeur.com${product.image}`] : undefined,
+        image: product.image ? [new URL(product.image, 'https://power-ecru-pi.vercel.app').toString()] : undefined,
         category: product.category.name,
         offers: {
             '@type': 'Offer',
-            url: `https://powerprimeur.com/produits/${product.id}`,
+            url: `https://power-ecru-pi.vercel.app/produits/${product.id}`,
             priceCurrency: 'EUR',
             price: (product.promoPrice ?? product.price).toFixed(2),
             availability: product.inStock && product.currentStock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
