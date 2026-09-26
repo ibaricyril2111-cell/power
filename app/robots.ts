@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/', '/api/', '/connexion', '/mon-compte', '/commande', '/commandes/', '/checkout/', '/panier'],
     },
-    sitemap: 'https://powerprimeur.com/sitemap.xml',
+    sitemap: 'https://power-ecru-pi.vercel.app/sitemap.xml',
   }
 }
