@@ -1,62 +1,48 @@
-import Header from "@/components/layout/header"
-import Footer from "@/components/layout/footer"
-import { Truck, Clock, Shield, Globe } from "lucide-react"
-import type { Metadata } from "next"
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import Header from '@/components/layout/header'
+import Footer from '@/components/layout/footer'
 
 export const metadata: Metadata = {
-    title: 'Livraison de fruits et légumes à Alfortville',
-    description: 'Commandez vos fruits, légumes et paniers de saison chez Power. Livraison à domicile à Alfortville et click & collect au 114 rue Paul Vaillant-Couturier.',
-    alternates: { canonical: '/livraison' },
+  title: 'Livraison de fruits et légumes en Île-de-France',
+  description: 'Power Primeur prépare et livre fruits, légumes, paniers et produits frais à Alfortville et en Île-de-France : 75, 77, 91, 92, 93 et 94.',
+  alternates: { canonical: '/livraison' },
 }
 
+const zones = [
+  ['Val-de-Marne (94)', 'Alfortville, Vitry-sur-Seine, Maisons-Alfort et communes desservies selon le créneau.'],
+  ['Paris (75)', 'Livraison de paniers, fruits, légumes et produits frais selon disponibilité.'],
+  ['Seine-et-Marne (77)', 'Livraison organisée selon la commune, le volume et le jour demandé.'],
+  ['Essonne (91)', 'Commandes particulières et professionnelles selon le secteur desservi.'],
+  ['Hauts-de-Seine (92)', 'Livraison planifiée selon le volume et les disponibilités.'],
+  ['Seine-Saint-Denis (93)', 'Livraison planifiée selon la commune et le créneau.'],
+]
+
 export default function LivraisonPage() {
-    return (
-        <div className="min-h-screen bg-black text-white">
-            <Header />
-            <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
-                <div className="mb-20">
-                    <span className="text-orange-500 font-black uppercase tracking-[0.5em] text-xs mb-6 block">Logistique Power.</span>
-                    <h1 className="text-7xl md:text-9xl font-extrabold uppercase italic tracking-tighter leading-none mb-12">
-                        Livraison<br /><span className="text-zinc-800">Ultra-Rapide.</span>
-                    </h1>
-                </div>
+  return (
+    <div className="min-h-screen bg-[#f7f4ed] text-[#173f32]">
+      <Header />
+      <main className="mx-auto max-w-7xl px-5 pb-20 pt-36 sm:px-8">
+        <section className="rounded-[40px] bg-[#173f32] px-6 py-14 text-white sm:px-12 lg:px-16">
+          <p className="text-sm font-bold uppercase tracking-[0.22em] text-orange-400">Livraison POWER</p>
+          <h1 className="mt-5 max-w-5xl text-4xl font-black tracking-tight sm:text-6xl">Livraison de fruits et légumes frais en Île-de-France</h1>
+          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-white/80">Commandez vos fruits, légumes, paniers de saison, jus, smoothies et soupes chez votre primeur d’Alfortville. Retrait au 114 rue Paul-Vaillant-Couturier ou livraison selon votre commune et le créneau disponible.</p>
+          <div className="mt-8 flex flex-wrap gap-3"><Link href="/#marketplace" className="rounded-full bg-orange-500 px-7 py-4 font-bold text-white hover:bg-orange-600">Voir les produits</Link><Link href="/contact" className="rounded-full border border-white/30 px-7 py-4 font-bold text-white hover:bg-white/10">Vérifier ma zone</Link></div>
+        </section>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-                    {[
-                        { icon: Truck, title: "Zéro Émission", desc: "Livraison 100% électrique en centre-ville." },
-                        { icon: Clock, title: "Flux Tendu", desc: "Moins de 12h entre la récolte et votre porte." },
-                        { icon: Shield, title: "Traçabilité", desc: "Suivi GPS en temps réel de votre panier." },
-                        { icon: Globe, title: "Local First", desc: "80% de nos produits viennent de < 50km." }
-                    ].map((item, id) => (
-                        <div key={id} className="glassmorphism bg-zinc-900/40 p-8 rounded-[32px] border border-white/5 hover:border-orange-500/50 transition-all flex flex-col gap-6 group">
-                            <div className="w-14 h-14 rounded-2xl bg-zinc-800 flex items-center justify-center border border-white/10 group-hover:scale-110 group-hover:bg-orange-500 transition-all">
-                                <item.icon className="w-7 h-7 text-orange-500 group-hover:text-white" />
-                            </div>
-                            <h3 className="text-2xl font-black uppercase italic">{item.title}</h3>
-                            <p className="text-zinc-500 font-medium leading-relaxed">{item.desc}</p>
-                        </div>
-                    ))}
-                </div>
+        <section className="py-16">
+          <h2 className="text-3xl font-black sm:text-4xl">Départements desservis</h2>
+          <p className="mt-4 max-w-3xl leading-relaxed text-[#173f32]/70">La zone annoncée couvre les départements 75, 77, 91, 92, 93 et 94. Les Yvelines (78) et le Val-d’Oise (95) sont exclus. La confirmation dépend de la commune, du volume, du jour et du créneau.</p>
+          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">{zones.map(([title, copy]) => <article key={title} className="rounded-3xl border border-[#173f32]/10 bg-white p-7 shadow-sm"><h3 className="text-xl font-black">{title}</h3><p className="mt-3 leading-relaxed text-[#173f32]/70">{copy}</p></article>)}</div>
+        </section>
 
-                <div className="glassmorphism bg-zinc-900/40 p-12 rounded-[48px] border border-white/10">
-                    <h2 className="text-4xl font-black uppercase italic mb-8">Zones de <span className="text-orange-500">Livraison</span></h2>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                        <div className="flex flex-col gap-4">
-                            <h4 className="text-xl font-bold uppercase italic text-orange-500">Zone Alpha (Paris & IDF)</h4>
-                            <p className="text-zinc-400">Livraison sous 2h pour toute commande passée avant 14h. Gratuit dès 50€.</p>
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            <h4 className="text-xl font-bold uppercase italic text-orange-500">Zone Beta (Grandes Villes)</h4>
-                            <p className="text-zinc-400">Livraison sous 24h via nos partenaires logistiques frais. Gratuit dès 80€.</p>
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            <h4 className="text-xl font-bold uppercase italic text-orange-500">Reste de la France</h4>
-                            <p className="text-zinc-400">Livraison sous 48h en Chronofresh pour garantir la chaîne du froid.</p>
-                        </div>
-                    </div>
-                </div>
-            </main>
-            <Footer />
-        </div>
-    )
+        <section className="grid gap-8 rounded-[36px] bg-white p-8 shadow-sm lg:grid-cols-3 lg:p-12">
+          <article><h2 className="text-2xl font-black">Alfortville</h2><p className="mt-3 leading-relaxed text-[#173f32]/70">POWER vous accueille rue Paul-Vaillant-Couturier, à proximité de la mairie d’Alfortville. Le click & collect permet de récupérer une commande préparée.</p></article>
+          <article><h2 className="text-2xl font-black">Produits frais</h2><p className="mt-3 leading-relaxed text-[#173f32]/70">Fruits, légumes, produits bio selon arrivage, références vegan, paniers, jus, smoothies et soupes.</p></article>
+          <article><h2 className="text-2xl font-black">Professionnels</h2><p className="mt-3 leading-relaxed text-[#173f32]/70">Entreprises, restaurants, EHPAD et maisons de retraite peuvent demander une livraison régulière et un devis adapté.</p><Link href="/professionnels" className="mt-4 inline-flex font-bold text-orange-600 underline underline-offset-4">Livraison professionnelle</Link></article>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  )
 }
