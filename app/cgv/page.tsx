@@ -12,13 +12,13 @@ export default function CGVPage() {
 
                 <div className="prose prose-invert max-w-none text-zinc-400 leading-relaxed space-y-8">
                     <p className="border-l-4 border-orange-500 pl-6 py-2 italic font-medium">
-                        Les présentes conditions générales de vente (CGV) régissent les ventes en ligne de fruits, légumes et produits d'épicerie sur le site internet <strong>powerprimeur.com</strong>, exploitées par la société <strong>POWER</strong>.
+                        Les présentes conditions générales de vente (CGV) régissent les ventes en ligne de fruits, légumes et produits d'épicerie sur le site internet <strong>power-ecru-pi.vercel.app</strong>, exploitées par la société <strong>POWER</strong>.
                     </p>
 
                     <section>
                         <h2 className="text-xl font-bold text-white uppercase mb-4 tracking-widest border-b border-white/10 pb-2">Article 1 - Mentions Légales et Objet</h2>
                         <p>
-                            Les présentes Conditions Générales de Vente sont conclues d'une part par la société <strong>POWER</strong>, immatriculée sous le <strong>SIRET 944 504 794 00016</strong>, dont le siège social est situé au <strong>114 Rue Paul Vaillant Couturier, 94140 Alfortville</strong>, ci-après dénommée "le Vendeur", et d'autre part, toute personne physique ou morale souhaitant procéder à un achat via le site internet <em>powerprimeur.com</em>, ci-après dénommée "l'Acheteur".
+                            Les présentes Conditions Générales de Vente sont conclues d'une part par la société <strong>POWER</strong>, immatriculée sous le <strong>SIRET 944 504 794 00016</strong>, dont le siège social est situé au <strong>114 Rue Paul Vaillant Couturier, 94140 Alfortville</strong>, ci-après dénommée "le Vendeur", et d'autre part, toute personne physique ou morale souhaitant procéder à un achat via le site internet <em>power-ecru-pi.vercel.app</em>, ci-après dénommée "l'Acheteur".
                         </p>
                     </section>
 
@@ -66,7 +66,7 @@ export default function CGVPage() {
                         <h2 className="text-xl font-bold text-white uppercase mb-4 tracking-widest border-b border-white/10 pb-2">Article 7 - Exception au Droit de rétractation</h2>
                         <p className="text-zinc-300">
                             <strong>ATTENTION :</strong> Conformément aux dispositions de <strong>l'article L.221-28 4° du Code de la consommation</strong>, <strong>le droit de rétractation de 14 jours ne s'applique pas aux contrats de fourniture de biens susceptibles de se détériorer ou de se périmer rapidement.</strong> <br/>
-                            Par conséquent, l'Acheteur ne dispose d'aucun droit d'annulation ni de retour pour l'ensemble des commandes de fruits, légumes, et produits ultra-frais expédiés via le site <em>powerprimeur.com</em>.
+                            Par conséquent, l'Acheteur ne dispose d'aucun droit d'annulation ni de retour pour l'ensemble des commandes de fruits, légumes, et produits ultra-frais expédiés via le site <em>power-ecru-pi.vercel.app</em>.
                         </p>
                     </section>
 
