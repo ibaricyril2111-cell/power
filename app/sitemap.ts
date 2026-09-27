@@ -1,46 +1,31 @@
 import type { MetadataRoute } from 'next'
 import { prisma } from '@/lib/db'
 
+const SITE_URL = 'https://powerprimeur.com'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: 'https://power-ecru-pi.vercel.app',
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    { url: 'https://power-ecru-pi.vercel.app/produits', lastModified: now, changeFrequency: 'daily', priority: 0.9 },
-    { url: 'https://power-ecru-pi.vercel.app/livraison', lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
-    { url: 'https://power-ecru-pi.vercel.app/decoupes', lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: 'https://power-ecru-pi.vercel.app/jus-soupes', lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: 'https://power-ecru-pi.vercel.app/recettes', lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
-    { url: 'https://power-ecru-pi.vercel.app/blog', lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
-    {
-      url: 'https://power-ecru-pi.vercel.app/contact',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://power-ecru-pi.vercel.app/faq',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-    {
-      url: 'https://power-ecru-pi.vercel.app/mentions-legales',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
-    {
-      url: 'https://power-ecru-pi.vercel.app/cgv',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
-  ]
+  const pages = [
+    ['', 'weekly', 1],
+    ['/produits', 'daily', 0.9],
+    ['/livraison', 'weekly', 0.9],
+    ['/jus-soupes', 'weekly', 0.9],
+    ['/professionnels', 'monthly', 0.8],
+    ['/decoupes', 'weekly', 0.8],
+    ['/recettes', 'weekly', 0.7],
+    ['/blog', 'weekly', 0.7],
+    ['/contact', 'monthly', 0.7],
+    ['/faq', 'monthly', 0.6],
+    ['/mentions-legales', 'yearly', 0.3],
+    ['/cgv', 'yearly', 0.3],
+  ] as const
+
+  const staticPages: MetadataRoute.Sitemap = pages.map(([path, changeFrequency, priority]) => ({
+    url: SITE_URL + path,
+    lastModified: now,
+    changeFrequency,
+    priority,
+  }))
 
   try {
     const [products, categories] = await Promise.all([
@@ -49,18 +34,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ])
     return [
       ...staticPages,
-      ...categories.map((category) => ({
-        url: `https://power-ecru-pi.vercel.app/categories/${category.slug}`,
-        lastModified: category.updatedAt,
-        changeFrequency: 'daily' as const,
-        priority: 0.8,
-      })),
-      ...products.map((product) => ({
-        url: `https://power-ecru-pi.vercel.app/produits/${product.id}`,
-        lastModified: product.updatedAt,
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-      })),
+      ...categories.map((category) => ({ url: SITE_URL + '/categories/' + category.slug, lastModified: category.updatedAt, changeFrequency: 'daily' as const, priority: 0.8 })),
+      ...products.map((product) => ({ url: SITE_URL + '/produits/' + product.id, lastModified: product.updatedAt, changeFrequency: 'weekly' as const, priority: 0.7 })),
     ]
   } catch {
     return staticPages
