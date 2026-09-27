@@ -40,11 +40,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         '@type': 'Product',
         name: product.name,
         description: product.description || `${product.name} frais chez Power Primeur Alfortville`,
-        image: product.image ? [new URL(product.image, 'https://power-ecru-pi.vercel.app').toString()] : undefined,
+        image: product.image ? [new URL(product.image, 'https://powerprimeur.com').toString()] : undefined,
         category: product.category.name,
         offers: {
             '@type': 'Offer',
-            url: `https://power-ecru-pi.vercel.app/produits/${product.id}`,
+            url: `https://powerprimeur.com/produits/${product.id}`,
             priceCurrency: 'EUR',
             price: (product.promoPrice ?? product.price).toFixed(2),
             availability: product.inStock && product.currentStock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
@@ -73,12 +73,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         />
                         {product.organic && (
                             <div className="absolute top-10 left-10 bg-orange-500/90 backdrop-blur-2xl text-white px-6 py-3 rounded-full flex items-center gap-3 font-black uppercase italic tracking-widest text-sm shadow-2xl">
-                                <Leaf className="w-5 h-5" /> <span>Bio Certifié Power</span>
+                                <Leaf className="w-5 h-5" /> <span>Produit bio</span>
                             </div>
                         )}
                         <div className="absolute bottom-10 right-10 bg-black/60 backdrop-blur-2xl px-6 py-4 rounded-3xl border border-white/10 flex items-center gap-2">
                             <Star className="w-5 h-5 text-orange-500 fill-orange-500" />
-                            <span className="font-black italic text-xl">4.9</span>
+                            <span className="font-black italic text-xl">Frais du jour</span>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 <span className="text-2xl text-zinc-600 font-black uppercase italic opacity-50 tracking-tighter">/ {product.unit}</span>
                             </div>
                             <p className="text-zinc-500 text-xl font-medium italic leading-relaxed mb-12 max-w-xl">
-                                {product.description || "Une sélection rigoureuse pour une fraîcheur absolue. Directement récolté et livré en moins de 24h pour garantir une puissance nutritionnelle maximale."}
+                                {product.description || "Une sélection de saison disponible chez Power Primeur à Alfortville, en retrait ou en livraison selon votre commune."}
                             </p>
                         </div>
 
@@ -105,8 +105,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                     <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center">
                                         <Truck className="w-6 h-6 text-orange-500" />
                                     </div>
-                                    <span className="font-black uppercase italic text-sm tracking-widest text-white">Livraison 24h</span>
-                                    <span className="text-xs text-zinc-500 font-medium leading-relaxed">Récolté le matin, chez vous le soir. Fraîcheur Power.</span>
+                                    <span className="font-black uppercase italic text-sm tracking-widest text-white">Livraison locale</span>
+                                    <span className="text-xs text-zinc-500 font-medium leading-relaxed">Livraison selon votre commune et le créneau disponible.</span>
                                 </div>
                                 <div className="glassmorphism bg-white/5 p-8 rounded-[32px] border border-white/5 flex flex-col gap-3 group hover:border-orange-500/30 transition-all">
                                     <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center">
