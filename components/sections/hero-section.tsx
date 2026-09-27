@@ -44,13 +44,13 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
       >
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] backdrop-blur-md">
-            <MapPin className="h-4 w-4 text-orange-400" /> 114 rue Paul Vaillant-Couturier · Alfortville
+            <MapPin className="h-4 w-4 text-orange-400" /> 114 rue Paul Vaillant-Couturier · près de la mairie d’Alfortville
           </div>
           <h1 className="mt-6 text-5xl sm:text-6xl md:text-8xl font-black tracking-[-0.055em] leading-[0.92] text-balance">
             {title || <>Le frais du marché,<br/><span className="text-orange-400">sans perdre de temps.</span></>}
           </h1>
           <p className="mt-6 max-w-2xl text-base sm:text-xl text-white/85 leading-relaxed">
-            {subtitle || "Fruits, légumes et paniers de saison choisis chaque matin. Commandez aujourd’hui, récupérez ou faites-vous livrer dès demain à Alfortville."}
+            {subtitle || "Votre primeur à Alfortville : fruits, légumes, produits frais, jus, smoothies, soupes et paniers de saison. Commandez en ligne, retirez en boutique ou choisissez la livraison selon votre commune."}
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <button onClick={scrollToMarketplace} className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-orange-500 px-7 font-bold text-white shadow-xl shadow-black/20 transition hover:bg-orange-600">
