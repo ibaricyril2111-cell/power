@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "verify": "npm run typecheck && npm run test",
+    "seo": "node scripts/check-seo.mjs",
     "images:fetch": "node --env-file=.env scripts/fetch-product-images.mjs",
     "images:sheet": "node scripts/contact-sheet.mjs",
     "images:apply": "node --env-file=.env scripts/apply-product-images.mjs",
