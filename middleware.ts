@@ -9,7 +9,7 @@ const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
   const { pathname } = req.nextUrl
-  const isLoggedIn = !!req.auth
+  const isLoggedIn = !!req.auth?.user?.id
   const userRole = req.auth?.user?.role
   const userEmail = req.auth?.user?.email
   const isDisabled = req.auth?.user?.disabled === true
