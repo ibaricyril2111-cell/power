@@ -6,6 +6,14 @@ import CookieConsent from '@/components/cookie-consent'
 import PwaRegister from '@/components/pwa-register'
 import { Toaster } from "sonner"
 
+import type { Metadata } from 'next'
+import './globals.css'
+import { SessionProvider } from '@/components/providers/session-provider'
+import GoogleAnalytics from '@/components/providers/google-analytics'
+import CookieConsent from '@/components/cookie-consent'
+import PwaRegister from '@/components/pwa-register'
+import { Toaster } from "sonner"
+
 const SITE_URL = 'https://powerprimeur.com'
 
 export const metadata: Metadata = {
@@ -24,7 +32,6 @@ export const metadata: Metadata = {
     images: [{ url: '/opengraph-image.png', width: 1200, height: 630, alt: 'Power Primeur à Alfortville' }],
   },
   twitter: { card: 'summary_large_image', title: 'Power Primeur Alfortville', description: 'Le frais du marché en livraison et click & collect.', images: ['/twitter-image.png'] },
-  alternates: { canonical: '/' },
   appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'Power' },
   icons: { icon: '/logo-power-mark.png', apple: '/logo-power-mark.png' },
 }
