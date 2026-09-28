@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 import HeroSection from "@/components/sections/hero-section"
@@ -5,6 +6,7 @@ import ProductSection from "@/components/sections/product-section"
 import ServiceStrip from "@/components/sections/service-strip"
 import BasketShowcase from "@/components/sections/basket-showcase"
 
+export const metadata: Metadata = { alternates: { canonical: '/' } }
 export const dynamic = 'force-dynamic'
 
 export default async function LandingPage() {
