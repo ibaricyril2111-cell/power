@@ -14,6 +14,7 @@ export default function Footer() {
           <Link href="/#marketplace" className="hover:text-orange-400">Boutique</Link>
           <Link href="/#paniers" className="hover:text-orange-400">Paniers de saison</Link>
           <Link href="/livraison" className="hover:text-orange-400">Livraison & retrait</Link>
+          <Link href="/professionnels" className="hover:text-orange-400">Professionnels, EHPAD & entreprises</Link>
         </nav>
         <nav className="flex flex-col gap-3 text-sm text-white/70">
           <p className="font-bold uppercase tracking-widest text-white">Power</p>
