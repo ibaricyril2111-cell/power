@@ -6,14 +6,6 @@ import CookieConsent from '@/components/cookie-consent'
 import PwaRegister from '@/components/pwa-register'
 import { Toaster } from "sonner"
 
-import type { Metadata } from 'next'
-import './globals.css'
-import { SessionProvider } from '@/components/providers/session-provider'
-import GoogleAnalytics from '@/components/providers/google-analytics'
-import CookieConsent from '@/components/cookie-consent'
-import PwaRegister from '@/components/pwa-register'
-import { Toaster } from "sonner"
-
 const SITE_URL = 'https://powerprimeur.com'
 
 export const metadata: Metadata = {
