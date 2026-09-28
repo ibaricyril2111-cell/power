@@ -15,7 +15,13 @@ export async function getCartId() {
 
         if (!userId && !sessionId) {
             sessionId = crypto.randomUUID()
-            cookieStore.set("cart_session_id", sessionId, { maxAge: 60 * 60 * 24 * 30 }) // 30 jours
+            cookieStore.set("cart_session_id", sessionId, {
+                maxAge: 60 * 60 * 24 * 30,
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax",
+                path: "/",
+            }) // 30 jours
         }
 
         // Chercher panier existant
