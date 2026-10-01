@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Clock, Calendar as CalendarIcon, CheckCircle2, Loader2 } from "lucide-react"
 import { getAvailableDeliverySlots } from "@/app/actions/delivery"
-import { formatLocalDate } from "@/lib/utils"
+import { formatLocalDate, parseDeliveryDate } from "@/lib/utils"
 
 interface DeliverySlot {
   id: string
@@ -18,44 +18,61 @@ interface DeliverySlot {
 }
 
 interface DeliveryCalendarProps {
-  onSelectDelivery: (delivery: { date: string; time: string; dateISO: string; slotId?: string }) => void
+  onSelectDelivery: (delivery: { date: string; time: string; dateISO: string; slotId?: string } | null) => void
   selectedDelivery: { date: string; time: string } | null
   /** Mode de réception : adapte les libellés (Livraison vs Retrait / Click & Collect). */
+  initialDate?: string
+  initialSlotId?: string
   mode?: "livraison" | "retrait"
 }
 
-export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, mode = "livraison" }: DeliveryCalendarProps) {
+export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, mode = "livraison", initialDate, initialSlotId }: DeliveryCalendarProps) {
   const isRetrait = mode === "retrait"
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(() => {
+    const tomorrow = new Date()
+    tomorrow.setHours(0, 0, 0, 0)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    const initial = parseDeliveryDate(initialDate)
+    if (!initial) return tomorrow
+    initial.setHours(0, 0, 0, 0)
+    return initial >= tomorrow ? initial : tomorrow
+  })
   const [selectedTime, setSelectedTime] = useState<string>("")
   const [slots, setSlots] = useState<DeliverySlot[]>([])
   const [loadingSlots, setLoadingSlots] = useState(false)
 
+  const initialSlot = useRef(initialSlotId)
+  const notify = useRef(onSelectDelivery)
+  notify.current = onSelectDelivery
+
   useEffect(() => {
-    if (selectedDate) {
-      loadSlots(selectedDate)
-    }
-    // `mode` inclus : basculer Livraison ⇄ Retrait recharge les créneaux (capacité vs non).
+    let cancelled = false
+    setSlots([])
+    setSelectedTime("")
+    if (!selectedDate) { setLoadingSlots(false); return }
+    setLoadingSlots(true)
+    const dateStr = formatLocalDate(selectedDate)
+    getAvailableDeliverySlots(dateStr, dateStr, mode)
+      .then(res => {
+        if (cancelled) return
+        setSlots(res.success ? res.data : [])
+        const slot = res.data.find(s => s.id === initialSlot.current && s.remainingSlots > 0)
+        initialSlot.current = undefined
+        if (res.success && slot && !isDateDisabled(selectedDate)) {
+          const time = `${slot.startTime} - ${slot.endTime}`
+          setSelectedTime(time)
+          notify.current({ date: selectedDate.toLocaleDateString("fr-FR"), dateISO: dateStr, time, slotId: slot.id })
+        }
+      })
+      .catch(() => { if (!cancelled) setSlots([]) })
+      .finally(() => { if (!cancelled) setLoadingSlots(false) })
+    return () => { cancelled = true }
   }, [selectedDate, mode])
 
-  const loadSlots = async (date: Date) => {
-    setLoadingSlots(true)
-    try {
-      const dateStr = formatLocalDate(date)
-      const res = await getAvailableDeliverySlots(dateStr, dateStr, mode)
-      if (res.success && res.data.length > 0) {
-        setSlots(res.data)
-      } else {
-        setSlots([])
-      }
-    } catch {
-      setSlots([])
-    } finally {
-      setLoadingSlots(false)
-    }
-  }
-
   const handleDateSelect = (date: Date | undefined) => {
+    initialSlot.current = undefined
+    onSelectDelivery(null)
+    setSlots([])
     setSelectedDate(date)
     setSelectedTime("")
   }
@@ -75,6 +92,7 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
   const isDateDisabled = (date: Date) => {
     const today = new Date()
     const tomorrow = new Date(today)
+    tomorrow.setHours(0, 0, 0, 0)
     tomorrow.setDate(today.getDate() + 1)
     return date < tomorrow
   }
@@ -96,10 +114,10 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-10 pt-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-10">
           <div className="space-y-4">
             <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-4 mb-4">Choisir une Date</h4>
-            <div className="p-4 bg-black/40 rounded-3xl border border-white/5">
+            <div className="p-1 sm:p-4 bg-black/40 rounded-3xl border border-white/5">
               <Calendar
                 mode="single"
                 selected={selectedDate}

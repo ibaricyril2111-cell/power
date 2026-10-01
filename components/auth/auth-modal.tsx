@@ -105,11 +105,17 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
       }
 
       // Si l'inscription réussit, on connecte l'utilisateur
-      await signIn("credentials", {
+      const loginRes = await signIn("credentials", {
         redirect: false,
         email: formData.email,
         password: formData.password,
       })
+
+      if (!loginRes?.ok || loginRes.error) {
+        setError("Compte créé. Veuillez vous connecter pour continuer.")
+        setMode("login")
+        return
+      }
 
       const userData: UserData = {
         firstName: formData.firstName,
@@ -240,7 +246,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                     placeholder="••••••••"
                     required
                     disabled={loading}
-                    minLength={6}
+                    minLength={mode === "register" ? 8 : undefined}
                   />
                   <button
                     type="button"

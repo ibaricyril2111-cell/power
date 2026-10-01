@@ -21,7 +21,7 @@ function generatePickupCode() {
 export async function POST(req: NextRequest) {
     try {
         const session = await auth()
-        if (!session?.user?.id) {
+        if (!session?.user?.id || session.user.disabled) {
             return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
         }
 
@@ -48,6 +48,9 @@ export async function POST(req: NextRequest) {
 
         // Les contrôles du formulaire ne protègent que l'utilisateur honnête : une commande
         // sans horaire, sans téléphone ou sans adresse complète est impossible à honorer.
+        if (!["livraison", "retrait"].includes(deliveryMethod)) {
+            return NextResponse.json({ error: "Mode de réception invalide" }, { status: 400 })
+        }
         const method = deliveryMethod === "retrait" ? "retrait" : "livraison"
         const parsedDeliveryDate = parseDeliveryDate(deliveryDate)
 
@@ -63,8 +66,13 @@ export async function POST(req: NextRequest) {
                 { status: 400 },
             )
         }
-        if (!phone || typeof phone !== "string" || phone.replace(/[\s.\-]/g, "").length < 10) {
+        if (!phone || typeof phone !== "string" || !/^(?:\+)?[0-9]{10,15}$/.test(phone.replace(/[\s.()\-]/g, ""))) {
             return NextResponse.json({ error: "Numéro de téléphone manquant ou invalide" }, { status: 400 })
+        }
+
+        if ([deliveryAddress, deliveryCity, deliveryPostalCode].some(value => value != null && typeof value !== "string")
+            || (promoCode != null && typeof promoCode !== "string")) {
+            return NextResponse.json({ error: "Informations de commande invalides" }, { status: 400 })
         }
 
         // Récupération du panier
@@ -105,10 +113,24 @@ export async function POST(req: NextRequest) {
         }
 
         // Vérifier la disponibilité du créneau de livraison choisi
+        if (typeof deliverySlotId !== "string" || !deliverySlotId) {
+            return NextResponse.json({ error: "Créneau manquant" }, { status: 400 })
+        }
         if (deliverySlotId) {
             const slot = await prisma.deliverySlot.findUnique({ where: { id: deliverySlotId } })
             if (!slot || !slot.isActive) {
                 return NextResponse.json({ error: "Le créneau de livraison choisi n'est plus disponible." }, { status: 409 })
+            }
+            const requestedDate = typeof deliveryDate === "string" ? deliveryDate : ""
+            const tomorrow = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Paris" }))
+            tomorrow.setHours(0, 0, 0, 0)
+            tomorrow.setDate(tomorrow.getDate() + 1)
+            const minimumDate = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, "0")}-${String(tomorrow.getDate()).padStart(2, "0")}`
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(requestedDate) || requestedDate < minimumDate
+                || slot.date.toISOString().slice(0, 10) !== requestedDate
+                || deliveryTime !== `${slot.startTime} - ${slot.endTime}`
+                || (method === "livraison" && slot.type !== "livraison")) {
+                return NextResponse.json({ error: "Le créneau ne correspond pas à la date ou au mode choisi." }, { status: 409 })
             }
             // La capacité (maxOrders) ne s'applique qu'à la LIVRAISON : un retrait n'occupe pas
             // de place de livraison. Sans ce garde, chaque Click & Collect mangeait une place

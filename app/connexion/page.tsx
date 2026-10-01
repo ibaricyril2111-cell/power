@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import { User, Mail, Lock, Eye, EyeOff, Loader2, ArrowLeft } from "lucide-react"
+import { safeCallbackPath } from "@/lib/auth-redirect"
 import { signIn } from "next-auth/react"
 
 export default function ConnexionPage() {
@@ -47,7 +48,7 @@ export default function ConnexionPage() {
       }
 
       if (res?.ok) {
-        router.push("/")
+        router.replace(safeCallbackPath(new URLSearchParams(window.location.search).get("callbackUrl")))
         router.refresh()
       }
     } catch {
@@ -98,7 +99,7 @@ export default function ConnexionPage() {
       })
 
       if (loginRes?.ok) {
-        router.push("/")
+        router.replace(safeCallbackPath(new URLSearchParams(window.location.search).get("callbackUrl")))
         router.refresh()
       } else {
         setError("Compte créé mais erreur de connexion. Essayez de vous connecter.")

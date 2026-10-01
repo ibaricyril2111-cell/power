@@ -51,10 +51,11 @@ export async function getCartId() {
                     }
                     await prisma.cart.delete({ where: { id: anonymousCart.id } })
                 }
+                cookieStore.delete("cart_session_id")
             } catch (e) {
                 console.error("Cart merge failed:", e)
+                throw new Error("Impossible de récupérer votre panier. Veuillez réessayer.")
             }
-            cookieStore.delete("cart_session_id")
         }
 
         return cart.id

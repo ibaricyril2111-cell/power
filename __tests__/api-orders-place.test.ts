@@ -76,10 +76,11 @@ import { NextRequest } from 'next/server'
 
 /** Commande de livraison valide — chaque test n'en modifie que ce qu'il éprouve. */
 const VALID_BODY = {
+  deliverySlotId: 's1',
   paymentMethod: 'cash',
   deliveryMethod: 'livraison',
-  deliveryDate: '2026-08-10',
-  deliveryTime: '10h - 12h',
+  deliveryDate: '2099-08-10',
+  deliveryTime: '10:00 - 12:00',
   deliveryAddress: '5 rue des Lilas',
   deliveryCity: 'Alfortville',
   deliveryPostalCode: '94140',
@@ -120,8 +121,8 @@ describe('POST /api/orders/place', () => {
       deliveryMethod: 'livraison',
       pickupCode: null,
       phone: '0612345678',
-      deliveryDate: new Date('2026-08-10'),
-      deliverySlot: '10h - 12h',
+      deliveryDate: new Date('2099-08-10'),
+      deliverySlot: '10:00 - 12:00',
       deliveryAddress: '5 rue des Lilas',
       deliveryCity: 'Alfortville',
       deliveryPostalCode: '94140',
@@ -133,6 +134,7 @@ describe('POST /api/orders/place', () => {
       id: 'u1', email: 'client@test.fr', firstName: 'Jean', lastName: 'Dupont',
       address: '5 rue des Lilas', city: 'Alfortville', postalCode: '94140',
     })
+    mockSlotFindUnique.mockResolvedValue({ id: "s1", date: new Date("2099-08-10"), startTime: "10:00", endTime: "12:00", type: "livraison", isActive: true, currentOrders: 1, maxOrders: 5 })
     mockCartFindUnique.mockResolvedValue(null)
     mockSendOrderConfirmation.mockResolvedValue(undefined)
     mockSendNewOrderToCompany.mockResolvedValue(undefined)
@@ -280,7 +282,7 @@ describe('POST /api/orders/place', () => {
       expect(mockOrderCreate).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
-            deliverySlot: '10h - 12h',
+            deliverySlot: '10:00 - 12:00',
             deliveryDate: expect.any(Date),
           }),
         }),
@@ -314,15 +316,25 @@ describe('POST /api/orders/place', () => {
   })
 
   describe('creneaux de livraison', () => {
+    it('refuse une date différente du créneau sans créer de commande', async () => {
+      const res = await POST(makeRequest({ deliveryDate: '2099-08-11' }))
+      expect(res.status).toBe(409)
+      expect(mockOrderCreate).not.toHaveBeenCalled()
+    })
+    it('refuse une commande sans identifiant de créneau', async () => {
+      expect((await POST(makeRequest({ deliverySlotId: null }))).status).toBe(400)
+      expect(mockOrderCreate).not.toHaveBeenCalled()
+    })
+
     it('devrait refuser un creneau complet', async () => {
-      mockSlotFindUnique.mockResolvedValue({ id: 's1', isActive: true, currentOrders: 5, maxOrders: 5 })
+      mockSlotFindUnique.mockResolvedValue({ id: 's1', date: new Date('2099-08-10'), startTime: '10:00', endTime: '12:00', type: 'livraison', isActive: true, currentOrders: 5, maxOrders: 5 })
       const res = await POST(makeRequest({ deliverySlotId: 's1' }))
       expect(res.status).toBe(409)
       expect((await res.json()).error).toMatch(/complet/i)
     })
 
     it('devrait reserver le creneau choisi', async () => {
-      mockSlotFindUnique.mockResolvedValue({ id: 's1', isActive: true, currentOrders: 1, maxOrders: 5 })
+      mockSlotFindUnique.mockResolvedValue({ id: 's1', date: new Date('2099-08-10'), startTime: '10:00', endTime: '12:00', type: 'livraison', isActive: true, currentOrders: 1, maxOrders: 5 })
       await POST(makeRequest({ deliverySlotId: 's1' }))
       expect(mockSlotUpdateMany).toHaveBeenCalledWith(
         expect.objectContaining({

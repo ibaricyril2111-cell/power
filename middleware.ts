@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import { authConfig } from "@/auth.config"
 import { NextResponse } from "next/server"
+import { safeCallbackPath } from "@/lib/auth-redirect"
 import { isOwnerEmail } from "@/lib/authz"
 
 // Utilise auth.config.ts (léger, Edge-compatible)
@@ -22,7 +23,9 @@ export default auth((req) => {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json({ error: "Compte désactivé" }, { status: 403 })
     }
-    return NextResponse.redirect(new URL("/connexion", req.url))
+    const loginUrl = new URL("/connexion", req.url)
+    loginUrl.searchParams.set("callbackUrl", pathname + req.nextUrl.search)
+    return NextResponse.redirect(loginUrl)
   }
 
   // ============================================
@@ -34,7 +37,9 @@ export default auth((req) => {
       if (pathname.startsWith("/api/")) {
         return NextResponse.json({ error: "Non authentifié" }, { status: 401 })
       }
-      return NextResponse.redirect(new URL("/connexion", req.url))
+      const loginUrl = new URL("/connexion", req.url)
+      loginUrl.searchParams.set("callbackUrl", pathname + req.nextUrl.search)
+      return NextResponse.redirect(loginUrl)
     }
     if (userRole !== "admin" || !isOwnerEmail(userEmail)) {
       if (pathname.startsWith("/api/")) {
@@ -52,14 +57,16 @@ export default auth((req) => {
   const protectedRoutes = ["/mon-compte", "/commande", "/commandes"]
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
   if (isProtectedRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL("/connexion", req.url))
+    const loginUrl = new URL("/connexion", req.url)
+    loginUrl.searchParams.set("callbackUrl", pathname + req.nextUrl.search)
+    return NextResponse.redirect(loginUrl)
   }
 
   // ============================================
   // Redirection si déjà connecté (page login)
   // ============================================
   if (pathname === "/connexion" && isLoggedIn && !isDisabled) {
-    return NextResponse.redirect(new URL("/", req.url))
+    return NextResponse.redirect(new URL(safeCallbackPath(req.nextUrl.searchParams.get("callbackUrl")), req.url))
   }
 
   return NextResponse.next()
