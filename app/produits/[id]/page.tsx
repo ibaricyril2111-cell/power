@@ -7,7 +7,8 @@ import { Leaf, ArrowLeft, ShieldCheck, Truck, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import AddToCartButton from "@/components/product/add-to-cart-button"
-import type { Metadata } from "next"\nimport { productImage } from "@/lib/product-image"
+import type { Metadata } from "next"
+import { productImage } from "@/lib/product-image"
 
 export const dynamic = 'force-dynamic'
 
