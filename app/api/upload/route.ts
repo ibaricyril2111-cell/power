@@ -3,6 +3,7 @@ import { auth } from "@/auth"
 import { put } from "@vercel/blob"
 import { writeFile, mkdir } from "fs/promises"
 import { join } from "path"
+import { rateLimit, clientIp } from "@/lib/rate-limit"
 
 // Node est requis : sharp et l'écriture disque ne fonctionnent pas sur le runtime Edge.
 export const runtime = "nodejs"
@@ -51,6 +52,12 @@ export async function POST(req: Request) {
         const session = await auth()
         if (session?.user?.role !== "admin") {
             return new NextResponse("Unauthorized", { status: 401 })
+        }
+
+        // Un compte admin compromis ne doit pas pouvoir saturer le stockage/CDN.
+        const rl = await rateLimit(`upload:${session.user.id}:${clientIp(req)}`, 30, 15 * 60_000)
+        if (!rl.ok) {
+            return NextResponse.json({ error: "Trop d’uploads. Réessayez plus tard." }, { status: 429 })
         }
 
         const formData = await req.formData()
