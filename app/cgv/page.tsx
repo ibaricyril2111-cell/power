@@ -50,7 +50,7 @@ export default function CGVPage() {
                     <section>
                         <h2 className="text-xl font-bold text-white uppercase mb-4 tracking-widest border-b border-white/10 pb-2">Article 5 - Modalités de paiement</h2>
                         <p>
-                            Le règlement des achats s'effectue intégralement à la commande par carte bancaire. Les paiements sont sécurisés par la technologie Stripe. Aucun produit ne pourra être conditionné ou expédié sans la validation stricte de la transaction bancaire.
+                            Le paiement des commandes passées sur le site s'effectue lors de la remise de la commande, selon les moyens proposés au moment de la validation : espèces ou carte bancaire. Aucun paiement par carte n'est actuellement encaissé directement sur powerprimeur.com.
                         </p>
                     </section>
 
