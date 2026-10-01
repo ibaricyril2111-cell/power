@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db"
 import ProductGrid from "@/components/product/product-grid"
+import { productImage } from "@/lib/product-image"
 
 export default async function ProductSection() {
   const [products, compositions] = await Promise.all([
@@ -32,8 +33,8 @@ export default async function ProductSection() {
     price: product.price,
     promoPrice: product.promoPrice,
     unit: product.unit,
-    image: product.image || "/placeholder.svg?height=200&width=300",
-    description: product.description || "Produit frais de qualité",
+    image: productImage(product.name, product.image),
+    description: product.description || `${product.name} sélectionné par Power Primeur à Alfortville.`,
     category: product.category.name,
     categorySlug: product.category.slug,
     inStock: product.inStock,
@@ -47,7 +48,7 @@ export default async function ProductSection() {
     type: comp.type,
     basePrice: comp.basePrice,
     description: comp.description || "",
-    image: comp.imageUrl || "/placeholder-product.jpg",
+    image: comp.imageUrl || "/product-fallback.svg",
     imageUrl: comp.imageUrl,
     sizes: comp.sizes,
     options: comp.options,
@@ -64,7 +65,7 @@ export default async function ProductSection() {
             Le marché, rayon par rayon.
           </h2>
           <p className="mt-4 text-zinc-600 max-w-xl text-lg leading-relaxed">
-            Choisissez vos produits à l’unité ou gagnez du temps avec une composition prête à personnaliser.
+            Fruits, légumes, aromates et produits frais sélectionnés pour POWER. Ajoutez au panier, choisissez votre créneau et retirez en boutique ou faites-vous livrer selon votre zone.
           </p>
         </div>
         <ProductGrid

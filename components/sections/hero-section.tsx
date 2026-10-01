@@ -50,7 +50,7 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
             {title || <>Le frais du marché,<br/><span className="text-orange-400">sans perdre de temps.</span></>}
           </h1>
           <p className="mt-6 max-w-2xl text-base sm:text-xl text-white/85 leading-relaxed">
-            {subtitle || "Votre primeur à Alfortville : fruits, légumes, produits frais, jus, smoothies, soupes et paniers de saison. Commandez en ligne, retirez en boutique ou choisissez la livraison selon votre commune."}
+            {subtitle || "Fruits, légumes et créations fraîches sélectionnés pour POWER. Commandez simplement en ligne, choisissez votre créneau puis retirez à Alfortville ou optez pour la livraison selon votre zone."}
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <button onClick={scrollToMarketplace} className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-orange-500 px-7 font-bold text-white shadow-xl shadow-black/20 transition hover:bg-orange-600">
@@ -61,7 +61,8 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
             </Link>
           </div>
           <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-white/80">
-            <span>✓ Produits sélectionnés chaque matin</span>
+            <span>✓ Sélection fraîche & arrivages réguliers</span>
+            <span>✓ Click & Collect préparé sur créneau</span>
             <span>✓ Paiement en boutique ou à la livraison</span>
           </div>
         </div>
