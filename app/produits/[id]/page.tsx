@@ -7,7 +7,7 @@ import { Leaf, ArrowLeft, ShieldCheck, Truck, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import AddToCartButton from "@/components/product/add-to-cart-button"
-import type { Metadata } from "next"
+import type { Metadata } from "next"\nimport { productImage } from "@/lib/product-image"
 
 export const dynamic = 'force-dynamic'
 
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         title: `${product.name} frais`,
         description,
         alternates: { canonical: `/produits/${id}` },
-        openGraph: { title: `${product.name} — Power Primeur`, description, url: `/produits/${id}`, images: product.image ? [product.image] : undefined },
+        openGraph: { title: `${product.name} — Power Primeur`, description, url: `/produits/${id}`, images: [productImage(product.name, product.image)] },
     }
 }
 
@@ -40,7 +40,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         '@type': 'Product',
         name: product.name,
         description: product.description || `${product.name} frais chez Power Primeur Alfortville`,
-        image: product.image ? [new URL(product.image, 'https://powerprimeur.com').toString()] : undefined,
+        image: [new URL(productImage(product.name, product.image), 'https://powerprimeur.com').toString()],
         category: product.category.name,
         offers: {
             '@type': 'Offer',
@@ -66,7 +66,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     {/* Image Section */}
                     <div className="relative aspect-square rounded-[60px] overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl group">
                         <Image
-                            src={product.image || "/placeholder-product.jpg"}
+                            src={productImage(product.name, product.image)}
                             alt={product.name}
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
@@ -78,7 +78,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                         )}
                         <div className="absolute bottom-10 right-10 bg-black/60 backdrop-blur-2xl px-6 py-4 rounded-3xl border border-white/10 flex items-center gap-2">
                             <Star className="w-5 h-5 text-orange-500 fill-orange-500" />
-                            <span className="font-black italic text-xl">Frais du jour</span>
+                            <span className="font-black italic text-xl">Sélection POWER</span>
                         </div>
                     </div>
 
@@ -112,8 +112,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                     <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center">
                                         <ShieldCheck className="w-6 h-6 text-orange-500" />
                                     </div>
-                                    <span className="font-black uppercase italic text-sm tracking-widest text-white">Garantie Power</span>
-                                    <span className="text-xs text-zinc-500 font-medium leading-relaxed">Si ce n'est pas parfait, on vous le remplace immédiatement.</span>
+                                    <span className="font-black uppercase italic text-sm tracking-widest text-white">Préparation soignée</span>
+                                    <span className="text-xs text-zinc-500 font-medium leading-relaxed">Votre commande est préparée avec attention avant le retrait ou la livraison.</span>
                                 </div>
                             </div>
 
