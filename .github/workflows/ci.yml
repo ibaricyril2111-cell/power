@@ -22,7 +22,7 @@ jobs:
         run: corepack enable
 
       - name: Installer les dépendances
-        run: yarn install --immutable
+        run: yarn install --no-immutable
         env:
           # `postinstall` lance `prisma generate`, qui n'a pas besoin d'une vraie base
           # mais exige que la variable existe.
