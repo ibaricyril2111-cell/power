@@ -45,7 +45,7 @@ export default function ContactPage() {
                         Contact<span className="text-orange-500">.</span>
                     </h1>
                     <p className="text-zinc-500 text-xl max-w-2xl mx-auto font-medium">
-                        Une question sur une commande ? Besoin de conseils sur nos produits ? Notre équipe est là pour vous 7j/7.
+                        Une question sur une commande ? Besoin de conseils sur nos produits ? Notre équipe vous répond pendant les horaires d'ouverture.
                     </p>
                 </div>
 
@@ -57,7 +57,7 @@ export default function ContactPage() {
                             </div>
                             <div>
                                 <h3 className="text-2xl font-black uppercase italic mb-2">Email</h3>
-                                <p className="text-zinc-500 font-medium">contact@power.com</p>
+                                <p className="text-zinc-500 font-medium">ibaricyril2111@gmail.com</p>
                                 <p className="text-zinc-600 text-sm mt-1 text-balance">Réponse sous 2 heures pendant les horaires d'ouverture.</p>
                             </div>
                         </div>
