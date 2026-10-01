@@ -30,7 +30,11 @@ const nextConfig = {
         { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
         { key: "Content-Security-Policy", value: [
           "default-src 'self'",
-          "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com",
+          "base-uri 'self'",
+          "object-src 'none'",
+          "frame-ancestors 'none'",
+          "form-action 'self'",
+          "script-src 'self' 'unsafe-inline' https://js.stripe.com https://www.googletagmanager.com",
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           "font-src 'self' https://fonts.gstatic.com",
           "img-src 'self' data: blob: https://images.unsplash.com https://lh3.googleusercontent.com https://res.cloudinary.com https://*.public.blob.vercel-storage.com",
