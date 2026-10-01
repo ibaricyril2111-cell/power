@@ -242,7 +242,7 @@ export default function CartPage() {
                 {showCalendar && (
                   <div className="p-4 border border-white/10 rounded-xl bg-black/40">
                     <DeliveryCalendar
-                      onSelectDelivery={(delivery: DeliveryInfo) => setSelectedDelivery(delivery)}
+                      onSelectDelivery={setSelectedDelivery}
                       selectedDelivery={selectedDelivery}
                     />
                   </div>
@@ -288,7 +288,7 @@ export default function CartPage() {
                 asChild
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)] py-6 text-lg rounded-xl mt-4"
               >
-                <Link href="/commande">Passer commande</Link>
+                <Link href={selectedDelivery?.dateISO && selectedDelivery.slotId ? `/commande?date=${selectedDelivery.dateISO}&slot=${encodeURIComponent(selectedDelivery.slotId)}` : "/commande"}>Passer commande</Link>
               </Button>
 
               <Button variant="outline" className="w-full bg-transparent border-white/10 text-zinc-400 hover:text-white hover:bg-white/5 rounded-xl py-6" asChild>

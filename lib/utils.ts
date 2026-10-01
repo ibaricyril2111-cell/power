@@ -19,13 +19,13 @@ export function parseDeliveryDate(input: unknown): Date | null {
   const fr = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
   if (fr) {
     const date = new Date(Number(fr[3]), Number(fr[2]) - 1, Number(fr[1]), 12, 0, 0)
-    return isNaN(date.getTime()) ? null : date
+    return date.getFullYear() === Number(fr[3]) && date.getMonth() === Number(fr[2]) - 1 && date.getDate() === Number(fr[1]) ? date : null
   }
 
   const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})$/)
   if (iso) {
     const date = new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]), 12, 0, 0)
-    return isNaN(date.getTime()) ? null : date
+    return formatLocalDate(date) === s ? date : null
   }
 
   const date = new Date(s)

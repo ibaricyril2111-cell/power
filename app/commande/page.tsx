@@ -38,8 +38,13 @@ type DeliveryMethod = "livraison" | "retrait"
 
 export default function CommandePage() {
   const router = useRouter()
+  const [initialDelivery] = useState(() => {
+    const params = typeof window === "undefined" ? new URLSearchParams() : new URLSearchParams(window.location.search)
+    return { date: params.get("date") || undefined, slot: params.get("slot") || undefined }
+  })
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("livraison")
   const [selectedDelivery, setSelectedDelivery] = useState<DeliveryInfo | null>(null)
   const [isCheckingOut, setIsCheckingOut] = useState(false)
@@ -66,6 +71,7 @@ export default function CommandePage() {
           getUserProfile(),
           getDeliveryConfig()
         ])
+        if (!cartRes.success) { setLoadError(true); return }
         if (cartRes.success && cartRes.data) {
           setItems(cartRes.data)
         }
@@ -80,6 +86,7 @@ export default function CommandePage() {
           setDeliveryConfig(cfgRes)
         }
       } catch (error) {
+        setLoadError(true)
         console.error("Erreur chargement:", error)
       } finally {
         setLoading(false)
@@ -148,6 +155,7 @@ export default function CommandePage() {
   }
 
   const handleCheckout = async () => {
+    if (isCheckingOut) return
     if (!selectedDelivery) {
       toast.error(
         deliveryMethod === "livraison"
@@ -160,7 +168,7 @@ export default function CommandePage() {
     // absence à la livraison, commande prête plus tôt) : exigé dans les deux modes.
     // Même règle que le serveur (≥ 10 chiffres) : sinon le bouton s'active, le client
     // clique, et le serveur rejette en 400 — rejet tardif et déroutant.
-    if (phone.replace(/[\s.\-]/g, "").length < 10) {
+    if (!/^(?:\+)?[0-9]{10,15}$/.test(phone.replace(/[\s.()\-]/g, ""))) {
       toast.error("Numéro de téléphone invalide (au moins 10 chiffres)")
       return
     }
@@ -193,7 +201,9 @@ export default function CommandePage() {
         }),
       })
       const data = await res.json()
-      if (data.success) {
+      if (res.status === 401) { router.replace(`/connexion?callbackUrl=${encodeURIComponent("/commande" + window.location.search)}`); return }
+      if (res.status === 409) setSelectedDelivery(null)
+      if (res.ok && data.success) {
         toast.success("Commande confirmée !")
         window.dispatchEvent(new Event("cart-updated"))
         router.push(`/checkout/success?order_id=${data.orderId}`)
@@ -217,6 +227,10 @@ export default function CommandePage() {
         </div>
       </div>
     )
+  }
+
+  if (loadError) {
+    return <div className="min-h-screen bg-black text-white"><Header /><div className="pt-32 px-4 text-center"><p role="alert">Impossible de charger votre panier. Veuillez réessayer.</p><Button className="mt-4" onClick={() => window.location.reload()}>Réessayer</Button></div></div>
   }
 
   if (processedItems.length === 0) {
@@ -257,7 +271,7 @@ export default function CommandePage() {
                 <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-4">Mode de réception</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <button
-                    onClick={() => setDeliveryMethod("livraison")}
+                    onClick={() => { if (deliveryMethod !== "livraison") { setDeliveryMethod("livraison"); setSelectedDelivery(null) } }}
                     className={`p-5 rounded-2xl border transition-all text-left ${
                       deliveryMethod === "livraison"
                         ? "border-orange-500 bg-orange-500/10"
@@ -273,7 +287,7 @@ export default function CommandePage() {
                     </p>
                   </button>
                   <button
-                    onClick={() => { setDeliveryMethod("retrait"); setSelectedDelivery(null) }}
+                    onClick={() => { if (deliveryMethod !== "retrait") { setDeliveryMethod("retrait"); setSelectedDelivery(null) } }}
                     className={`p-5 rounded-2xl border transition-all text-left ${
                       deliveryMethod === "retrait"
                         ? "border-orange-500 bg-orange-500/10"
@@ -297,8 +311,10 @@ export default function CommandePage() {
                   <Card className="glassmorphism bg-zinc-900/40 border-white/5 rounded-2xl">
                     <CardContent className="p-5 space-y-4">
                       <div>
-                        <label className="text-xs text-zinc-400 font-medium mb-1 block">Adresse *</label>
+                        <label htmlFor="address" className="text-xs text-zinc-400 font-medium mb-1 block">Adresse *</label>
                         <Input
+                          id="address"
+                          autoComplete="street-address"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                           placeholder="123 Rue de la Paix"
@@ -307,18 +323,22 @@ export default function CommandePage() {
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="text-xs text-zinc-400 font-medium mb-1 block">Code postal *</label>
+                          <label htmlFor="postalCode" className="text-xs text-zinc-400 font-medium mb-1 block">Code postal *</label>
                           <Input
-                            value={postalCode}
+                            id="postalCode"
+                          autoComplete="postal-code"
+                          value={postalCode}
                             onChange={(e) => setPostalCode(e.target.value)}
                             placeholder="94140"
                             className="bg-white/5 border-white/10 text-white placeholder:text-zinc-600 rounded-xl"
                           />
                         </div>
                         <div>
-                          <label className="text-xs text-zinc-400 font-medium mb-1 block">Ville *</label>
+                          <label htmlFor="city" className="text-xs text-zinc-400 font-medium mb-1 block">Ville *</label>
                           <Input
-                            value={city}
+                            id="city"
+                          autoComplete="address-level2"
+                          value={city}
                             onChange={(e) => setCity(e.target.value)}
                             placeholder="Alfortville"
                             className="bg-white/5 border-white/10 text-white placeholder:text-zinc-600 rounded-xl"
@@ -339,9 +359,12 @@ export default function CommandePage() {
                 </h2>
                 <Card className="glassmorphism bg-zinc-900/40 border-white/5 rounded-2xl">
                   <CardContent className="p-5">
-                    <label className="text-xs text-zinc-400 font-medium mb-1 block">Téléphone *</label>
+                    <label htmlFor="phone" className="text-xs text-zinc-400 font-medium mb-1 block">Téléphone *</label>
                     <Input
-                      value={phone}
+                      id="phone"
+                          autoComplete="tel"
+                          type="tel"
+                          value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="0690 XX XX XX"
                       className="bg-white/5 border-white/10 text-white placeholder:text-zinc-600 rounded-xl"
@@ -358,6 +381,8 @@ export default function CommandePage() {
                   {deliveryMethod === "livraison" ? "Date et créneau de livraison" : "Date et heure de retrait"}
                 </h2>
                 <DeliveryCalendar
+                  initialDate={initialDelivery.date}
+                  initialSlotId={initialDelivery.slot}
                   onSelectDelivery={setSelectedDelivery}
                   selectedDelivery={selectedDelivery}
                   mode={deliveryMethod === "retrait" ? "retrait" : "livraison"}
@@ -529,7 +554,7 @@ export default function CommandePage() {
                     disabled={
                       isCheckingOut ||
                       !selectedDelivery ||
-                      phone.replace(/[\s.\-]/g, "").length < 10 ||
+                      !/^(?:\+)?[0-9]{10,15}$/.test(phone.replace(/[\s.()\-]/g, "")) ||
                       (deliveryMethod === "livraison" && (!address.trim() || !postalCode.trim() || !city.trim()))
                     }
                     className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-6 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.3)] text-base disabled:opacity-50"
