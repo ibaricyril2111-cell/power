@@ -2,7 +2,8 @@
 
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
-import { z } from "zod"\nimport { avatarSettingKey, DEFAULT_POWER_AVATAR, isPowerAvatarKey } from "@/lib/power-avatars"
+import { z } from "zod"
+import { avatarSettingKey, DEFAULT_POWER_AVATAR, isPowerAvatarKey } from "@/lib/power-avatars"
 
 const updateProfileSchema = z.object({
     firstName: z.string().trim().min(1).max(80).optional(),
@@ -15,7 +16,8 @@ const updateProfileSchema = z.object({
     billingType: z.string().optional(),
     country: z.string().trim().max(80).optional(),
     companyName: z.string().trim().max(160).optional(),
-    siret: z.string().trim().max(20).optional(),\n    avatarKey: z.string().optional(),
+    siret: z.string().trim().max(20).optional(),
+    avatarKey: z.string().optional(),
 })
 
 const ACCOUNT_TYPES = ["particulier", "professionnel"]
