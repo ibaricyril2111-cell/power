@@ -1,13 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Eye, Plus, Minus, Leaf, Loader2, ShoppingCart } from "lucide-react"
 import { addToCart, decrementFromCart } from "@/app/actions/cart"
 import { toast } from "sonner"
+import ProductMascotImage from "@/components/product/product-mascot-image"
 
 interface Product {
   id: string
@@ -30,7 +30,6 @@ interface ProductCardProps {
 export default function ProductCard({ product, onViewDetails }: ProductCardProps) {
   const [quantity, setQuantity] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [imgError, setImgError] = useState(false)
 
   const handleAdd = async () => {
     setLoading(true)
@@ -98,13 +97,12 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
         }}
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-[#173f32]">
-          <Image
-            src={imgError ? "/placeholder.svg" : (product.image || "/placeholder.svg")}
+          <ProductMascotImage
+            name={product.name}
+            fallbackImage={product.image}
             alt={product.name}
-            fill
             sizes="(max-width: 768px) 100vw, 300px"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-            onError={() => setImgError(true)}
+            className="group-hover:scale-105 transition-transform duration-500"
           />
 
           <div className="absolute top-6 left-6 flex flex-col gap-2">
