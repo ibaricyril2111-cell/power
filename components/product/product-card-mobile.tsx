@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { Plus, Minus, Leaf, Loader2 } from "lucide-react"
 import { addToCart, decrementFromCart } from "@/app/actions/cart"
 import { toast } from "sonner"
+import ProductMascotImage from "@/components/product/product-mascot-image"
 
 interface Product {
   id: string
@@ -21,7 +21,6 @@ interface Product {
 export default function ProductCardMobile({ product, onViewDetails }: { product: Product; onViewDetails?: () => void }) {
   const [quantity, setQuantity] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [imgError, setImgError] = useState(false)
 
   const handleAdd = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -87,14 +86,13 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
       }}
     >
       <div className="relative w-full aspect-square overflow-hidden bg-[#173f32]">
-        <Image
-          src={imgError ? "/placeholder.svg" : (product.image || "/placeholder.svg")}
-          alt={product.name}
-          fill
-          sizes="50vw"
-          className="object-cover"
-          onError={() => setImgError(true)}
-        />
+        <ProductMascotImage
+            name={product.name}
+            fallbackImage={product.image}
+            alt={product.name}
+            sizes="50vw"
+            className=""
+          />
         {product.organic && (
           <div className="absolute top-0.5 left-0.5">
             <Leaf className="h-4 w-4 text-[#307659] drop-shadow-lg" />
