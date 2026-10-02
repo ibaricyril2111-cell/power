@@ -74,7 +74,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
 
   return (
     <div
-      className="flex min-w-0 flex-col overflow-hidden bg-white border border-black/5 rounded-[22px] shadow-sm active:scale-[0.99] transition cursor-pointer"
+      className="flex min-w-0 flex-col overflow-hidden bg-[#173f32] border border-white/10 rounded-[22px] shadow-sm active:scale-[0.99] transition cursor-pointer"
       role="button"
       tabIndex={0}
       aria-label={`Voir le détail de ${product.name}`}
@@ -86,7 +86,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
         }
       }}
     >
-      <div className="relative w-full aspect-square overflow-hidden bg-[#eee9df]">
+      <div className="relative w-full aspect-square overflow-hidden bg-[#173f32]">
         <Image
           src={imgError ? "/placeholder.svg" : (product.image || "/placeholder.svg")}
           alt={product.name}
@@ -103,12 +103,12 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
       </div>
 
       <div className="min-w-0 p-3 pb-2">
-        <p className="mb-1 truncate text-[9px] font-bold uppercase tracking-wider text-orange-600">{product.category}</p>
-        <h3 className="text-sm font-bold text-[#173f32] truncate">{product.name}</h3>
+        <p className="mb-1 truncate text-[9px] font-bold uppercase tracking-wider text-[#ffcd47]">{product.category}</p>
+        <h3 className="text-sm font-bold text-[#ffcd47] truncate">{product.name}</h3>
         <div className="flex items-center gap-1.5 mt-1">
-          {product.promoPrice != null && <span className="text-zinc-500 line-through text-xs">{product.price.toFixed(2)}€</span>}
-          <span className="text-[#173f32] font-black text-sm">{(product.promoPrice ?? product.price).toFixed(2)}€</span>
-          <span className="text-zinc-600 text-[10px] uppercase">/ {product.unit}</span>
+          {product.promoPrice != null && <span className="text-white/65 line-through text-xs">{product.price.toFixed(2)}€</span>}
+          <span className="text-[#ffcd47] font-black text-sm">{(product.promoPrice ?? product.price).toFixed(2)}€</span>
+          <span className="text-white/70 text-[10px] uppercase">/ {product.unit}</span>
         </div>
       </div>
 
@@ -127,16 +127,16 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
           <button
             aria-label={`Retirer ${product.name}`}
             onClick={handleDecrement}
-            className="h-8 w-8 rounded-full bg-[#e7e2d8] text-[#173f32] flex items-center justify-center transition-colors"
+            className="h-8 w-8 rounded-full bg-[#e7e2d8] text-[#ffcd47] flex items-center justify-center transition-colors"
           >
             <Minus className="w-3.5 h-3.5" />
           </button>
-          <span className="text-[#173f32] font-bold text-sm w-5 text-center">{quantity}</span>
+          <span className="text-[#ffcd47] font-bold text-sm w-5 text-center">{quantity}</span>
           <button
             aria-label={`Ajouter ${product.name}`}
             onClick={handleIncrement}
             disabled={loading}
-            className="h-8 w-8 rounded-full bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center transition-colors disabled:opacity-50"
+            className="h-8 w-8 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white flex items-center justify-center transition-colors disabled:opacity-50"
           >
             {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
           </button>
