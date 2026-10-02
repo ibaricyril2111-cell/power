@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/db"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
-import Image from "next/image"
 import Link from "next/link"
 import { Leaf } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import AddToCartButton from "@/components/product/add-to-cart-button"
+import ProductMascotImage from "@/components/product/product-mascot-image"
 
 export const dynamic = 'force-dynamic'
 
@@ -60,17 +60,13 @@ export default async function ProductsPage({
                             return (
                             <div key={product.id} className="group glassmorphism bg-[#173f32]/85 rounded-3xl overflow-hidden border border-white/5 hover:border-[#ffcd47]/50 transition-all duration-500 flex flex-col">
                                 <div className="relative aspect-square overflow-hidden bg-[#244f40]">
-                                    {product.image ? (
-                                        <Image
-                                            src={product.image}
-                                            alt={product.name}
-                                            fill
-                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                                            className={`object-cover group-hover:scale-110 transition-transform duration-700 ${isOutOfStock ? "opacity-40 grayscale" : ""}`}
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-white/70">Aucune image</div>
-                                    )}
+                                    <ProductMascotImage
+                                        name={product.name}
+                                        fallbackImage={product.image}
+                                        alt={product.name}
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                        className={`group-hover:scale-110 transition-transform duration-700 ${isOutOfStock ? "opacity-40 grayscale" : ""}`}
+                                    />
                                     {product.organic && (
                                         <div className="absolute top-4 left-4 bg-green-500/90 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
                                             <Leaf className="w-3 h-3" /> BIO
