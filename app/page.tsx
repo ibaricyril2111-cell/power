@@ -5,7 +5,8 @@ import HeroSection from "@/components/sections/hero-section"
 import ProductSection from "@/components/sections/product-section"
 import ServiceStrip from "@/components/sections/service-strip"
 import BasketShowcase from "@/components/sections/basket-showcase"
-import FruitShowcase from "@/components/sections/fruit-showcase"\nimport SeasonalStars from "@/components/sections/seasonal-stars"
+import FruitShowcase from "@/components/sections/fruit-showcase"
+import SeasonalStars from "@/components/sections/seasonal-stars"
 
 export const metadata: Metadata = { alternates: { canonical: '/' } }
 export const dynamic = 'force-dynamic'
