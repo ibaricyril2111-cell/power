@@ -6,7 +6,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Menu } from "lucide-react"
+import { ShoppingCart, Menu, Search } from "lucide-react"
 import { useSession, signOut } from "next-auth/react"
 import { getCartItems } from "@/app/actions/cart"
 import CartDrawer from "@/components/cart/cart-drawer"
@@ -116,6 +116,17 @@ export default function Header() {
               />
             </Link>
           </div>
+
+          <form action="/produits" method="get" role="search" className="hidden xl:flex w-[340px] items-center rounded-full border border-white/15 bg-white/95 px-4 py-2 shadow-xl">
+            <Search className="h-4 w-4 shrink-0 text-[#307659]" />
+            <input
+              name="q"
+              type="search"
+              aria-label="Rechercher un produit"
+              placeholder="Mangue, tomate, jus..."
+              className="ml-2 min-w-0 flex-1 bg-transparent text-sm font-medium text-[#102e25] outline-none placeholder:text-[#102e25]/45"
+            />
+          </form>
 
           <nav className="hidden md:flex items-center gap-1 rounded-full border border-white/15 bg-[#173f32]/90 p-1.5 text-sm font-semibold text-white shadow-xl backdrop-blur-xl">
             <button onClick={scrollToMarketplace} className="rounded-full px-5 py-2.5 transition hover:bg-white/10">Boutique</button>
