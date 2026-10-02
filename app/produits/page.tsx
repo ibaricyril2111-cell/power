@@ -31,10 +31,10 @@ export default async function ProductsPage() {
                 <div className="flex flex-col gap-8">
                     <div>
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl border-b border-white/10 pb-6">
-                            Tous nos <span className="text-orange-500">Produits</span>
+                            Tous nos <span className="text-[#ffcd47]">Produits</span>
                         </h1>
                         <p className="mt-4 text-zinc-400 max-w-2xl">
-                            Découvrez notre sélection de produits frais, bio et de saison, sourcés directement auprès de nos producteurs locaux.
+                            {q ? <>Résultats pour <strong className="text-white">« {q} »</strong>.</> : <>Découvrez notre sélection de produits frais, bio et de saison.</>}
                         </p>
                     </div>
 
@@ -43,8 +43,8 @@ export default async function ProductsPage() {
                             const isOutOfStock = product.currentStock <= 0
                             const isLowStock = !isOutOfStock && product.currentStock <= 5
                             return (
-                            <div key={product.id} className="group glassmorphism bg-zinc-900/40 rounded-3xl overflow-hidden border border-white/5 hover:border-orange-500/50 transition-all duration-500 flex flex-col">
-                                <div className="relative aspect-square overflow-hidden bg-zinc-800">
+                            <div key={product.id} className="group glassmorphism bg-[#173f32]/85 rounded-3xl overflow-hidden border border-white/5 hover:border-[#ffcd47]/50 transition-all duration-500 flex flex-col">
+                                <div className="relative aspect-square overflow-hidden bg-[#244f40]">
                                     {product.image ? (
                                         <Image
                                             src={product.image}
@@ -78,7 +78,7 @@ export default async function ProductsPage() {
 
                                 <div className="p-6 flex flex-col flex-1 gap-4">
                                     <div className="flex flex-col gap-1">
-                                        <span className="text-[10px] text-orange-500 font-bold uppercase tracking-widest">{product.category.name}</span>
+                                        <span className="text-[10px] text-[#ffcd47] font-bold uppercase tracking-widest">{product.category.name}</span>
                                         <h3 className="text-xl font-bold line-clamp-1">{product.name}</h3>
                                         <p className="text-white/65 text-sm line-clamp-2 min-h-[40px]">{product.description}</p>
                                     </div>
@@ -107,7 +107,7 @@ export default async function ProductsPage() {
 
                     {products.length === 0 && (
                         <div className="text-center py-40 border border-dashed border-white/10 rounded-3xl">
-                            <p className="text-white/65">Aucun produit trouvé dans notre catalogue pour le moment.</p>
+                            <p className="text-white/65">{q ? `Aucun produit trouvé pour « ${q} ».` : "Aucun produit trouvé dans notre catalogue pour le moment."}</p>
                         </div>
                     )}
                 </div>
