@@ -88,11 +88,17 @@ export async function POST(req: Request) {
 
         // L'avatar est une préférence d'expérience, stockée sans modifier la table User.
         // Cela permet de l'étendre à de nouvelles mascottes sans toucher aux données de commande.
-        await prisma.siteSetting.upsert({
-            where: { key: avatarSettingKey(user.id) },
-            update: { value: avatarKey },
-            create: { key: avatarSettingKey(user.id), value: avatarKey },
-        })
+        // Préférence d'avatar non bloquante : l'inscription doit rester disponible
+        // même si le stockage des préférences est temporairement indisponible.
+        try {
+            await prisma.siteSetting.upsert({
+                where: { key: avatarSettingKey(user.id) },
+                update: { value: avatarKey },
+                create: { key: avatarSettingKey(user.id), value: avatarKey },
+            })
+        } catch (avatarError) {
+            console.error("⚠️ Avatar POWER non enregistré:", avatarError)
+        }
 
         // Email de bienvenue — non bloquant : le compte est déjà créé, une panne Resend
         // ne doit pas transformer une inscription réussie en erreur côté client.
