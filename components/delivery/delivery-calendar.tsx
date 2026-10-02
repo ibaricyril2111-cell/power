@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Clock, Calendar as CalendarIcon, CheckCircle2, Loader2 } from "lucide-react"
 import { getAvailableDeliverySlots } from "@/app/actions/delivery"
 import { formatLocalDate, parseDeliveryDate } from "@/lib/utils"
+import { minimumPickupDate } from "@/lib/pickup-policy"
 
 interface DeliverySlot {
   id: string
@@ -90,6 +91,12 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
   }
 
   const isDateDisabled = (date: Date) => {
+    const dateISO = formatLocalDate(date)
+    if (isRetrait) {
+      // Samedi → dimanche non proposé : pas de réassort possible le dimanche.
+      // Vendredi → samedi et dimanche restent disponibles.
+      return dateISO < minimumPickupDate()
+    }
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setHours(0, 0, 0, 0)
