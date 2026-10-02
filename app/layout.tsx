@@ -45,7 +45,7 @@ const jsonLd = {
   currenciesAccepted: 'EUR',
   paymentAccepted: 'Cash, Credit Card',
   hasMap: 'https://www.google.com/maps/search/?api=1&query=Power+Primeur+114+Rue+Paul+Vaillant+Couturier+94140+Alfortville',
-  sameAs: ['https://www.instagram.com/power_alfortville/'],
+  sameAs: ['https://www.instagram.com/poweralfortville/', 'https://www.tiktok.com/@power.alfortville'],
   contactPoint: { '@type': 'ContactPoint', telephone: '+33659845017', contactType: 'customer service', areaServed: ['FR-75', 'FR-77', 'FR-91', 'FR-92', 'FR-93', 'FR-94'], availableLanguage: 'French' },
   areaServed: [
     { '@type': 'City', name: 'Alfortville' },
