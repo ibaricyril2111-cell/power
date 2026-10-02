@@ -10,14 +10,17 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import { User, Mail, Lock, Eye, EyeOff, Loader2, ArrowLeft } from "lucide-react"
 import { safeCallbackPath } from "@/lib/auth-redirect"
-import { signIn } from "next-auth/react"\nimport { PowerAvatarPicker } from "@/components/account/power-avatar"\nimport { DEFAULT_POWER_AVATAR, type PowerAvatarKey } from "@/lib/power-avatars"
+import { signIn } from "next-auth/react"
+import { PowerAvatarPicker } from "@/components/account/power-avatar"
+import { DEFAULT_POWER_AVATAR, type PowerAvatarKey } from "@/lib/power-avatars"
 
 export default function ConnexionPage() {
   const router = useRouter()
   const [mode, setMode] = useState<"login" | "register">("login")
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)\n  const [avatarKey, setAvatarKey] = useState<PowerAvatarKey>(DEFAULT_POWER_AVATAR)
+  const [error, setError] = useState<string | null>(null)
+  const [avatarKey, setAvatarKey] = useState<PowerAvatarKey>(DEFAULT_POWER_AVATAR)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -80,7 +83,8 @@ export default function ConnexionPage() {
           email: formData.email,
           password: formData.password,
           firstName: formData.firstName,
-          lastName: formData.lastName,\n          avatarKey,
+          lastName: formData.lastName,
+          avatarKey,
         }),
       })
 
