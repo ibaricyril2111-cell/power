@@ -6,7 +6,7 @@
   from { transform: scale(1); }
   to { transform: scale(1.035) translateY(-0.3%); }
 }
-.power-fruit-drift { animation: power-fruit-drift 9s ease-in-out 2 alternate; }
+.power-fruit-drift { animation: power-fruit-drift 2.4s ease-in-out 2 alternate; }
 .power-fruit-card-image { transition: transform 650ms ease; }
 @media (hover: hover) {
   .power-fruit-card:hover .power-fruit-card-image { transform: scale(1.035); }
