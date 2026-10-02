@@ -34,14 +34,21 @@ export default async function SeasonalStars() {
     orderBy: { name: "asc" },
   })
 
+  const seenMascots = new Set<string>()
   const ranked = products
     .map((product) => {
       const name = normalize(product.name)
       const rank = season.terms.findIndex((term) => name.includes(normalize(term)))
-      return { product, rank }
+      const mascot = avatarForProductName(product.name)
+      return { product, rank, mascot }
     })
-    .filter(({ rank }) => rank >= 0)
+    .filter(({ rank, mascot }) => rank >= 0 && mascot)
     .sort((a, b) => a.rank - b.rank)
+    .filter(({ mascot }) => {
+      if (!mascot || seenMascots.has(mascot.key)) return false
+      seenMascots.add(mascot.key)
+      return true
+    })
     .slice(0, 6)
 
   if (ranked.length === 0) return null
@@ -66,8 +73,8 @@ export default async function SeasonalStars() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {ranked.map(({ product }) => {
-                const mascot = avatarForProductName(product.name)
+              {ranked.map(({ product, mascot }) => {
+                if (!mascot) return null
                 return (
                   <Link
                     key={product.id}
@@ -75,23 +82,17 @@ export default async function SeasonalStars() {
                     className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#173f32] p-3 transition hover:-translate-y-1 hover:border-[#ffcd47]/70"
                   >
                     <div className="relative aspect-square overflow-hidden rounded-[19px] bg-[#244f40]">
-                      {mascot ? (
-                        <div
-                          role="img"
-                          aria-label={`Personnage POWER ${product.name}`}
-                          className="absolute inset-0 transition-transform duration-300 group-hover:scale-105"
-                          style={{
-                            backgroundImage: `url("${mascot.image}")`,
-                            backgroundSize: "500%",
-                            backgroundPosition: mascot.position,
-                            backgroundRepeat: "no-repeat",
-                          }}
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center px-3 text-center text-xs font-bold text-white/60">
-                          Personnage POWER en préparation
-                        </div>
-                      )}
+<div
+                        role="img"
+                        aria-label={`Personnage POWER ${product.name}`}
+                        className="absolute inset-0 transition-transform duration-300 group-hover:scale-105"
+                        style={{
+                          backgroundImage: `url("${mascot.image}")`,
+                          backgroundSize: "500%",
+                          backgroundPosition: mascot.position,
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      />
                       <span className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#ffcd47] text-sm shadow-lg">⭐</span>
                     </div>
                     <p className="mt-3 truncate text-sm font-black">{product.name}</p>
