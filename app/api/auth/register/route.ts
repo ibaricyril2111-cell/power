@@ -3,7 +3,8 @@ import { prisma } from "@/lib/db"
 import bcrypt from "bcryptjs"
 import { z } from "zod"
 import { sendWelcomeEmail } from "@/lib/email"
-import { rateLimit, clientIp } from "@/lib/rate-limit"\nimport { avatarSettingKey, DEFAULT_POWER_AVATAR, isPowerAvatarKey } from "@/lib/power-avatars"
+import { rateLimit, clientIp } from "@/lib/rate-limit"
+import { avatarSettingKey, DEFAULT_POWER_AVATAR, isPowerAvatarKey } from "@/lib/power-avatars"
 
 const registerSchema = z.object({
     // L'email est normalisé dès la validation : sans cela « Jean@x.fr » et « jean@x.fr »
@@ -15,7 +16,8 @@ const registerSchema = z.object({
     // .trim() AVANT .min(1) : sinon un prénom composé uniquement d'espaces passe la validation
     // puis est vidé, et une chaîne vide finit en base malgré la règle "requis".
     firstName: z.string().trim().min(1, "Le prénom est requis"),
-    lastName: z.string().trim().min(1, "Le nom est requis"),\n    avatarKey: z.string().optional(),
+    lastName: z.string().trim().min(1, "Le nom est requis"),
+    avatarKey: z.string().optional(),
 })
 
 export async function POST(req: Request) {
@@ -30,7 +32,8 @@ export async function POST(req: Request) {
             )
         }
 
-        const { email, password, firstName, lastName } = parsed.data\n        const avatarKey = isPowerAvatarKey(parsed.data.avatarKey) ? parsed.data.avatarKey : DEFAULT_POWER_AVATAR
+        const { email, password, firstName, lastName } = parsed.data
+        const avatarKey = isPowerAvatarKey(parsed.data.avatarKey) ? parsed.data.avatarKey : DEFAULT_POWER_AVATAR
 
         // Anti-abus : borne les créations de comptes par IP (chaque inscription déclenche
         // aussi un email de bienvenue — protège du bombardement d'emails).
@@ -105,7 +108,8 @@ export async function POST(req: Request) {
                 id: user.id,
                 email: user.email,
                 firstName: user.firstName,
-                lastName: user.lastName,\n                avatarKey,
+                lastName: user.lastName,
+                avatarKey,
             }
         }, { status: 201 })
     } catch (error) {
