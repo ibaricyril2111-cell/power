@@ -33,10 +33,11 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
     const tomorrow = new Date()
     tomorrow.setHours(0, 0, 0, 0)
     tomorrow.setDate(tomorrow.getDate() + 1)
+    const minimum = isRetrait ? (parseDeliveryDate(minimumPickupDate()) || tomorrow) : tomorrow
     const initial = parseDeliveryDate(initialDate)
-    if (!initial) return tomorrow
+    if (!initial) return minimum
     initial.setHours(0, 0, 0, 0)
-    return initial >= tomorrow ? initial : tomorrow
+    return initial >= minimum ? initial : minimum
   })
   const [selectedTime, setSelectedTime] = useState<string>("")
   const [slots, setSlots] = useState<DeliverySlot[]>([])
