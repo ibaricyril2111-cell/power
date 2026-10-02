@@ -1,72 +1,41 @@
-"use client"
-
-import { ArrowRight, MapPin } from "lucide-react"
-import { motion } from "framer-motion"
+import { MapPin } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
-interface HeroSectionProps {
-  title?: string;
-  subtitle?: string;
-}
+interface HeroSectionProps { title?: string; subtitle?: string }
 
 export default function HeroSection({ title, subtitle }: HeroSectionProps) {
-  const scrollToMarketplace = () => {
-    const marketplaceSection = document.getElementById("marketplace")
-    if (marketplaceSection) {
-      marketplaceSection.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
   return (
-    <section className="relative w-full min-h-[690px] md:min-h-[760px] flex items-end text-white overflow-hidden bg-[#173f32]">
-      <div className="absolute inset-0">
-        <Image
-          src="/power-storefront.webp"
-          alt="La boutique Power Primeur à Alfortville"
-          fill
-          priority
-          fetchPriority="high"
-          quality={88}
-          className="object-cover"
-          sizes="100vw"
-        />
-      </div>
-
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/10" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25" />
-
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 pb-12 md:pb-20 pt-36"
-      >
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] backdrop-blur-md">
-            <MapPin className="h-4 w-4 text-orange-400" /> 114 rue Paul Vaillant-Couturier · près de la mairie d’Alfortville
-          </div>
-          <h1 className="mt-6 text-5xl sm:text-6xl md:text-8xl font-black tracking-[-0.055em] leading-[0.92] text-balance">
-            {title || <>Le frais du marché,<br/><span className="text-orange-400">sans perdre de temps.</span></>}
-          </h1>
-          <p className="mt-6 max-w-2xl text-base sm:text-xl text-white/85 leading-relaxed">
-            {subtitle || "Fruits, légumes et créations fraîches sélectionnés pour POWER. Commandez simplement en ligne, choisissez votre créneau puis retirez à Alfortville ou optez pour la livraison selon votre zone."}
+    <section className="relative isolate w-full overflow-hidden bg-[#102e25] text-white">
+      <div className="mx-auto grid max-w-7xl items-center lg:grid-cols-[1.05fr_1fr]">
+        <div className="relative z-10 px-5 pb-8 pt-32 sm:px-8 lg:py-40">
+          <Image src="/logo-power.webp" alt="POWER" width={800} height={160} priority className="mb-7 h-auto w-56 rounded-lg sm:w-72" />
+          <p className="flex items-center gap-2 text-sm font-medium text-white/75">
+            <MapPin aria-hidden="true" className="h-4 w-4 shrink-0 text-[#ffcd47]" />Votre primeur à Alfortville
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <button onClick={scrollToMarketplace} className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-orange-500 px-7 font-bold text-white shadow-xl shadow-black/20 transition hover:bg-orange-600">
-              Faire mes courses <ArrowRight className="h-5 w-5" />
-            </button>
-            <Link href="#paniers" className="inline-flex h-14 items-center justify-center rounded-full border border-white/40 bg-white/10 px-7 font-bold text-white backdrop-blur-md transition hover:bg-white/20">
-              Voir les paniers de saison
-            </Link>
+          <h1 className="mt-6 text-5xl font-black leading-[1.02] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
+            {title || <>Du frais.<br />Du goût.<br /><span className="text-[#ffcd47]">Du POWER.</span></>}
+          </h1>
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-white/80 sm:text-lg">
+            {subtitle || "Fruits, légumes, jus et smoothies : retrouvez le goût de POWER et préparez votre commande en ligne."}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link href="#marketplace" className="inline-flex min-h-14 items-center justify-center rounded-full bg-[#ffcd47] px-7 text-base font-bold text-[#102e25] transition-colors hover:bg-[#ffe18a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Faire mes courses</Link>
+            <Link href="/jus-soupes" className="inline-flex min-h-14 items-center justify-center rounded-full border border-white/35 px-7 text-base font-bold transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">Découvrir nos jus</Link>
           </div>
-          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-white/80">
-            <span>✓ Sélection fraîche & arrivages réguliers</span>
-            <span>✓ Click & Collect préparé sur créneau</span>
-            <span>✓ Paiement en boutique ou à la livraison</span>
+          <p className="mt-6 text-sm leading-relaxed text-white/65">Click & Collect à Alfortville · Livraison selon votre zone</p>
+          <Link href="#paniers" className="mt-4 inline-block text-sm font-semibold text-[#ffcd47] underline underline-offset-4">Voir les paniers de saison</Link>
+        </div>
+        <div className="relative mx-5 mb-7 aspect-[4/5] overflow-hidden rounded-[2rem] sm:mx-8 sm:aspect-[4/3] lg:mx-0 lg:mb-0 lg:aspect-[3/4] lg:rounded-none lg:rounded-l-[3rem]">
+          <div className="power-fruit-drift absolute inset-0">
+            <Image src="/brand/tropic-rose.webp" alt="Les mascottes POWER mangue, ananas et fruit de la passion autour du mixeur" fill priority fetchPriority="high" sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
+          </div>
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#102e25]/90 to-transparent px-6 pb-6 pt-16">
+            <p className="text-sm font-semibold text-[#ffcd47]">MANGUE · ANANAS · PASSION</p>
+            <p className="mt-1 text-xl font-bold">Toute la bonne humeur de POWER.</p>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

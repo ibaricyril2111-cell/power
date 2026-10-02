@@ -5,6 +5,7 @@ import HeroSection from "@/components/sections/hero-section"
 import ProductSection from "@/components/sections/product-section"
 import ServiceStrip from "@/components/sections/service-strip"
 import BasketShowcase from "@/components/sections/basket-showcase"
+import FruitShowcase from "@/components/sections/fruit-showcase"
 
 export const metadata: Metadata = { alternates: { canonical: '/' } }
 export const dynamic = 'force-dynamic'
@@ -16,6 +17,7 @@ export default async function LandingPage() {
       <main className="flex flex-col items-center overflow-hidden">
         <HeroSection />
         <ServiceStrip />
+        <FruitShowcase />
         <BasketShowcase />
 
         <div id="marketplace" className="w-full bg-[#f7f4ed]">
