@@ -66,9 +66,9 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-[#f5f0e8] to-[#e8e0d4] text-zinc-900 border-zinc-300">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-[#f5f0e8] to-[#e8e0d4] text-white border-zinc-300">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-zinc-900">
+          <DialogTitle className="text-2xl font-bold text-white">
             {product.name}
           </DialogTitle>
         </DialogHeader>
@@ -102,7 +102,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <p className="text-zinc-500 mb-4">{product.description}</p>
+              <p className="text-white/65 mb-4">{product.description}</p>
 
               <div className="flex items-center gap-4 mb-4">
                 {product.promoPrice != null && <span className="text-xl font-semibold text-zinc-400 line-through">{product.price.toFixed(2)}€</span>}
@@ -115,7 +115,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
 
             {/* Quantité */}
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-2">Quantité</label>
+              <label className="block text-sm font-medium text-white/80 mb-2">Quantité</label>
               <QuantitySelector
                 value={quantity}
                 onChange={setQuantity}
@@ -129,15 +129,15 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
 
             {/* Features */}
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm text-zinc-600">
+              <div className="flex items-center gap-3 text-sm text-white/70">
                 <Truck className="h-4 w-4 text-orange-500" />
                 <span>Livraison sous 24h</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-zinc-600">
+              <div className="flex items-center gap-3 text-sm text-white/70">
                 <Shield className="h-4 w-4 text-orange-500" />
                 <span>Fraîcheur garantie</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-zinc-600">
+              <div className="flex items-center gap-3 text-sm text-white/70">
                 <Leaf className="h-4 w-4 text-orange-500" />
                 <span>Produit local</span>
               </div>
@@ -147,7 +147,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
 
             {/* Add to Cart */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between text-lg font-semibold text-zinc-900">
+              <div className="flex items-center justify-between text-lg font-semibold text-white">
                 <span>Total :</span>
                 <span className="text-orange-500">
                   {lineTotal(product.promoPrice ?? product.price, quantity).toFixed(2)}€
