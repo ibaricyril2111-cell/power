@@ -9,6 +9,7 @@ import { nextInvoiceNumber } from "@/lib/invoice"
 import { describeSelection } from "@/lib/composition-pricing"
 import crypto from "crypto"
 import { rateLimit, clientIp } from "@/lib/rate-limit"
+import { isPickupDateAllowed } from "@/lib/pickup-policy"
 
 function generatePickupCode() {
     return crypto.randomBytes(4).toString("hex").toUpperCase()
@@ -126,6 +127,12 @@ export async function POST(req: NextRequest) {
             tomorrow.setHours(0, 0, 0, 0)
             tomorrow.setDate(tomorrow.getDate() + 1)
             const minimumDate = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, "0")}-${String(tomorrow.getDate()).padStart(2, "0")}`
+            if (method === "retrait" && !isPickupDateAllowed(requestedDate)) {
+                return NextResponse.json(
+                    { error: "Ce retrait n’est pas disponible : une commande passée le samedi ne peut pas être garantie le dimanche. Choisissez le prochain créneau proposé." },
+                    { status: 409 },
+                )
+            }
             if (!/^\d{4}-\d{2}-\d{2}$/.test(requestedDate) || requestedDate < minimumDate
                 || slot.date.toISOString().slice(0, 10) !== requestedDate
                 || deliveryTime !== `${slot.startTime} - ${slot.endTime}`
