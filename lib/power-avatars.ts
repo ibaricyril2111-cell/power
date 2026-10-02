@@ -45,8 +45,39 @@ export function avatarSettingKey(userId: string) {
 const NORMALIZE = (value: string) =>
   value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
 
+const PRODUCT_MASCOT_ALIASES: Array<[string[], PowerAvatarKey]> = [
+  [["ananas"], "ananas"],
+  [["aubergine"], "aubergine"],
+  [["avocat"], "avocat"],
+  [["banane"], "banane"],
+  [["carotte"], "carotte"],
+  [["citron vert"], "citron-vert"],
+  [["citron jaune", "citrons jaune", "citron"], "citron"],
+  [["courgette"], "courgette"],
+  [["fraise", "gariguette"], "fraise"],
+  [["kiwi"], "kiwi"],
+  [["mangue"], "mangue"],
+  [["mini concombre", "concombre"], "concombre"],
+  [["oignon"], "oignon"],
+  [["poire"], "poire"],
+  [["poivron"], "poivron"],
+  [["pomme de terre"], "pomme-de-terre"],
+  [["pomme gala", "pomme golden", "pommes gala", "pomme"], "pomme"],
+  [["potimarron", "potiron", "butternut"], "potiron"],
+  [["raisin"], "raisin"],
+  [["salade", "batavia"], "salade"],
+  [["tomate"], "tomate"],
+  [["persil"], "persil"],
+  [["orange", "clementine", "pomolo", "pomelos"], "clementine"],
+]
+
 export function avatarForProductName(name: string) {
   const normalized = NORMALIZE(name)
+  const alias = PRODUCT_MASCOT_ALIASES.find(([terms]) =>
+    terms.some((term) => normalized.includes(NORMALIZE(term)))
+  )
+  if (alias) return powerAvatar(alias[1])
+
   return POWER_AVATARS.find((avatar) => {
     const key = NORMALIZE(avatar.key.replaceAll("-", " "))
     const label = NORMALIZE(avatar.label)
