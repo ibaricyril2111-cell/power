@@ -13,7 +13,7 @@ export function PowerAvatar({ avatarKey, size = 72, className = "" }: { avatarKe
         width: size,
         height: size,
         backgroundImage: `url("${avatar.image}")`,
-        backgroundSize: "285%",
+        backgroundSize: "500%",
         backgroundPosition: avatar.position,
         backgroundRepeat: "no-repeat",
       }}
@@ -38,7 +38,7 @@ export function PowerAvatarPicker({
       <p className="mb-4 text-xs leading-relaxed text-white/65">
         Il devient ton avatar. Tu pourras le changer quand tu veux.
       </p>
-      <div className={`grid gap-3 ${compact ? "grid-cols-4 sm:grid-cols-7" : "grid-cols-4"}`}>
+      <div className={`grid gap-3 ${compact ? "grid-cols-5 sm:grid-cols-8" : "grid-cols-4"}`}>
         {POWER_AVATARS.map((avatar) => {
           const active = value === avatar.key
           return (
