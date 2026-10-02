@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
-import { z } from "zod"
+import { z } from "zod"\nimport { avatarSettingKey, DEFAULT_POWER_AVATAR, isPowerAvatarKey } from "@/lib/power-avatars"
 
 const updateProfileSchema = z.object({
     firstName: z.string().trim().min(1).max(80).optional(),
@@ -15,7 +15,7 @@ const updateProfileSchema = z.object({
     billingType: z.string().optional(),
     country: z.string().trim().max(80).optional(),
     companyName: z.string().trim().max(160).optional(),
-    siret: z.string().trim().max(20).optional(),
+    siret: z.string().trim().max(20).optional(),\n    avatarKey: z.string().optional(),
 })
 
 const ACCOUNT_TYPES = ["particulier", "professionnel"]
@@ -50,7 +50,8 @@ export async function getUserProfile() {
 
         if (!user) return { success: false, error: "Utilisateur non trouvé" }
 
-        return { success: true, data: user }
+        const avatar = await prisma.siteSetting.findUnique({ where: { key: avatarSettingKey(user.id) }, select: { value: true } })
+        return { success: true, data: { ...user, avatarKey: isPowerAvatarKey(avatar?.value) ? avatar.value : DEFAULT_POWER_AVATAR } }
     } catch (error) {
         console.error("Error fetching user profile:", error)
         return { success: false, error: "Erreur lors du chargement du profil" }
@@ -67,6 +68,7 @@ export async function updateUserProfile(data: z.infer<typeof updateProfileSchema
     }
 
     try {
+        const avatarKey = isPowerAvatarKey(parsed.data.avatarKey) ? parsed.data.avatarKey : undefined
         const updatedUser = await prisma.user.update({
             where: { id: session.user.id },
             data: {
@@ -84,7 +86,14 @@ export async function updateUserProfile(data: z.infer<typeof updateProfileSchema
             },
             select: publicProfileSelect,
         })
-        return { success: true, data: updatedUser }
+        if (avatarKey) {
+            await prisma.siteSetting.upsert({
+                where: { key: avatarSettingKey(session.user.id) },
+                update: { value: avatarKey },
+                create: { key: avatarSettingKey(session.user.id), value: avatarKey },
+            })
+        }
+        return { success: true, data: { ...updatedUser, avatarKey: avatarKey ?? DEFAULT_POWER_AVATAR } }
     } catch (error) {
         console.error("Erreur update profile:", error)
         return { success: false, error: "Erreur de mise à jour" }
