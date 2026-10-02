@@ -3,6 +3,7 @@ import Footer from "@/components/layout/footer"
 import { Soup } from "lucide-react"
 import CompositionCard from "@/components/product/composition-card"
 import { getCompositionsByTypes } from "@/app/actions/compositions"
+import FruitShowcase from "@/components/sections/fruit-showcase"
 
 export const dynamic = 'force-dynamic'
 
@@ -20,7 +21,8 @@ export default async function JusSoupesPage() {
     return (
         <div className="min-h-screen bg-black text-white">
             <Header />
-            <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
+            <div className="pt-24"><FruitShowcase linkToCatalog /></div>
+            <main id="jus-disponibles" className="max-w-7xl mx-auto scroll-mt-28 px-4 pt-12 pb-20">
                 <div className="flex flex-col gap-8">
                     <div>
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl border-b border-white/10 pb-6 uppercase italic">
