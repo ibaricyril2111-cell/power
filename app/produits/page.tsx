@@ -17,9 +17,24 @@ export const metadata = {
     alternates: { canonical: '/produits' },
 }
 
-export default async function ProductsPage() {
+export default async function ProductsPage({
+    searchParams,
+}: {
+    searchParams?: Promise<{ q?: string }>
+}) {
+    const params = searchParams ? await searchParams : {}
+    const q = params.q?.trim() || ""
+
     const products = await prisma.product.findMany({
-        where: { inStock: true },
+        where: {
+            inStock: true,
+            ...(q ? {
+                OR: [
+                    { name: { contains: q, mode: "insensitive" as const } },
+                    { description: { contains: q, mode: "insensitive" as const } },
+                ],
+            } : {}),
+        },
         include: { category: true },
         orderBy: { name: 'asc' }
     })
