@@ -27,12 +27,30 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
           <Link href="#paniers" className="mt-4 inline-block text-sm font-semibold text-[#ffcd47] underline underline-offset-4">Voir les paniers de saison</Link>
         </div>
         <div className="relative mx-5 mb-7 aspect-[4/5] overflow-hidden rounded-[2rem] sm:mx-8 sm:aspect-[4/3] lg:mx-0 lg:mb-0 lg:aspect-[3/4] lg:rounded-none lg:rounded-l-[3rem]">
-          <div className="power-fruit-drift absolute inset-0">
-            <Image src="/brand/tropic-rose.webp" alt="Les mascottes POWER mangue, ananas et fruit de la passion autour du mixeur" fill priority fetchPriority="high" sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-center" />
+          <Image
+            src="/power-storefront.webp"
+            alt="La boutique POWER à Alfortville"
+            fill
+            priority
+            fetchPriority="high"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#102e25]/85 via-transparent to-[#102e25]/10" />
+          <div className="absolute bottom-5 left-5 w-[48%] max-w-[250px] overflow-hidden rounded-[26px] border-2 border-[#ffcd47] bg-[#102e25] shadow-2xl">
+            <div className="relative aspect-[4/5]">
+              <Image
+                src="/brand/tropic-rose.webp"
+                alt="Les mascottes POWER mangue, ananas et passion"
+                fill
+                sizes="250px"
+                className="object-cover"
+              />
+            </div>
           </div>
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#102e25]/90 to-transparent px-6 pb-6 pt-16">
-            <p className="text-sm font-semibold text-[#ffcd47]">MANGUE · ANANAS · PASSION</p>
-            <p className="mt-1 text-xl font-bold">Toute la bonne humeur de POWER.</p>
+          <div className="absolute bottom-5 right-5 max-w-[48%] rounded-2xl border border-white/15 bg-[#102e25]/90 p-4 shadow-xl backdrop-blur">
+            <p className="text-xs font-black uppercase tracking-widest text-[#ffcd47]">Bienvenue chez POWER</p>
+            <p className="mt-1 text-sm font-bold leading-snug sm:text-base">Le vrai magasin, nos vrais produits, notre univers.</p>
           </div>
         </div>
       </div>
