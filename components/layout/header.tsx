@@ -10,6 +10,9 @@ import { ShoppingCart, User, Menu } from "lucide-react"
 import { useSession, signOut } from "next-auth/react"
 import { getCartItems } from "@/app/actions/cart"
 import CartDrawer from "@/components/cart/cart-drawer"
+import { getUserProfile } from "@/app/actions/account"
+import { PowerAvatar } from "@/components/account/power-avatar"
+import { DEFAULT_POWER_AVATAR } from "@/lib/power-avatars"
 
 function scrollToMarketplace() {
   const el = document.getElementById("marketplace")
@@ -24,6 +27,7 @@ export default function Header() {
   const [cartCount, setCartCount] = useState(0)
   const [cartOpen, setCartOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [avatarKey, setAvatarKey] = useState(DEFAULT_POWER_AVATAR)
   const { data: session, status } = useSession()
   const isLoggedIn = status === "authenticated"
   const loading = status === "loading"
@@ -44,6 +48,13 @@ export default function Header() {
   useEffect(() => {
     loadCartCount()
   }, [])
+
+  useEffect(() => {
+    if (!isLoggedIn) return
+    getUserProfile().then((res) => {
+      if (res.success && res.data?.avatarKey) setAvatarKey(res.data.avatarKey)
+    }).catch(() => {})
+  }, [isLoggedIn])
 
   // Écouter les mises à jour du panier (ajout, suppression)
   useEffect(() => {
@@ -135,7 +146,7 @@ export default function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" aria-label="Profil Utilisateur" className="rounded-full hover:bg-white/10 text-white">
-                    <User className="h-5 w-5" />
+                    <PowerAvatar avatarKey={avatarKey} size={30} className="border-0 shadow-none" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="glassmorphism bg-black/90 border-white/10 text-white rounded-2xl p-2 mt-2 backdrop-blur-xl w-48 shadow-2xl">
