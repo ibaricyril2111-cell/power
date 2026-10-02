@@ -12,7 +12,7 @@ import { getCartItems } from "@/app/actions/cart"
 import CartDrawer from "@/components/cart/cart-drawer"
 import { getUserProfile } from "@/app/actions/account"
 import { PowerAvatar } from "@/components/account/power-avatar"
-import { DEFAULT_POWER_AVATAR } from "@/lib/power-avatars"
+import { DEFAULT_POWER_AVATAR, isPowerAvatarKey, type PowerAvatarKey } from "@/lib/power-avatars"
 
 function scrollToMarketplace() {
   const el = document.getElementById("marketplace")
@@ -27,7 +27,7 @@ export default function Header() {
   const [cartCount, setCartCount] = useState(0)
   const [cartOpen, setCartOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [avatarKey, setAvatarKey] = useState(DEFAULT_POWER_AVATAR)
+  const [avatarKey, setAvatarKey] = useState<PowerAvatarKey>(DEFAULT_POWER_AVATAR)
   const { data: session, status } = useSession()
   const isLoggedIn = status === "authenticated"
   const loading = status === "loading"
@@ -52,7 +52,7 @@ export default function Header() {
   useEffect(() => {
     if (!isLoggedIn) return
     getUserProfile().then((res) => {
-      if (res.success && res.data?.avatarKey) setAvatarKey(res.data.avatarKey)
+      if (res.success && isPowerAvatarKey(res.data?.avatarKey)) setAvatarKey(res.data.avatarKey)
     }).catch(() => {})
   }, [isLoggedIn])
 
