@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Camera, Loader2, Save, User } from "lucide-react"
+import { Loader2, Save } from "lucide-react"\nimport { PowerAvatar, PowerAvatarPicker } from "@/components/account/power-avatar"\nimport { DEFAULT_POWER_AVATAR, type PowerAvatarKey } from "@/lib/power-avatars"
 import { getUserProfile, updateUserProfile } from "@/app/actions/account"
 import { toast } from "sonner"
 
@@ -89,9 +89,9 @@ export default function ProfileTab() {
   if (loading) {
     return (
       <div className="space-y-6 animate-in fade-in duration-500">
-        <Card className="glassmorphism bg-zinc-900/40 border-white/5">
+        <Card className="glassmorphism bg-[#173f32]/85 border-white/5">
           <CardContent className="p-12 text-center">
-            <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
+            <Loader2 className="w-12 h-12 text-[#ffcd47] animate-spin mx-auto mb-4" />
             <p className="text-zinc-500 font-bold uppercase tracking-widest text-xs">Chargement de votre profil premium...</p>
           </CardContent>
         </Card>
@@ -101,22 +101,13 @@ export default function ProfileTab() {
 
   return (
     <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-700">
-      <Card className="glassmorphism bg-zinc-900/40 border-white/5 overflow-hidden">
+      <Card className="glassmorphism bg-[#173f32]/85 border-white/5 overflow-hidden">
         <CardHeader className="border-b border-white/5 bg-white/5">
-          <CardTitle className="text-xl font-black uppercase italic tracking-tighter">Votre Identité <span className="text-orange-500">Power.</span></CardTitle>
+          <CardTitle className="text-xl font-black uppercase italic tracking-tighter">Votre Identité <span className="text-[#ffcd47]">Power.</span></CardTitle>
         </CardHeader>
         <CardContent className="p-8">
           <div className="flex items-center gap-8">
-            <div className="relative group">
-              <Avatar className="h-24 w-24 border-2 border-orange-500/20 group-hover:border-orange-500 transition-colors shadow-2xl">
-                <AvatarFallback className="bg-zinc-800 text-orange-500 font-black text-2xl uppercase italic">
-                  {formData.firstName.slice(0, 1)}{formData.lastName.slice(0, 1)}
-                </AvatarFallback>
-              </Avatar>
-              <div className="absolute -bottom-2 -right-2 bg-orange-500 text-white p-2 rounded-full shadow-lg border border-black/50 cursor-pointer hover:scale-110 transition-transform">
-                <Camera className="w-4 h-4" />
-              </div>
-            </div>
+            <PowerAvatar avatarKey={formData.avatarKey} size={96} />
             <div>
               <h2 className="text-2xl font-black uppercase italic text-white">{formData.firstName} {formData.lastName}</h2>
               <p className="text-zinc-500 font-medium">Membre Premium Power</p>
@@ -125,12 +116,19 @@ export default function ProfileTab() {
         </CardContent>
       </Card>
 
-      <Card className="glassmorphism bg-zinc-900/40 border-white/5 overflow-hidden">
+      <Card className="glassmorphism bg-[#173f32]/85 border-white/5 overflow-hidden">
         <CardHeader className="border-b border-white/5 bg-white/5">
           <CardTitle className="text-xl font-black uppercase italic tracking-tighter">Informations Personnelles</CardTitle>
         </CardHeader>
         <CardContent className="p-8">
           <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+              <PowerAvatarPicker
+                value={formData.avatarKey}
+                onChange={(avatarKey) => setFormData((prev) => ({ ...prev, avatarKey }))}
+                compact
+              />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="firstName" className="text-zinc-400 uppercase text-[10px] font-black tracking-widest ml-1">Prénom</Label>
@@ -139,7 +137,7 @@ export default function ProfileTab() {
                   value={formData.firstName}
                   onChange={(e) => handleInputChange("firstName", e.target.value)}
                   disabled={saving}
-                  className="bg-black/40 border-white/10 rounded-2xl h-14 focus:border-orange-500/50 transition-all font-bold"
+                  className="bg-[#102e25]/60 border-white/10 rounded-2xl h-14 focus:border-[#ffcd47]/50 transition-all font-bold"
                 />
               </div>
               <div className="space-y-2">
@@ -149,7 +147,7 @@ export default function ProfileTab() {
                   value={formData.lastName}
                   onChange={(e) => handleInputChange("lastName", e.target.value)}
                   disabled={saving}
-                  className="bg-black/40 border-white/10 rounded-2xl h-14 focus:border-orange-500/50 transition-all font-bold"
+                  className="bg-[#102e25]/60 border-white/10 rounded-2xl h-14 focus:border-[#ffcd47]/50 transition-all font-bold"
                 />
               </div>
             </div>
@@ -172,7 +170,7 @@ export default function ProfileTab() {
                 value={formData.phone}
                 onChange={(e) => handleInputChange("phone", e.target.value)}
                 disabled={saving}
-                className="bg-black/40 border-white/10 rounded-2xl h-14 focus:border-orange-500/50 transition-all font-bold"
+                className="bg-[#102e25]/60 border-white/10 rounded-2xl h-14 focus:border-[#ffcd47]/50 transition-all font-bold"
                 placeholder="+33 6 ..."
               />
             </div>
@@ -185,7 +183,7 @@ export default function ProfileTab() {
                 onChange={(e) => handleInputChange("address", e.target.value)}
                 rows={3}
                 disabled={saving}
-                className="bg-black/40 border-white/10 rounded-2xl focus:border-orange-500/50 transition-all font-bold min-h-[120px] pt-4"
+                className="bg-[#102e25]/60 border-white/10 rounded-2xl focus:border-[#ffcd47]/50 transition-all font-bold min-h-[120px] pt-4"
               />
             </div>
 
@@ -197,7 +195,7 @@ export default function ProfileTab() {
                   value={formData.city}
                   onChange={(e) => handleInputChange("city", e.target.value)}
                   disabled={saving}
-                  className="bg-black/40 border-white/10 rounded-2xl h-14 focus:border-orange-500/50 transition-all font-bold"
+                  className="bg-[#102e25]/60 border-white/10 rounded-2xl h-14 focus:border-[#ffcd47]/50 transition-all font-bold"
                 />
               </div>
               <div className="space-y-2">
@@ -207,7 +205,7 @@ export default function ProfileTab() {
                   value={formData.postalCode}
                   onChange={(e) => handleInputChange("postalCode", e.target.value)}
                   disabled={saving}
-                  className="bg-black/40 border-white/10 rounded-2xl h-14 focus:border-orange-500/50 transition-all font-bold"
+                  className="bg-[#102e25]/60 border-white/10 rounded-2xl h-14 focus:border-[#ffcd47]/50 transition-all font-bold"
                 />
               </div>
             </div>
@@ -220,7 +218,7 @@ export default function ProfileTab() {
                   value={formData.clientType}
                   onChange={(e) => handleInputChange("clientType", e.target.value)}
                   disabled={saving}
-                  className="bg-black/40 border border-white/10 rounded-2xl h-14 px-4 w-full focus:border-orange-500/50 transition-all font-bold text-white"
+                  className="bg-[#102e25]/60 border border-white/10 rounded-2xl h-14 px-4 w-full focus:border-[#ffcd47]/50 transition-all font-bold text-white"
                 >
                   <option value="particulier">Particulier</option>
                   <option value="professionnel">Professionnel</option>
@@ -233,7 +231,7 @@ export default function ProfileTab() {
                   value={formData.billingType}
                   onChange={(e) => handleInputChange("billingType", e.target.value)}
                   disabled={saving}
-                  className="bg-black/40 border border-white/10 rounded-2xl h-14 px-4 w-full focus:border-orange-500/50 transition-all font-bold text-white"
+                  className="bg-[#102e25]/60 border border-white/10 rounded-2xl h-14 px-4 w-full focus:border-[#ffcd47]/50 transition-all font-bold text-white"
                 >
                   <option value="particulier">Particulier</option>
                   <option value="professionnel">Professionnel</option>
@@ -250,7 +248,7 @@ export default function ProfileTab() {
                     value={formData.companyName}
                     onChange={(e) => handleInputChange("companyName", e.target.value)}
                     disabled={saving}
-                    className="bg-black/40 border-white/10 rounded-2xl h-14 focus:border-orange-500/50 transition-all font-bold"
+                    className="bg-[#102e25]/60 border-white/10 rounded-2xl h-14 focus:border-[#ffcd47]/50 transition-all font-bold"
                   />
                 </div>
                 <div className="space-y-2">
@@ -260,7 +258,7 @@ export default function ProfileTab() {
                     value={formData.siret}
                     onChange={(e) => handleInputChange("siret", e.target.value)}
                     disabled={saving}
-                    className="bg-black/40 border-white/10 rounded-2xl h-14 focus:border-orange-500/50 transition-all font-bold"
+                    className="bg-[#102e25]/60 border-white/10 rounded-2xl h-14 focus:border-[#ffcd47]/50 transition-all font-bold"
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
@@ -270,7 +268,7 @@ export default function ProfileTab() {
                     value={formData.country}
                     onChange={(e) => handleInputChange("country", e.target.value)}
                     disabled={saving}
-                    className="bg-black/40 border-white/10 rounded-2xl h-14 focus:border-orange-500/50 transition-all font-bold"
+                    className="bg-[#102e25]/60 border-white/10 rounded-2xl h-14 focus:border-[#ffcd47]/50 transition-all font-bold"
                     placeholder="France"
                   />
                 </div>
@@ -279,7 +277,7 @@ export default function ProfileTab() {
 
             <Button
               type="submit"
-              className="w-full md:w-auto px-12 h-16 rounded-[24px] bg-orange-500 hover:bg-orange-600 text-white font-black uppercase italic tracking-tighter text-lg shadow-2xl shadow-orange-500/20 active:scale-95 transition-all gap-3"
+              className="w-full md:w-auto px-12 h-16 rounded-[24px] bg-[#ffcd47] hover:bg-[#ffe18a] text-white font-black uppercase italic tracking-tighter text-lg shadow-2xl shadow-orange-500/20 active:scale-95 transition-all gap-3"
               disabled={saving}
             >
               {saving ? <Loader2 className="w-6 h-6 animate-spin" /> : <Save className="w-6 h-6" />}
