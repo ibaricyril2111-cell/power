@@ -97,7 +97,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
           }
         }}
       >
-        <div className="relative aspect-[4/3] overflow-hidden bg-[#eee9df]">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#173f32]">
           <Image
             src={imgError ? "/placeholder.svg" : (product.image || "/placeholder.svg")}
             alt={product.name}
@@ -115,7 +115,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
               </Badge>
             )}
             {!product.inStock && (
-              <Badge className="bg-zinc-800 text-zinc-500 border border-white/10 font-black uppercase italic text-[10px] tracking-widest px-3 py-1">
+              <Badge className="bg-zinc-800 text-white/65 border border-white/10 font-black uppercase italic text-[10px] tracking-widest px-3 py-1">
                 Rupture
               </Badge>
             )}
@@ -125,22 +125,22 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
               déclencherait l'ouverture deux fois par propagation. */}
           <div
             aria-hidden="true"
-            className="absolute top-5 right-5 h-10 w-10 rounded-full bg-white/90 backdrop-blur-xl text-[#173f32] opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center shadow-md"
+            className="absolute top-5 right-5 h-10 w-10 rounded-full bg-[#102e25]/90 backdrop-blur-xl text-[#ffcd47] opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center shadow-md"
           >
             <Eye className="h-5 w-5" />
           </div>
 
           <div className="absolute bottom-4 left-4">
-            <div className="bg-white/95 backdrop-blur-xl rounded-full px-4 py-2 shadow-lg">
-              <span className="text-lg font-black text-[#173f32] leading-none">{product.promoPrice != null && <span className="text-sm font-bold text-zinc-400 line-through mr-2">{product.price.toFixed(2)}€</span>}{(product.promoPrice ?? product.price).toFixed(2)}€ <span className="text-[10px] uppercase tracking-widest text-zinc-500">/ {product.unit}</span></span>
+            <div className="bg-[#102e25]/95 backdrop-blur-xl rounded-full px-4 py-2 shadow-lg">
+              <span className="text-lg font-black text-[#ffcd47] leading-none">{product.promoPrice != null && <span className="text-sm font-bold text-zinc-400 line-through mr-2">{product.price.toFixed(2)}€</span>}{(product.promoPrice ?? product.price).toFixed(2)}€ <span className="text-[10px] uppercase tracking-widest text-white/65">/ {product.unit}</span></span>
             </div>
           </div>
         </div>
 
         <div className="p-6 pb-4">
-          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-orange-600">{product.category}</p>
-          <h3 className="text-xl font-black text-[#173f32] mb-2 line-clamp-1 group-hover:text-orange-600 transition-colors">{product.name}</h3>
-          <p className="text-zinc-500 line-clamp-2 min-h-[42px] text-sm leading-relaxed">{product.description}</p>
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#ffcd47]">{product.category}</p>
+          <h3 className="text-xl font-black text-[#ffcd47] mb-2 line-clamp-1 group-hover:text-[#ffcd47] transition-colors">{product.name}</h3>
+          <p className="text-white/65 line-clamp-2 min-h-[42px] text-sm leading-relaxed">{product.description}</p>
         </div>
       </CardContent>
 
@@ -149,7 +149,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
           <Button
             onClick={handleAdd}
             disabled={loading || !product.inStock}
-            className="w-full h-12 rounded-full bg-[#173f32] hover:bg-[#225943] text-white font-bold text-sm transition-all"
+            className="w-full h-12 rounded-full bg-[#173f32] hover:bg-[#225943] text-[#102e25] font-bold text-sm transition-all"
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingCart className="w-5 h-5 mr-2" />}
             {loading ? "" : "Ajouter au panier"}
@@ -159,16 +159,16 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
             <button
               aria-label={`Retirer ${product.name}`}
               onClick={handleDecrement}
-              className="h-12 w-12 rounded-full bg-[#e7e2d8] hover:bg-[#dcd5c8] text-[#173f32] flex items-center justify-center transition-colors"
+              className="h-12 w-12 rounded-full bg-[#e7e2d8] hover:bg-[#dcd5c8] text-[#ffcd47] flex items-center justify-center transition-colors"
             >
               <Minus className="h-5 w-5" />
             </button>
-            <span className="text-2xl font-black text-[#173f32] w-8 text-center">{quantity}</span>
+            <span className="text-2xl font-black text-[#ffcd47] w-8 text-center">{quantity}</span>
             <button
               aria-label={`Ajouter ${product.name}`}
               onClick={handleIncrement}
               disabled={loading}
-              className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center transition-colors disabled:opacity-50"
+              className="h-12 w-12 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white flex items-center justify-center transition-colors disabled:opacity-50"
             >
               {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
             </button>
