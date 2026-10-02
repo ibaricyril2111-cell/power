@@ -25,7 +25,7 @@ export default async function ProductsPage() {
     })
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="min-h-screen bg-[#102e25] text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
                 <div className="flex flex-col gap-8">
@@ -54,7 +54,7 @@ export default async function ProductsPage() {
                                             className={`object-cover group-hover:scale-110 transition-transform duration-700 ${isOutOfStock ? "opacity-40 grayscale" : ""}`}
                                         />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-zinc-600">Aucune image</div>
+                                        <div className="w-full h-full flex items-center justify-center text-white/70">Aucune image</div>
                                     )}
                                     {product.organic && (
                                         <div className="absolute top-4 left-4 bg-green-500/90 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
@@ -67,7 +67,7 @@ export default async function ProductsPage() {
                                         </div>
                                     )}
                                     {isLowStock && (
-                                        <div className="absolute top-4 right-4 bg-orange-500/90 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-full">
+                                        <div className="absolute top-4 right-4 bg-[#ffcd47]/90 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-full">
                                             PLUS QUE {product.currentStock}
                                         </div>
                                     )}
@@ -80,7 +80,7 @@ export default async function ProductsPage() {
                                     <div className="flex flex-col gap-1">
                                         <span className="text-[10px] text-orange-500 font-bold uppercase tracking-widest">{product.category.name}</span>
                                         <h3 className="text-xl font-bold line-clamp-1">{product.name}</h3>
-                                        <p className="text-zinc-500 text-sm line-clamp-2 min-h-[40px]">{product.description}</p>
+                                        <p className="text-white/65 text-sm line-clamp-2 min-h-[40px]">{product.description}</p>
                                     </div>
 
                                     <div className="mt-auto flex items-center gap-2">
@@ -107,7 +107,7 @@ export default async function ProductsPage() {
 
                     {products.length === 0 && (
                         <div className="text-center py-40 border border-dashed border-white/10 rounded-3xl">
-                            <p className="text-zinc-500">Aucun produit trouvé dans notre catalogue pour le moment.</p>
+                            <p className="text-white/65">Aucun produit trouvé dans notre catalogue pour le moment.</p>
                         </div>
                     )}
                 </div>
