@@ -29,6 +29,7 @@ export default function ProfileTab() {
     country: "",
     companyName: "",
     siret: "",
+    avatarKey: DEFAULT_POWER_AVATAR as PowerAvatarKey,
   })
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function ProfileTab() {
           country: res.data.country || "",
           companyName: res.data.companyName || "",
           siret: res.data.siret || "",
+          avatarKey: (res.data.avatarKey || DEFAULT_POWER_AVATAR) as PowerAvatarKey,
         })
       }
     } catch (error) {
