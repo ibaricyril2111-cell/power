@@ -86,7 +86,7 @@ export default function Header() {
                   <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
                 </DropdownMenuItem>
                 {!isLoggedIn && (
-                  <DropdownMenuItem asChild className="rounded-xl focus:bg-orange-500/20 text-orange-400 cursor-pointer">
+                  <DropdownMenuItem asChild className="rounded-xl focus:bg-[#ffcd47]/20 text-orange-400 cursor-pointer">
                     <Link href="/connexion" onClick={() => setMobileMenuOpen(false)}>Connexion</Link>
                   </DropdownMenuItem>
                 )}
@@ -96,16 +96,13 @@ export default function Header() {
               {/* Médaillon détouré, pas le bandeau du fichier source : sur un header
                   translucide, un logotype à fond noir plaque un rectangle opaque. */}
               <Image
-                src="/logo-power-mark.png"
-                alt=""
-                width={36}
-                height={36}
+                src="/logo-power.webp"
+                alt="POWER — Primeur Alfortville"
+                width={800}
+                height={160}
                 priority
-                className="h-8 w-8 sm:h-9 sm:w-9"
+                className="h-8 w-auto sm:h-10"
               />
-              <span className="hidden sm:inline text-xl font-extrabold text-white tracking-tight">
-                Power<span className="text-orange-500">.</span>
-              </span>
             </Link>
           </div>
 
@@ -126,7 +123,7 @@ export default function Header() {
             >
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] bg-orange-500 text-white border-0">
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] bg-[#ffcd47] text-white border-0">
                   {cartCount}
                 </Badge>
               )}
@@ -152,7 +149,7 @@ export default function Header() {
                     <Link href="/mon-compte">Commandes</Link>
                   </DropdownMenuItem>
                   {user?.role === "admin" && (
-                    <DropdownMenuItem asChild className="rounded-xl focus:bg-orange-500/20 text-orange-400 cursor-pointer">
+                    <DropdownMenuItem asChild className="rounded-xl focus:bg-[#ffcd47]/20 text-orange-400 cursor-pointer">
                       <Link href="/admin">Gestion</Link>
                     </DropdownMenuItem>
                   )}
@@ -163,7 +160,7 @@ export default function Header() {
               </DropdownMenu>
             ) : (
               <Button
-                className="rounded-full bg-orange-500 hover:bg-orange-600 text-white px-5 h-9 font-semibold shadow-[0_0_15px_rgba(249,115,22,0.4)]"
+                className="rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white px-5 h-9 font-semibold shadow-[0_0_15px_rgba(249,115,22,0.4)]"
                 asChild
               >
                 <Link href="/connexion">Connexion</Link>
