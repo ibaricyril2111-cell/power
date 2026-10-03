@@ -50,7 +50,7 @@ export default function CGVPage() {
                     <section>
                         <h2 className="text-xl font-bold text-white uppercase mb-4 tracking-widest border-b border-white/10 pb-2">Article 5 - Modalités de paiement</h2>
                         <p>
-                            Le règlement des achats s'effectue intégralement à la commande par carte bancaire. Les paiements sont sécurisés par la technologie Stripe. Aucun produit ne pourra être conditionné ou expédié sans la validation stricte de la transaction bancaire.
+                            Le paiement s'effectue selon les moyens proposés au moment de la validation de la commande. Lorsque le site propose un règlement à la remise de la commande, le client peut régler en espèces ou par carte bancaire lors de la livraison ou du retrait en magasin.
                         </p>
                     </section>
 
