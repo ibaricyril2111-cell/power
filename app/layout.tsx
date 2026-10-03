@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   icons: { icon: '/logo-power-mark.png', apple: '/logo-power-mark.png' },
 }
 
-export const viewport = { themeColor: '#f97316', width: 'device-width', initialScale: 1, viewportFit: 'cover' }
+export const viewport = { themeColor: '#073b2d', width: 'device-width', initialScale: 1, viewportFit: 'cover' }
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -69,7 +69,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
           {children}
           <CookieConsent />
-          <Toaster position="bottom-right" richColors closeButton expand duration={4000} toastOptions={{ classNames: { toast: "rounded-xl border shadow-xl", success: "!bg-orange-500 !text-white !border-orange-600", error: "!bg-red-600 !text-white !border-red-700", info: "!bg-zinc-900 !text-white !border-zinc-700", warning: "!bg-amber-500 !text-white !border-amber-600", closeButton: "!bg-black/20 !text-white !border-transparent" } }} />
+          <Toaster position="bottom-right" richColors closeButton expand duration={4000} toastOptions={{ classNames: { toast: "rounded-xl border shadow-xl", success: "!bg-[#0b4938] !text-white !border-[#ffcd47]/40", error: "!bg-red-600 !text-white !border-red-700", info: "!bg-[#0b4938] !text-white !border-white/15", warning: "!bg-amber-500 !text-white !border-amber-600", closeButton: "!bg-black/20 !text-white !border-transparent" } }} />
         </SessionProvider>
       </body>
     </html>
