@@ -1,12 +1,11 @@
 /**
- * Règle métier Click & Collect POWER.
- *
- * Les achats de réassort sont faits dans la nuit précédant le samedi.
+ * Règle métier Click & Collect POWER validée : prévoir le réassort.
  * - commande vendredi : retrait samedi OU dimanche possible ;
- * - commande samedi : dimanche n'est pas garanti, premier retrait lundi ;
+ * - commande samedi : premier retrait lundi (pas de réassort dimanche) ;
  * - autres jours : retrait à partir du lendemain.
  *
- * Les calculs sont faits en heure de Paris côté serveur comme côté navigateur.
+ * Cette date minimale ne garantit pas un créneau : celui-ci doit aussi être
+ * actif en base et validé côté serveur. Calculs en heure de Paris.
  */
 export function parisDateParts(now = new Date()): { year: number; month: number; day: number; weekday: number } {
   const parts = new Intl.DateTimeFormat("en-GB", {
@@ -33,10 +32,13 @@ function addCalendarDays(parts: { year: number; month: number; day: number }, da
 
 export function minimumPickupDate(now = new Date()): string {
   const p = parisDateParts(now)
-  // Samedi : pas de réassort le dimanche, donc retrait garanti à partir de lundi.
   return addCalendarDays(p, p.weekday === 6 ? 2 : 1)
 }
 
 export function isPickupDateAllowed(dateISO: string, now = new Date()): boolean {
-  return /^\d{4}-\d{2}-\d{2}$/.test(dateISO) && dateISO >= minimumPickupDate(now)
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateISO)) return false
+  // Date peut normaliser silencieusement le 31 février : refuser ces valeurs.
+  const parsed = new Date(`${dateISO}T00:00:00.000Z`)
+  if (!Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== dateISO) return false
+  return dateISO >= minimumPickupDate(now)
 }
