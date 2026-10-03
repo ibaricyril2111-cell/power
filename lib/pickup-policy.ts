@@ -1,9 +1,11 @@
 /**
- * Règle métier Click & Collect POWER.
+ * Règle métier Click & Collect POWER validée : prévoir le réassort.
+ * - commande vendredi : retrait samedi OU dimanche possible ;
+ * - commande samedi : premier retrait lundi (pas de réassort dimanche) ;
+ * - autres jours : retrait à partir du lendemain.
  *
- * Le retrait magasin peut être proposé le jour même. La disponibilité réelle
- * reste contrôlée par les créneaux actifs configurés en base : si aucun créneau
- * futur n'existe pour aujourd'hui, le calendrier n'en proposera pas.
+ * Cette date minimale ne garantit pas un créneau : celui-ci doit aussi être
+ * actif en base et validé côté serveur. Calculs en heure de Paris.
  */
 export function parisDateParts(now = new Date()): { year: number; month: number; day: number; weekday: number } {
   const parts = new Intl.DateTimeFormat("en-GB", {
@@ -23,14 +25,20 @@ export function parisDateParts(now = new Date()): { year: number; month: number;
   }
 }
 
-function dateISO(parts: { year: number; month: number; day: number }): string {
-  return `${parts.year}-${String(parts.month).padStart(2, "0")}-${String(parts.day).padStart(2, "0")}`
+function addCalendarDays(parts: { year: number; month: number; day: number }, days: number): string {
+  const d = new Date(Date.UTC(parts.year, parts.month - 1, parts.day + days))
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`
 }
 
 export function minimumPickupDate(now = new Date()): string {
-  return dateISO(parisDateParts(now))
+  const p = parisDateParts(now)
+  return addCalendarDays(p, p.weekday === 6 ? 2 : 1)
 }
 
-export function isPickupDateAllowed(date: string, now = new Date()): boolean {
-  return /^\d{4}-\d{2}-\d{2}$/.test(date) && date >= minimumPickupDate(now)
+export function isPickupDateAllowed(dateISO: string, now = new Date()): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateISO)) return false
+  // Date peut normaliser silencieusement le 31 février : refuser ces valeurs.
+  const parsed = new Date(`${dateISO}T00:00:00.000Z`)
+  if (!Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== dateISO) return false
+  return dateISO >= minimumPickupDate(now)
 }
