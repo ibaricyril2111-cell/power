@@ -139,7 +139,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
             placeholder="Rechercher un produit..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 bg-[#173f32] border border-white/15 rounded-2xl text-white placeholder:text-zinc-400 shadow-sm focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition text-sm"
+            className="w-full pl-12 pr-4 py-4 bg-[#173f32] border border-white/15 rounded-2xl text-white placeholder:text-zinc-400 shadow-sm focus:outline-none focus:border-[#ffcd47] focus:ring-4 focus:ring-[#ffcd47]/10 transition text-sm"
           />
         </div>
 
@@ -202,7 +202,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
             {filtered.compositions.map((comp) => (
               <div
                 key={comp.id}
-                className="group bg-[#173f32] border border-white/10 rounded-[28px] overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer"
+                className="group bg-[#0b4938] border border-white/15 rounded-[28px] overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer"
                 onClick={() => setSelectedComposition(comp)}
               >
                 <div className="relative aspect-square overflow-hidden bg-zinc-800">
@@ -235,7 +235,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
                   </p>
                 </div>
                 <div className="p-6 pt-0 mt-auto">
-                  <button className="w-full h-12 rounded-full bg-[#173f32] hover:bg-[#225943] text-white font-bold text-sm transition-colors">
+                  <button className="w-full h-12 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold text-sm transition-colors">
                     Composer
                   </button>
                 </div>
