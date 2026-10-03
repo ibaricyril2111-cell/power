@@ -1,0 +1,17 @@
+{
+  "sourceSha256": "3ddf6e945f973f8e1a8f808c65f454a06b503b892243c531ee1915841bcd0e3b",
+  "sourceSize": [
+    710,
+    1536
+  ],
+  "crop": [
+    0,
+    350,
+    710,
+    669
+  ],
+  "width": 710,
+  "height": 319,
+  "method": "exact original pixels, lossless WebP, no generation, no resizing",
+  "pixelSha256": "b439a2cc8cf883c4b16ea95a4d748acecb593dc4095d618dc5beb8e0f96d4a08"
+}

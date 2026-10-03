@@ -26,9 +26,9 @@ export default function CompositionSheet({ composition, isOpen, onClose, isMobil
     if (isMobile) {
         return (
             <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
-                <DrawerContent className="bg-gradient-to-b from-[#f5f0e8] to-[#e8e0d4] text-zinc-900 border-zinc-300 max-h-[92vh]">
+                <DrawerContent className="bg-[#073b2d] text-white border-[#ffcd47]/25 max-h-[92dvh]">
                     <DrawerHeader className="pb-2">
-                        <DrawerTitle className="text-xl font-bold text-zinc-900">{title}</DrawerTitle>
+                        <DrawerTitle className="text-xl font-bold text-white">{title}</DrawerTitle>
                     </DrawerHeader>
                     <div className="overflow-y-auto px-4 pb-6">
                         <CompositionConfigurator composition={composition} onDone={onClose} />
@@ -40,9 +40,9 @@ export default function CompositionSheet({ composition, isOpen, onClose, isMobil
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-[#f5f0e8] to-[#e8e0d4] text-zinc-900 border-zinc-300">
+            <DialogContent className="max-w-3xl max-h-[90dvh] overflow-y-auto bg-[#073b2d] text-white border-[#ffcd47]/25">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold text-zinc-900">{title}</DialogTitle>
+                    <DialogTitle className="text-2xl font-bold text-white">{title}</DialogTitle>
                 </DialogHeader>
                 <CompositionConfigurator composition={composition} onDone={onClose} />
             </DialogContent>

@@ -11,6 +11,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { User, Mail, Lock, Eye, EyeOff, Loader2, ArrowLeft } from "lucide-react"
 import { safeCallbackPath } from "@/lib/auth-redirect"
 import { signIn } from "next-auth/react"
+import { PowerAvatarPicker } from "@/components/account/power-avatar"
+import { DEFAULT_POWER_AVATAR, type PowerAvatarKey } from "@/lib/power-avatars"
 
 export default function ConnexionPage() {
   const router = useRouter()
@@ -18,6 +20,7 @@ export default function ConnexionPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [avatarKey, setAvatarKey] = useState<PowerAvatarKey>(DEFAULT_POWER_AVATAR)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -81,6 +84,7 @@ export default function ConnexionPage() {
           password: formData.password,
           firstName: formData.firstName,
           lastName: formData.lastName,
+          avatarKey,
         }),
       })
 
@@ -125,7 +129,7 @@ export default function ConnexionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#102e25] flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         {/* Retour */}
         <Link
@@ -139,22 +143,19 @@ export default function ConnexionPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Image
-            src="/logo-power-mark.png"
-            alt=""
-            width={72}
-            height={72}
+            src="/logo-power.webp"
+            alt="POWER — Primeur Alfortville"
+            width={800}
+            height={160}
             priority
-            className="mx-auto h-16 w-16"
+            className="mx-auto h-16 w-auto"
           />
-          <h1 className="mt-3 text-3xl font-extrabold text-white tracking-tight">
-            Power<span className="text-orange-500">.</span>
-          </h1>
           <p className="text-zinc-400 mt-2">
             {mode === "login" ? "Connectez-vous à votre compte" : "Créez votre compte"}
           </p>
         </div>
 
-        <Card className="bg-zinc-900/60 border-white/10">
+        <Card className="bg-[#173f32]/90 border-white/10 shadow-2xl">
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
@@ -199,6 +200,12 @@ export default function ConnexionPage() {
                       />
                     </div>
                   </div>
+                </div>
+              )}
+
+              {mode === "register" && (
+                <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                  <PowerAvatarPicker value={avatarKey} onChange={setAvatarKey} />
                 </div>
               )}
 
@@ -252,7 +259,7 @@ export default function ConnexionPage() {
 
               {mode === "login" && (
                 <div className="flex justify-end -mt-1">
-                  <Link href="/mot-de-passe-oublie" className="text-xs text-orange-500 hover:text-orange-400">
+                  <Link href="/mot-de-passe-oublie" className="text-xs text-[#ffcd47] hover:text-[#ffe18a]">
                     Mot de passe oublié ?
                   </Link>
                 </div>
@@ -281,7 +288,7 @@ export default function ConnexionPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-6 rounded-xl"
+                className="w-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white font-bold py-6 rounded-xl"
                 disabled={loading}
               >
                 {loading ? (
@@ -304,7 +311,7 @@ export default function ConnexionPage() {
               </p>
               <button
                 onClick={() => switchMode(mode === "login" ? "register" : "login")}
-                className="text-orange-500 hover:text-orange-400 font-medium text-sm mt-1"
+                className="text-[#ffcd47] hover:text-[#ffe18a] font-medium text-sm mt-1"
                 disabled={loading}
               >
                 {mode === "login" ? "Créer un compte" : "Se connecter"}

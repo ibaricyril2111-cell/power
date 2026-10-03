@@ -38,7 +38,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     }
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="min-h-screen bg-[#102e25] text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
                 <div className="flex flex-col gap-12">
@@ -49,7 +49,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                             <h1 className="text-5xl md:text-8xl font-black uppercase italic tracking-tighter leading-none mb-8">
                                 Rayon <span className="text-orange-500">{category.name}</span>
                             </h1>
-                            <p className="max-w-2xl text-zinc-500 text-xl font-medium italic leading-relaxed">
+                            <p className="max-w-2xl text-white/65 text-xl font-medium italic leading-relaxed">
                                 {category.description || `Sélection premium de produits de la catégorie ${category.name}, sourcés avec une exigence absolue.`}
                             </p>
                         </div>
@@ -70,7 +70,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                                         className={`object-cover group-hover:scale-110 transition-transform duration-1000 ${isOutOfStock ? "opacity-40 grayscale" : ""}`}
                                     />
                                     {product.organic && (
-                                        <div className="absolute top-6 left-6 bg-orange-500 text-white text-[10px] font-black px-3 py-1.5 rounded-full flex items-center gap-1 shadow-xl shadow-orange-500/20 uppercase tracking-widest">
+                                        <div className="absolute top-6 left-6 bg-[#ffcd47] text-white text-[10px] font-black px-3 py-1.5 rounded-full flex items-center gap-1 shadow-xl shadow-orange-500/20 uppercase tracking-widest">
                                             <Leaf className="w-3 h-3" /> BIO
                                         </div>
                                     )}
@@ -80,18 +80,18 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                                         </div>
                                     )}
                                     {isLowStock && (
-                                        <div className="absolute top-6 right-6 bg-orange-500 text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">
+                                        <div className="absolute top-6 right-6 bg-[#ffcd47] text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">
                                             Plus que {product.currentStock}
                                         </div>
                                     )}
                                     <div className="absolute bottom-6 right-6 bg-black/60 backdrop-blur-xl text-white px-4 py-2 rounded-2xl text-xl font-black border border-white/10 italic">
-                                        {product.promoPrice != null && <span className="text-sm text-zinc-400 line-through mr-2">{product.price.toFixed(2)}€</span>}{(product.promoPrice ?? product.price).toFixed(2)}€ <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">/ {product.unit}</span>
+                                        {product.promoPrice != null && <span className="text-sm text-zinc-400 line-through mr-2">{product.price.toFixed(2)}€</span>}{(product.promoPrice ?? product.price).toFixed(2)}€ <span className="text-[10px] uppercase font-bold text-white/65 tracking-widest">/ {product.unit}</span>
                                     </div>
                                 </div>
 
                                 <div className="p-8 flex flex-col flex-1">
                                     <h3 className="text-2xl font-black uppercase italic mb-3 group-hover:text-orange-500 transition-colors">{product.name}</h3>
-                                    <p className="text-zinc-500 text-sm line-clamp-2 min-h-[40px] font-medium mb-8 leading-relaxed">{product.description}</p>
+                                    <p className="text-white/65 text-sm line-clamp-2 min-h-[40px] font-medium mb-8 leading-relaxed">{product.description}</p>
 
                                     <div className="mt-auto">
                                         <AddToCartButton
@@ -111,8 +111,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                     {category.products.length === 0 && (
                         <div className="text-center py-40 bg-zinc-900/20 border border-dashed border-white/10 rounded-[48px]">
                             <ShoppingBag className="w-16 h-16 text-zinc-800 mx-auto mb-6" />
-                            <p className="text-zinc-600 font-black uppercase italic tracking-widest text-xl">Rupture de Stock Temporaire</p>
-                            <p className="text-zinc-700 mt-2 font-medium">Nos producteurs s'activent pour remplir ce rayon.</p>
+                            <p className="text-white/70 font-black uppercase italic tracking-widest text-xl">Rupture de Stock Temporaire</p>
+                            <p className="text-white/80 mt-2 font-medium">Nos producteurs s'activent pour remplir ce rayon.</p>
                         </div>
                     )}
                 </div>

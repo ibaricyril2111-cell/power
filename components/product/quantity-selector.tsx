@@ -14,6 +14,8 @@ interface QuantitySelectorProps {
   max?: number
   disabled?: boolean
   className?: string
+  /** Présentation uniquement : le comportement des autres écrans reste inchangé. */
+  appearance?: "default" | "power"
 }
 
 /**
@@ -30,6 +32,7 @@ export default function QuantitySelector({
   max,
   disabled = false,
   className,
+  appearance = "default",
 }: QuantitySelectorProps) {
   const step = quantityStep(unit)
   const floor = minQuantity(unit)
@@ -57,6 +60,11 @@ export default function QuantitySelector({
     onChange(clamp(weighed ? n / 1000 : n))
   }
 
+  const power = appearance === "power"
+  const stepperClassName = power
+    ? "h-11 w-11 shrink-0 rounded-xl !bg-[#ffcd47] !border-[#ffcd47] !text-[#073b2d] hover:!bg-[#ffe18a] hover:!border-[#ffe18a] disabled:!bg-[#0b4938] disabled:!text-white/45 disabled:!border-white/15 focus-visible:ring-2 focus-visible:ring-[#ffcd47] focus-visible:ring-offset-2 focus-visible:ring-offset-[#073b2d]"
+    : "h-11 w-11 rounded-xl shrink-0 !bg-white !border-zinc-300 !text-zinc-900 hover:!bg-orange-50 hover:!border-orange-400 hover:!text-orange-600 disabled:!bg-zinc-100 disabled:!text-zinc-400 disabled:!border-zinc-200"
+
   return (
     <div className={cn("space-y-1", className)}>
       <div className="flex items-center gap-3">
@@ -64,11 +72,7 @@ export default function QuantitySelector({
           type="button"
           variant="outline"
           size="icon"
-          // Couleurs explicites : le variant "outline" hérite du thème sombre global et
-          // rendait ces boutons noirs sur le fond clair des modales, illisibles au repos.
-          className="h-11 w-11 rounded-xl shrink-0 !bg-white !border-zinc-300 !text-zinc-900
-                     hover:!bg-orange-50 hover:!border-orange-400 hover:!text-orange-600
-                     disabled:!bg-zinc-100 disabled:!text-zinc-400 disabled:!border-zinc-200"
+          className={stepperClassName}
           onClick={() => onChange(clamp(safeValue - step))}
           disabled={disabled || atMin}
           aria-label={weighed ? "Retirer 100 grammes" : "Diminuer la quantité"}
@@ -76,7 +80,7 @@ export default function QuantitySelector({
           <Minus className="h-4 w-4" />
         </Button>
 
-        <div className="flex items-baseline gap-2 flex-1 justify-center">
+        <div className="flex min-w-0 items-baseline gap-2 flex-1 justify-center">
           <input
             type="number"
             inputMode="numeric"
@@ -87,19 +91,21 @@ export default function QuantitySelector({
             disabled={disabled}
             onChange={(e) => handleInput(e.target.value)}
             aria-label={weighed ? "Quantité en grammes" : `Quantité en ${unitLabel(unit)}`}
-            className="w-20 bg-transparent text-center text-2xl font-bold text-zinc-900 outline-none
-                       [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
+            className={cn(
+              "w-20 bg-transparent text-center text-2xl font-bold outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none",
+              power
+                ? "max-w-full rounded-lg text-white focus-visible:ring-2 focus-visible:ring-[#ffcd47]"
+                : "text-zinc-900",
+            )}
           />
-          <span className="text-sm text-zinc-500">{weighed ? "g" : unitLabel(unit)}</span>
+          <span className={cn("text-sm", power ? "text-white/75" : "text-zinc-500")}>{weighed ? "g" : unitLabel(unit)}</span>
         </div>
 
         <Button
           type="button"
           variant="outline"
           size="icon"
-          className="h-11 w-11 rounded-xl shrink-0 !bg-white !border-zinc-300 !text-zinc-900
-                     hover:!bg-orange-50 hover:!border-orange-400 hover:!text-orange-600
-                     disabled:!bg-zinc-100 disabled:!text-zinc-400 disabled:!border-zinc-200"
+          className={stepperClassName}
           onClick={() => onChange(clamp(safeValue + step))}
           disabled={disabled || atMax}
           aria-label={weighed ? "Ajouter 100 grammes" : "Augmenter la quantité"}
@@ -108,7 +114,7 @@ export default function QuantitySelector({
         </Button>
       </div>
 
-      <p className="text-xs text-center text-zinc-500">
+      <p className={cn("text-xs text-center", power ? "text-white/70" : "text-zinc-500")}>
         {atMax
           ? `Stock maximum disponible (${formatQuantity(ceiling!, unit)})`
           : weighed

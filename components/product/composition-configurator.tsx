@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import Image from "next/image"
+import CompositionArtwork from "@/components/product/composition-artwork"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { ShoppingCart, Check, Loader2, Info } from "lucide-react"
@@ -125,24 +125,22 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Visuel et description */}
             <div className="space-y-4">
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-zinc-200">
-                    <Image
-                        src={composition.imageUrl || "/placeholder-product.jpg"}
-                        alt={composition.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 300px"
-                        className="object-cover"
+                <div className="relative h-[240px] sm:h-[280px] md:h-[340px] rounded-2xl overflow-hidden bg-[#0b4938] border border-white/15">
+                    <CompositionArtwork
+                        composition={composition}
+                        selectedOptionIds={options.length > 0 ? selectedOptions : undefined}
+                        sizes="(max-width: 767px) 90vw, 360px"
                     />
                 </div>
                 {composition.description && (
-                    <p className="text-zinc-600 text-sm">{composition.description}</p>
+                    <p className="text-white/80 text-sm">{composition.description}</p>
                 )}
             </div>
 
             {/* Configuration */}
             <div className="space-y-5">
                 {noChoicesConfigured && (
-                    <div className="flex gap-2 rounded-xl bg-amber-50 border border-amber-200 p-3 text-sm text-amber-800">
+                    <div className="flex gap-2 rounded-xl bg-[#ffcd47]/10 border border-[#ffcd47]/30 p-3 text-sm text-[#ffe18a]">
                         <Info className="h-4 w-4 shrink-0 mt-0.5" />
                         <span>
                             Aucun format ni ingrédient n&apos;est encore configuré pour cette
@@ -154,21 +152,21 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                 {/* Un format unique n'est pas un choix : on l'affiche comme une information
                     de prix plutôt qu'en sélecteur à un seul bouton. */}
                 {sizes.length === 1 && (
-                    <div className="flex items-baseline justify-between rounded-xl bg-white/60 border border-zinc-200 px-4 py-3">
-                        <span className="text-sm font-semibold text-zinc-800">
+                    <div className="flex items-baseline justify-between rounded-xl bg-white/5 border border-white/20 px-4 py-3">
+                        <span className="text-sm font-semibold text-white">
                             {sizes[0].name}
                             {sizes[0].description && (
-                                <span className="block text-xs font-normal text-zinc-500">{sizes[0].description}</span>
+                                <span className="block text-xs font-normal text-white/65">{sizes[0].description}</span>
                             )}
                         </span>
-                        <span className="text-lg font-bold text-orange-600">{sizes[0].price.toFixed(2)}€</span>
+                        <span className="text-lg font-bold text-[#ffcd47]">{sizes[0].price.toFixed(2)}€</span>
                     </div>
                 )}
 
                 {sizes.length > 1 && (
                     <div>
-                        <label className="block text-sm font-semibold text-zinc-800 mb-2">Format</label>
-                        <div className="grid grid-cols-3 gap-2">
+                        <label className="block text-sm font-semibold text-white mb-2">Format</label>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                             {sizes.map((size) => (
                                 <button
                                     key={size.id}
@@ -177,16 +175,16 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                                     aria-pressed={sizeId === size.id}
                                     className={`p-3 rounded-xl text-sm font-bold transition-all text-left ${
                                         sizeId === size.id
-                                            ? "bg-orange-500 text-white shadow-lg shadow-orange-500/25"
-                                            : "bg-white/70 hover:bg-white text-zinc-900 border border-zinc-200"
+                                            ? "bg-[#ffcd47] text-[#073b2d] shadow-lg"
+                                            : "bg-white/5 hover:bg-white/10 text-white border border-white/20"
                                     }`}
                                 >
                                     <div>{size.name}</div>
-                                    <div className={sizeId === size.id ? "text-white/90" : "text-orange-600"}>
+                                    <div className={sizeId === size.id ? "text-[#073b2d]" : "text-[#ffcd47]"}>
                                         {size.price.toFixed(2)}€
                                     </div>
                                     {size.description && (
-                                        <div className={`text-[11px] font-normal mt-0.5 ${sizeId === size.id ? "text-white/75" : "text-zinc-500"}`}>
+                                        <div className={`text-[11px] font-normal mt-0.5 ${sizeId === size.id ? "text-[#073b2d]/80" : "text-white/65"}`}>
                                             {size.description}
                                         </div>
                                     )}
@@ -201,14 +199,14 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                 {quota > 0 && options.length > 0 && (
                     <div>
                         <div className="flex items-baseline justify-between mb-1">
-                            <label className="block text-sm font-semibold text-zinc-800">
+                            <label className="block text-sm font-semibold text-white">
                                 Choisissez {quota} ingrédient{quota > 1 ? "s" : ""}
                             </label>
-                            <span className={`text-xs font-semibold ${remaining === 0 ? "text-zinc-500" : "text-orange-600"}`}>
+                            <span className={`text-xs font-semibold ${remaining === 0 ? "text-white/65" : "text-[#ffcd47]"}`}>
                                 {selectedOptions.length}/{quota} choisi{selectedOptions.length > 1 ? "s" : ""}
                             </span>
                         </div>
-                        <p className="text-xs text-zinc-500 mb-2">
+                        <p className="text-xs text-white/65 mb-2">
                             {remaining && remaining > 0
                                 ? `Encore ${remaining} au choix, compris dans le prix.`
                                 : "Quota atteint — chaque ingrédient de plus est facturé en supplément."}
@@ -226,19 +224,19 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                                         aria-pressed={active}
                                         className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
                                             isPaid
-                                                ? "bg-orange-500 border-orange-500 text-white"
+                                                ? "bg-[#ffcd47] border-[#ffcd47] text-[#073b2d]"
                                                 : active
-                                                  ? "bg-green-500/15 border-green-500/40 text-green-800"
-                                                  : "bg-white/60 border-zinc-200 text-zinc-700 hover:bg-white"
+                                                  ? "bg-[#ffcd47]/15 border-[#ffcd47]/50 text-[#ffe18a]"
+                                                  : "bg-white/5 border-white/20 text-white/80 hover:bg-white/10"
                                         }`}
                                     >
                                         {active && <Check className="inline h-3 w-3 mr-1" />}
                                         {option.name}
                                         {isPaid && (
-                                            <span className="text-white/85 ml-1">+{option.extraPrice.toFixed(2)}€</span>
+                                            <span className="text-current ml-1">+{option.extraPrice.toFixed(2)}€</span>
                                         )}
                                         {!active && remaining === 0 && (
-                                            <span className="text-orange-600 ml-1">+{option.extraPrice.toFixed(2)}€</span>
+                                            <span className="text-[#ffcd47] ml-1">+{option.extraPrice.toFixed(2)}€</span>
                                         )}
                                     </button>
                                 )
@@ -249,10 +247,10 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
 
                 {quota === 0 && includedOptions.length > 0 && (
                     <div>
-                        <label className="block text-sm font-semibold text-zinc-800 mb-1">
+                        <label className="block text-sm font-semibold text-white mb-1">
                             Composition de base
                         </label>
-                        <p className="text-xs text-zinc-500 mb-2">
+                        <p className="text-xs text-white/65 mb-2">
                             Comprise dans le prix. Décochez ce que vous ne voulez pas.
                         </p>
                         <div className="flex flex-wrap gap-2">
@@ -268,8 +266,8 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                                         aria-pressed={active}
                                         className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
                                             active
-                                                ? "bg-green-500/15 border-green-500/40 text-green-800"
-                                                : "bg-white/60 border-zinc-200 text-zinc-400 line-through"
+                                                ? "bg-[#ffcd47]/15 border-[#ffcd47]/50 text-[#ffe18a]"
+                                                : "bg-white/5 border-white/15 text-white/60 line-through"
                                         } ${locked ? "opacity-70 cursor-not-allowed" : ""}`}
                                     >
                                         {active && <Check className="inline h-3 w-3 mr-1" />}
@@ -283,10 +281,10 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
 
                 {quota === 0 && extraOptions.length > 0 && (
                     <div>
-                        <label className="block text-sm font-semibold text-zinc-800 mb-1">
+                        <label className="block text-sm font-semibold text-white mb-1">
                             Suppléments
                         </label>
-                        <p className="text-xs text-zinc-500 mb-2">Ajoutés au prix du format.</p>
+                        <p className="text-xs text-white/65 mb-2">Ajoutés au prix du format.</p>
                         <div className="flex flex-wrap gap-2">
                             {extraOptions.map((option) => {
                                 const active = selectedOptions.includes(option.id)
@@ -298,13 +296,13 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                                         aria-pressed={active}
                                         className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
                                             active
-                                                ? "bg-orange-500 border-orange-500 text-white"
-                                                : "bg-white/60 border-zinc-200 text-zinc-700 hover:bg-white"
+                                                ? "bg-[#ffcd47] border-[#ffcd47] text-[#073b2d]"
+                                                : "bg-white/5 border-white/20 text-white/80 hover:bg-white/10"
                                         }`}
                                     >
                                         {active && <Check className="inline h-3 w-3 mr-1" />}
                                         {option.name}
-                                        <span className={active ? "text-white/85 ml-1" : "text-orange-600 ml-1"}>
+                                        <span className={active ? "text-current ml-1" : "text-[#ffcd47] ml-1"}>
                                             +{option.extraPrice.toFixed(2)}€
                                         </span>
                                     </button>
@@ -315,24 +313,24 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                 )}
 
                 <div>
-                    <label className="block text-sm font-semibold text-zinc-800 mb-2">Quantité</label>
-                    <QuantitySelector value={quantity} onChange={setQuantity} unit={compositionUnit(composition.type)} />
+                    <label className="block text-sm font-semibold text-white mb-2">Quantité</label>
+                    <QuantitySelector appearance="power" value={quantity} onChange={setQuantity} unit={compositionUnit(composition.type)} />
                 </div>
 
-                <Separator className="bg-zinc-300" />
+                <Separator className="bg-white/15" />
 
-                <div className="space-y-3">
-                    <div className="flex items-center justify-between text-sm text-zinc-600">
+                <div className="sticky bottom-0 z-10 space-y-3 rounded-2xl border border-white/15 bg-[#073b2d] p-4">
+                    <div className="flex items-center justify-between text-sm text-white/80">
                         <span>Prix unitaire</span>
                         <span>{unitPrice.toFixed(2)}€</span>
                     </div>
-                    <div className="flex items-center justify-between text-lg font-bold text-zinc-900">
+                    <div className="flex items-center justify-between text-lg font-bold text-white">
                         <span>Total</span>
-                        <span className="text-orange-600">{total.toFixed(2)}€</span>
+                        <span className="text-[#ffcd47]">{total.toFixed(2)}€</span>
                     </div>
 
                     <Button
-                        className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3"
+                        className="w-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold min-h-12 rounded-xl py-3"
                         onClick={handleAddToCart}
                         disabled={isAdding}
                     >

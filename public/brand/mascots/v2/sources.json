@@ -1,0 +1,360 @@
+{
+  "mangue": {
+    "width": 274,
+    "height": 276,
+    "sourceSha256": "f069c044597eb574b69c25864aa1a333fb6c06f1f10450c65951065b789fde10",
+    "sha256": "e05fec0256d50b8703d4a8fb69e3cc7b48824dfed641c8a29f073c4fe1341b05"
+  },
+  "ananas": {
+    "width": 274,
+    "height": 276,
+    "sourceSha256": "f069c044597eb574b69c25864aa1a333fb6c06f1f10450c65951065b789fde10",
+    "sha256": "c3003265a19d77a5553ef97596636485cc839d674e733bc87b11c14e1b845aa9"
+  },
+  "passion": {
+    "width": 250,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "79389bdc0e6c65aaa1087a7e2df81e387fe426e80af995e47376d4752d4945d8"
+  },
+  "fraise": {
+    "width": 273,
+    "height": 276,
+    "sourceSha256": "f069c044597eb574b69c25864aa1a333fb6c06f1f10450c65951065b789fde10",
+    "sha256": "82dd47ca0006ba4c6eaba3c4e27c745c3de20377ac957514ed938ed6da95a6e8"
+  },
+  "banane": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "be787b44276b10d7fc0d1d66e9adf4c5b4381c3556032d1755c8a22a8a006d83"
+  },
+  "poire": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "e3d4096bd0651fe5d8e7985205424c97f3cfee29d389ecdaa0b049b928de342e"
+  },
+  "clementine": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "a197a24b3bde740572ef49f2eedb68d05dcaafcae74314dfebd0d9940dc35b26"
+  },
+  "citron-vert": {
+    "width": 250,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "2e085b12c0e6b2491f39ca8787bf599e894257f44f35923701f8b72a07e5db39"
+  },
+  "kiwi": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "df9e56448cb7b9e578ab300a1185fc9cd5bd4e64b147e3dbc0e90b6318ad1cce"
+  },
+  "avocat": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "7ad519205926cfb91d75e2f06769015db6a18936dad1e8e93b2118bde2919de3"
+  },
+  "pomme": {
+    "width": 251,
+    "height": 250,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "a90457e1b51b6c2c5713a6b23bf0ccd781a798dbb53e688e9d7923e4016757eb"
+  },
+  "citron": {
+    "width": 251,
+    "height": 250,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "57580987dfcecc81bf69225904897f385011d171d165422902b37f1810389982"
+  },
+  "tomate": {
+    "width": 274,
+    "height": 276,
+    "sourceSha256": "f069c044597eb574b69c25864aa1a333fb6c06f1f10450c65951065b789fde10",
+    "sha256": "dbcad6b75b2009aeacfacb988b60eeb79ca5284137b564184d1cfe122bd4f0a9"
+  },
+  "carotte": {
+    "width": 251,
+    "height": 250,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "1c5b2bb0fc97bcdbff63c8fca9fe8ceb123a992f7cc565da23ad405a5bef9fe0"
+  },
+  "aubergine": {
+    "width": 251,
+    "height": 250,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "0c2a167ee0f488689547ce038c0603d057a948ca779ea6eb078df566e4b578e1"
+  },
+  "concombre": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "76bad883d2ef4c942f0db59f37dd79fab1b77da96592af8c2c0bdd70cf57b7f7"
+  },
+  "courgette": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "0811d8c4ee6fd828cb27ea807843f3c554c1fc31aa17df732ff605607cdfdf01"
+  },
+  "pomme-de-terre": {
+    "width": 250,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "3252b4207c1a51f8b810e9f50a440191bbc23fe12ea3e1892c36935ca9cd474c"
+  },
+  "oignon": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "02ebabe553825bb875ce70031c5f660c331dae21f89f74f6d2d18b01addba700"
+  },
+  "potiron": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "4216a63cc1693e65116ed305bf1871e754661973895ab28017dd72b225a63d54"
+  },
+  "raisin": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "79ca308a50ab3bcf21d835b11e97dc49a1e320e70fcc3faba176207295eed428"
+  },
+  "poivron": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "0d629696a40cbc07af08d1df689ae26e224bf57e7373737d388693013dd87932"
+  },
+  "salade": {
+    "width": 250,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "6919b9d093a1eb16460e2c9ae8e5971f80c36e6ef3281d7a7cd5a7d3da8fa426"
+  },
+  "persil": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "b991dbab2275e06df48e0ed5292e61244208da7e701098dc781781eaef0ea297"
+  },
+  "framboise": {
+    "width": 251,
+    "height": 251,
+    "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
+    "sha256": "0e85d0acd4133a7ae467e69df7e8f0241c24d100c3c34103d4f3755043ae59ea"
+  },
+  "orange": {
+    "width": 282,
+    "height": 282,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      34,
+      25,
+      303,
+      295
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "e44b0fd1f1ff3051120ca9c615dfea940423d3dce3f81c9b84eb433382cdbdae"
+  },
+  "figue": {
+    "width": 304,
+    "height": 304,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      340,
+      19,
+      632,
+      287
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "0a5305b24b572efb93dbef3d1a83d5f387b8a33f451e48d650944d0c47ec9560"
+  },
+  "melon": {
+    "width": 305,
+    "height": 305,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      650,
+      37,
+      943,
+      298
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "90bbb1d495d9040751ce24d404f712cad7a8d45381090eff621b8caaa9ea3501"
+  },
+  "peche": {
+    "width": 290,
+    "height": 290,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      972,
+      21,
+      1241,
+      299
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "0237b82b7cd2d0ae1df5319b01e2e2b2c8ad0f009a5c57a8a74304fff52fec3f"
+  },
+  "asperge": {
+    "width": 316,
+    "height": 316,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      43,
+      302,
+      296,
+      606
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "44f7f2f1cee58bf7134379265b91cde4e4eff4ca6c18478db9d7cd0d678491c4"
+  },
+  "betterave": {
+    "width": 311,
+    "height": 311,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      341,
+      305,
+      621,
+      604
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "e371baa916424826292d6748faace8c3aa943562cf0a5cde743874606b5718f0"
+  },
+  "chou-fleur": {
+    "width": 313,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      656,
+      323,
+      957,
+      599
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "2bdefefddbd88ddbbef9acc7a268bcf7918032da2596bcbed29706aa2621578c"
+  },
+  "endive": {
+    "width": 320,
+    "height": 320,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      989,
+      301,
+      1225,
+      609
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "eee4c2d4ec32fa056d62035ccd6b8cdba6bf4ef8d404b815508f18b5f40f01ed"
+  },
+  "epinard": {
+    "width": 311,
+    "height": 311,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      29,
+      626,
+      309,
+      925
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "4f8d144d36fa0436e256bfab7ed79fdd0dd75387fe32ed2a52b074bb4ea2544a"
+  },
+  "haricot-vert": {
+    "width": 318,
+    "height": 318,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      370,
+      618,
+      613,
+      924
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "0be99d1951e9e342f63df27d6c21ff9864ac06c056e3895b55e75dec3d7ff7be"
+  },
+  "poireau": {
+    "width": 339,
+    "height": 339,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      664,
+      603,
+      913,
+      930
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "a5c3b65ddd019a23a493c3728a9a46469de57f30b5fa88a26928afd7c155fbfa"
+  },
+  "radis": {
+    "width": 324,
+    "height": 324,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      979,
+      610,
+      1238,
+      922
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "c8e3e701c55f505d88a5ba9f5eaf202740bd9295002908e2ffe1454c26e84eb8"
+  },
+  "brocoli": {
+    "width": 309,
+    "height": 309,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      25,
+      927,
+      301,
+      1224
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "abfb50f4e6e2f62c7ee608cea0121020d84dee71ec33a53c5c89768e01c829a2"
+  },
+  "navet": {
+    "width": 310,
+    "height": 310,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      341,
+      924,
+      627,
+      1222
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "cf72f12fec0f9ad3b9703422bc8c3dce2b216d6a5fead9d38c31139e576ce096"
+  },
+  "patate-douce": {
+    "width": 293,
+    "height": 293,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      654,
+      938,
+      935,
+      1215
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "8fb9e407e6573552a5c0eba6c92305620216cd862fd3bfd499fbcdc566b58ee7"
+  },
+  "echalote": {
+    "width": 318,
+    "height": 318,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      979,
+      920,
+      1231,
+      1226
+    ],
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "820cf8253eb8366c5b90f7ddbcef1f9eca391c62f4fc4bc5466d4e30cf31d816"
+  }
+}

@@ -44,8 +44,8 @@ interface OrderDetail {
 }
 
 const statusConfig: Record<string, { label: string; color: string; bg: string }> = {
-  pending: { label: "En attente", color: "text-orange-500/60", bg: "bg-orange-500/10" },
-  validated: { label: "Validée", color: "text-orange-500", bg: "bg-orange-500/10" },
+  pending: { label: "En attente", color: "text-[#ffcd47]/60", bg: "bg-[#ffcd47]/10" },
+  validated: { label: "Validée", color: "text-[#ffcd47]", bg: "bg-[#ffcd47]/10" },
   processing: { label: "En préparation", color: "text-blue-400", bg: "bg-blue-500/10" },
   shipped: { label: "Expédiée", color: "text-purple-400", bg: "bg-purple-500/10" },
   delivered: { label: "Livrée", color: "text-green-500", bg: "bg-green-500/10" },
@@ -83,10 +83,10 @@ export default function OrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 flex items-center justify-center">
-          <Loader2 className="h-10 w-10 animate-spin text-orange-500" />
+          <Loader2 className="h-10 w-10 animate-spin text-[#ffcd47]" />
         </div>
         <Footer />
       </div>
@@ -95,12 +95,12 @@ export default function OrderDetailPage() {
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 max-w-2xl mx-auto text-center">
           <h1 className="text-3xl font-black mb-4">Commande introuvable</h1>
           <p className="text-zinc-400 mb-8">Cette commande n&apos;existe pas ou vous n&apos;y avez pas accès.</p>
-          <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8 py-6">
+          <Button asChild className="bg-[#ffcd47] hover:bg-[#ffe18a] text-white rounded-full px-8 py-6">
             <Link href="/mon-compte">Retour à mon compte</Link>
           </Button>
         </div>
@@ -114,7 +114,7 @@ export default function OrderDetailPage() {
   const itemsSubtotal = order.items.reduce((sum, i) => sum + i.price * i.quantity, 0)
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#102e25] text-white">
       <Header />
       <div className="pt-32 pb-16 px-4">
         <div className="max-w-4xl mx-auto">
@@ -126,7 +126,7 @@ export default function OrderDetailPage() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div>
               <h1 className="text-3xl md:text-4xl font-black tracking-tight">
-                Commande <span className="text-orange-500">{order.orderNumber}</span>
+                Commande <span className="text-[#ffcd47]">{order.orderNumber}</span>
               </h1>
               <p className="text-zinc-400 mt-1">
                 Passée le {new Date(order.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}
@@ -139,14 +139,14 @@ export default function OrderDetailPage() {
 
           {/* Timeline */}
           {order.status !== "cancelled" && (
-            <Card className="glassmorphism bg-zinc-900/40 border-white/10 rounded-3xl mb-6">
+            <Card className="glassmorphism bg-[#173f32]/85 border-white/10 rounded-3xl mb-6">
               <CardContent className="p-6">
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-6">Suivi de commande</p>
                 <div className="flex items-center justify-between relative">
                   {/* Progress bar */}
                   <div className="absolute top-4 left-0 right-0 h-0.5 bg-white/5">
                     <div
-                      className="h-full bg-gradient-to-r from-orange-500 to-green-500 transition-all duration-1000"
+                      className="h-full bg-gradient-to-r from-[#ffcd47] to-green-500 transition-all duration-1000"
                       style={{ width: `${Math.max(0, (currentStepIndex - 1) / (timelineSteps.length - 1)) * 100}%` }}
                     />
                   </div>
@@ -171,15 +171,15 @@ export default function OrderDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left: Items */}
             <div className="lg:col-span-2 space-y-6">
-              <Card className="glassmorphism bg-zinc-900/40 border-white/10 rounded-3xl">
+              <Card className="glassmorphism bg-[#173f32]/85 border-white/10 rounded-3xl">
                 <CardContent className="p-6">
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-4">Articles</p>
                   <div className="space-y-3">
                     {order.items.map((item, i) => (
                       <div key={i} className="flex justify-between items-center bg-white/5 rounded-xl p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center">
-                            <ShoppingBag className="w-5 h-5 text-orange-500" />
+                          <div className="w-10 h-10 bg-[#ffcd47]/10 rounded-xl flex items-center justify-center">
+                            <ShoppingBag className="w-5 h-5 text-[#ffcd47]" />
                           </div>
                           <div>
                             <p className="text-white font-bold">{item.name}</p>
@@ -219,7 +219,7 @@ export default function OrderDetailPage() {
                     <Separator className="bg-white/10" />
                     <div className="flex justify-between">
                       <span className="font-bold text-white">Total</span>
-                      <span className="text-2xl font-black text-orange-500">{order.total.toFixed(2)}€</span>
+                      <span className="text-2xl font-black text-[#ffcd47]">{order.total.toFixed(2)}€</span>
                     </div>
                   </div>
                 </CardContent>
@@ -234,18 +234,18 @@ export default function OrderDetailPage() {
                     className="rounded-full border-white/10 text-white hover:bg-white/5 font-bold text-xs h-12 px-6 gap-2"
                   >
                     <a href={`/api/invoices/${order.id}`} target="_blank" rel="noopener noreferrer">
-                      <Download className="h-4 w-4 text-orange-500" /> Télécharger la facture
+                      <Download className="h-4 w-4 text-[#ffcd47]" /> Télécharger la facture
                     </a>
                   </Button>
                 )}
                 {order.trackingNumber && (
                   <Button variant="outline" className="rounded-full border-white/10 text-white hover:bg-white/5 font-bold text-xs h-12 px-6 gap-2">
-                    <Truck className="h-4 w-4 text-orange-500" /> Suivi : {order.trackingNumber}
+                    <Truck className="h-4 w-4 text-[#ffcd47]" /> Suivi : {order.trackingNumber}
                   </Button>
                 )}
                 <Button asChild variant="outline" className="rounded-full border-white/10 text-white hover:bg-white/5 font-bold text-xs h-12 px-6 gap-2">
                   <Link href="/#marketplace">
-                    <RotateCcw className="h-4 w-4 text-orange-500" /> Commander à nouveau
+                    <RotateCcw className="h-4 w-4 text-[#ffcd47]" /> Commander à nouveau
                   </Link>
                 </Button>
               </div>
@@ -253,7 +253,7 @@ export default function OrderDetailPage() {
 
             {/* Right: Delivery info */}
             <div className="space-y-6">
-              <Card className="glassmorphism bg-zinc-900/40 border-white/10 rounded-3xl">
+              <Card className="glassmorphism bg-[#173f32]/85 border-white/10 rounded-3xl">
                 <CardContent className="p-6 space-y-4">
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
                     {order.deliveryMethod === "retrait" ? "Retrait en magasin" : "Livraison"}
@@ -261,23 +261,23 @@ export default function OrderDetailPage() {
                   {order.deliveryMethod === "retrait" ? (
                     <>
                       <div className="flex items-center gap-3">
-                        <MapPin className="w-5 h-5 text-orange-500" />
+                        <MapPin className="w-5 h-5 text-[#ffcd47]" />
                         <div>
                           <p className="text-white font-bold text-sm">Power — Primeur</p>
                           <p className="text-zinc-400 text-xs">114 Rue Paul Vaillant Couturier, 94140 Alfortville</p>
                         </div>
                       </div>
                       {order.pickupCode && (
-                        <div className="bg-orange-500/10 border border-orange-500/20 rounded-2xl p-4 text-center">
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500/60 mb-1">Code de retrait</p>
-                          <p className="text-2xl font-black text-orange-500 tracking-[0.3em]">{order.pickupCode}</p>
+                        <div className="bg-[#ffcd47]/10 border border-[#ffcd47]/20 rounded-2xl p-4 text-center">
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ffcd47]/60 mb-1">Code de retrait</p>
+                          <p className="text-2xl font-black text-[#ffcd47] tracking-[0.3em]">{order.pickupCode}</p>
                         </div>
                       )}
                     </>
                   ) : (
                     <>
                       <div className="flex items-start gap-3">
-                        <Truck className="w-5 h-5 text-orange-500 mt-0.5" />
+                        <Truck className="w-5 h-5 text-[#ffcd47] mt-0.5" />
                         <div>
                           {order.deliveryAddress ? (
                             <>
@@ -291,19 +291,19 @@ export default function OrderDetailPage() {
                       </div>
                       {order.deliveryDate && (
                         <div className="flex items-center gap-2 text-sm">
-                          <Clock className="w-4 h-4 text-orange-500" />
+                          <Clock className="w-4 h-4 text-[#ffcd47]" />
                           <span className="text-zinc-400">{new Date(order.deliveryDate).toLocaleDateString("fr-FR")}</span>
                         </div>
                       )}
                       {order.deliverySlot && (
                         <div className="flex items-center gap-2 text-sm">
-                          <Clock className="w-4 h-4 text-orange-500" />
+                          <Clock className="w-4 h-4 text-[#ffcd47]" />
                           <span className="text-zinc-400">{order.deliverySlot}</span>
                         </div>
                       )}
                       {order.phone && (
                         <div className="flex items-center gap-2 text-sm">
-                          <Phone className="w-4 h-4 text-orange-500" />
+                          <Phone className="w-4 h-4 text-[#ffcd47]" />
                           <span className="text-zinc-400">{order.phone}</span>
                         </div>
                       )}
@@ -313,12 +313,12 @@ export default function OrderDetailPage() {
               </Card>
 
               {order.carrier && (
-                <Card className="glassmorphism bg-zinc-900/40 border-white/10 rounded-3xl">
+                <Card className="glassmorphism bg-[#173f32]/85 border-white/10 rounded-3xl">
                   <CardContent className="p-6">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-3">Transporteur</p>
                     <p className="text-white font-bold">{order.carrier}</p>
                     {order.trackingNumber && (
-                      <p className="text-orange-500 text-sm mt-1">{order.trackingNumber}</p>
+                      <p className="text-[#ffcd47] text-sm mt-1">{order.trackingNumber}</p>
                     )}
                   </CardContent>
                 </Card>

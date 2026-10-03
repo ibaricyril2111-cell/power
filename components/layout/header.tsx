@@ -1,181 +1,115 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, User, Menu } from "lucide-react"
-import { useSession, signOut } from "next-auth/react"
+import { Menu, Search, ShoppingCart, Apple, Carrot, CupSoda, Salad, ShoppingBasket, Tag, UserRound } from "lucide-react"
+import { useSession } from "next-auth/react"
 import { getCartItems } from "@/app/actions/cart"
 import CartDrawer from "@/components/cart/cart-drawer"
+import { getUserProfile } from "@/app/actions/account"
+import { PowerAvatar } from "@/components/account/power-avatar"
+import { DEFAULT_POWER_AVATAR, isPowerAvatarKey, type PowerAvatarKey } from "@/lib/power-avatars"
 
-function scrollToMarketplace() {
+const shortcuts = [
+  { label: "Tous", tab: "tout", icon: ShoppingBasket },
+  { label: "Fruits", tab: "fruits", icon: Apple },
+  { label: "Légumes", tab: "legumes", icon: Carrot },
+  { label: "Jus & Smoothies", tab: "comp-jus", icon: CupSoda },
+  { label: "Salades & Plats", tab: "comp-salade", icon: Salad },
+  { label: "Paniers", href: "/#paniers", icon: ShoppingBasket },
+  { label: "Promos", href: "/#marketplace", icon: Tag },
+]
+
+function openMarketplace(tab?: string) {
   const el = document.getElementById("marketplace")
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth" })
-  } else {
-    window.location.href = "/#marketplace"
-  }
+  el?.scrollIntoView({ behavior: "smooth" })
+  if (tab) window.setTimeout(() => window.dispatchEvent(new CustomEvent("marketplace-tab", { detail: tab })), 250)
 }
 
 export default function Header() {
   const [cartCount, setCartCount] = useState(0)
   const [cartOpen, setCartOpen] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [avatarKey, setAvatarKey] = useState<PowerAvatarKey>(DEFAULT_POWER_AVATAR)
   const { data: session, status } = useSession()
   const isLoggedIn = status === "authenticated"
-  const loading = status === "loading"
-  const user = session?.user
 
   const loadCartCount = async () => {
     try {
-      const cartResult = await getCartItems()
-      if (cartResult.success && cartResult.data) {
-        const totalItems = cartResult.data.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0)
-        setCartCount(totalItems)
-      }
-    } catch (e) {
-      console.error(e)
-    }
+      const result = await getCartItems()
+      if (result.success && result.data) setCartCount(result.data.reduce((sum: number, item: any) => sum + (item.quantity || 0), 0))
+    } catch {}
   }
 
-  useEffect(() => {
-    loadCartCount()
-  }, [])
-
-  // Écouter les mises à jour du panier (ajout, suppression)
+  useEffect(() => { loadCartCount() }, [])
   useEffect(() => {
     const handler = () => loadCartCount()
     window.addEventListener("cart-updated", handler)
     return () => window.removeEventListener("cart-updated", handler)
   }, [])
-
-  const handleLogout = async () => {
-    await signOut({ redirect: false })
-  }
-
-  const getUserDisplayName = () => {
-    if (user?.name) return user.name
-    return user?.email || "Utilisateur"
-  }
+  useEffect(() => {
+    if (!isLoggedIn) return
+    getUserProfile().then((res) => {
+      if (res.success && isPowerAvatarKey(res.data?.avatarKey)) setAvatarKey(res.data.avatarKey)
+    }).catch(() => {})
+  }, [isLoggedIn])
 
   return (
     <>
-      <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-        <header className="w-full max-w-7xl flex items-center justify-between pointer-events-auto">
+      <header className="sticky top-0 z-50 w-full border-b border-[#ffcd47]/15 bg-[#073b2d]/98 text-white shadow-[0_10px_30px_rgba(0,0,0,.18)] backdrop-blur">
+        <div className="mx-auto max-w-7xl px-3 pb-3 pt-2 sm:px-6">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+            <div className="flex items-center">
+              <button onClick={() => setMenuOpen(v => !v)} className="flex min-h-11 items-center gap-2 rounded-xl px-2 text-sm font-bold hover:bg-white/5" aria-label="Menu">
+                <Menu className="h-6 w-6" /><span className="hidden sm:inline">Menu</span>
+              </button>
+            </div>
 
-          {/* Logo + Menu mobile */}
-          <div className="flex items-center space-x-1 bg-[#173f32]/95 px-2 sm:px-5 py-1.5 sm:py-3 rounded-full border border-white/15 transition-colors shadow-xl backdrop-blur-xl">
-            {/* Menu hamburger mobile - à gauche du logo */}
-            <DropdownMenu open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Menu" className="md:hidden rounded-full hover:bg-white/10 text-white h-9 w-9">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="bg-[#173f32]/95 border-white/10 text-white rounded-2xl p-2 mt-2 backdrop-blur-xl w-56 shadow-2xl md:hidden">
-                <DropdownMenuItem onClick={() => { scrollToMarketplace(); setMobileMenuOpen(false) }} className="rounded-xl focus:bg-white/10 cursor-pointer">
-                  Boutique
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { setCartOpen(true); setMobileMenuOpen(false) }} className="rounded-xl focus:bg-white/10 cursor-pointer">
-                  Panier
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="rounded-xl focus:bg-white/10 cursor-pointer">
-                  <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
-                </DropdownMenuItem>
-                {!isLoggedIn && (
-                  <DropdownMenuItem asChild className="rounded-xl focus:bg-orange-500/20 text-orange-400 cursor-pointer">
-                    <Link href="/connexion" onClick={() => setMobileMenuOpen(false)}>Connexion</Link>
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Link href="/" aria-label="Power Primeur — Accueil" className="flex items-center gap-2">
-              {/* Médaillon détouré, pas le bandeau du fichier source : sur un header
-                  translucide, un logotype à fond noir plaque un rectangle opaque. */}
-              <Image
-                src="/logo-power-mark.png"
-                alt=""
-                width={36}
-                height={36}
-                priority
-                className="h-8 w-8 sm:h-9 sm:w-9"
-              />
-              <span className="hidden sm:inline text-xl font-extrabold text-white tracking-tight">
-                Power<span className="text-orange-500">.</span>
-              </span>
+            <Link href="/" aria-label="POWER — Accueil" className="justify-self-center">
+              <Image src="/logo-power.webp" alt="POWER Primeur & Bar à jus" width={800} height={160} priority className="h-11 w-auto sm:h-14" />
             </Link>
+
+            <div className="flex items-center justify-end gap-1 sm:gap-3">
+              <Link href={isLoggedIn ? "/mon-compte" : "/connexion"} className="flex min-w-12 flex-col items-center justify-center text-[10px] font-bold sm:min-w-16">
+                {isLoggedIn ? <PowerAvatar avatarKey={avatarKey} size={32} className="border-2 border-[#ffcd47]" /> : <UserRound className="h-6 w-6" />}
+                <span className="mt-0.5 hidden sm:block">{isLoggedIn ? "Mon compte" : "Connexion"}</span>
+              </Link>
+              <button onClick={() => setCartOpen(true)} className="relative flex min-w-12 flex-col items-center justify-center text-[10px] font-bold sm:min-w-16" aria-label="Panier">
+                <ShoppingCart className="h-7 w-7" />
+                {cartCount > 0 && <span className="absolute right-1 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#ffcd47] px-1 text-[10px] font-black text-[#073b2d]">{cartCount}</span>}
+                <span className="mt-0.5 hidden sm:block">Panier</span>
+              </button>
+            </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-1 rounded-full border border-white/15 bg-[#173f32]/90 p-1.5 text-sm font-semibold text-white shadow-xl backdrop-blur-xl">
-            <button onClick={scrollToMarketplace} className="rounded-full px-5 py-2.5 transition hover:bg-white/10">Boutique</button>
-            <Link href="/#paniers" className="rounded-full px-5 py-2.5 transition hover:bg-white/10">Paniers</Link>
-            <Link href="/livraison" className="rounded-full px-5 py-2.5 transition hover:bg-white/10">Livraison</Link>
+          <form action="/produits" method="get" role="search" className="relative mt-2">
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/80" />
+            <input name="q" type="search" aria-label="Rechercher" placeholder="Rechercher un fruit, un légume, un jus, une salade..." className="h-12 w-full rounded-2xl border border-white/35 bg-[#0b4938] pl-12 pr-4 text-sm font-medium text-white outline-none placeholder:text-white/65 focus:border-[#ffcd47]" />
+          </form>
+
+          <nav className="mt-2 flex gap-2 overflow-x-auto pb-1 scrollbar-hide" aria-label="Catégories POWER">
+            {shortcuts.map(({ label, tab, href, icon: Icon }) => href ? (
+              <Link key={label} href={href} className="flex min-w-[78px] flex-col items-center justify-center rounded-xl border border-white/20 bg-[#0b4938] px-3 py-2 text-[10px] font-bold transition hover:border-[#ffcd47] hover:text-[#ffcd47]">
+                <Icon className="mb-1 h-4 w-4" />{label}
+              </Link>
+            ) : (
+              <button key={label} onClick={() => openMarketplace(tab)} className="flex min-w-[78px] flex-col items-center justify-center rounded-xl border border-white/20 bg-[#0b4938] px-3 py-2 text-[10px] font-bold transition hover:border-[#ffcd47] hover:text-[#ffcd47]">
+                <Icon className="mb-1 h-4 w-4" />{label}
+              </button>
+            ))}
           </nav>
 
-          {/* Boutons Droite */}
-          <div className="flex items-center space-x-2 bg-[#173f32]/95 px-2 py-1.5 rounded-full border border-white/15 shadow-xl backdrop-blur-xl">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Panier"
-              className="relative rounded-full hover:bg-white/10 text-white"
-              onClick={() => setCartOpen(true)}
-            >
-              <ShoppingCart className="h-5 w-5" />
-              {cartCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] bg-orange-500 text-white border-0">
-                  {cartCount}
-                </Badge>
-              )}
-            </Button>
-
-            {loading ? (
-              <div className="w-9 h-9 bg-white/10 animate-pulse rounded-full"></div>
-            ) : isLoggedIn ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" aria-label="Profil Utilisateur" className="rounded-full hover:bg-white/10 text-white">
-                    <User className="h-5 w-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="glassmorphism bg-black/90 border-white/10 text-white rounded-2xl p-2 mt-2 backdrop-blur-xl w-48 shadow-2xl">
-                  <div className="px-2 py-2 text-sm font-medium text-zinc-400 mb-2 border-b border-white/10">
-                    {getUserDisplayName()}
-                  </div>
-                  <DropdownMenuItem asChild className="rounded-xl focus:bg-white/10 cursor-pointer">
-                    <Link href="/mon-compte">Mon profil</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="rounded-xl focus:bg-white/10 cursor-pointer">
-                    <Link href="/mon-compte">Commandes</Link>
-                  </DropdownMenuItem>
-                  {user?.role === "admin" && (
-                    <DropdownMenuItem asChild className="rounded-xl focus:bg-orange-500/20 text-orange-400 cursor-pointer">
-                      <Link href="/admin">Gestion</Link>
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuItem onClick={handleLogout} className="rounded-xl focus:bg-red-500/20 text-red-400 cursor-pointer mt-1">
-                    Déconnexion
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button
-                className="rounded-full bg-orange-500 hover:bg-orange-600 text-white px-5 h-9 font-semibold shadow-[0_0_15px_rgba(249,115,22,0.4)]"
-                asChild
-              >
-                <Link href="/connexion">Connexion</Link>
-              </Button>
-            )}
-
-          </div>
-
-        </header>
-      </div>
-
-      {/* Cart Drawer */}
+          {menuOpen && (
+            <div className="mt-2 grid grid-cols-2 gap-2 rounded-2xl border border-white/10 bg-[#052e23] p-3 text-sm font-bold shadow-2xl sm:grid-cols-4">
+              <Link href="/#marketplace" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Faire mes courses</Link>
+              <Link href="/livraison" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Livraison & retrait</Link>
+              <Link href="/professionnels" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Professionnels</Link>
+              <Link href="/contact" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Le magasin</Link>
+            </div>
+          )}
+        </div>
+      </header>
       <CartDrawer open={cartOpen} onOpenChange={setCartOpen} />
     </>
   )

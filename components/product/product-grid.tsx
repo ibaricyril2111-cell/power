@@ -139,7 +139,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
             placeholder="Rechercher un produit..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 bg-white border border-black/10 rounded-2xl text-zinc-900 placeholder:text-zinc-400 shadow-sm focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition text-sm"
+            className="w-full pl-12 pr-4 py-4 bg-[#173f32] border border-white/15 rounded-2xl text-white placeholder:text-zinc-400 shadow-sm focus:outline-none focus:border-[#ffcd47] focus:ring-4 focus:ring-[#ffcd47]/10 transition text-sm"
           />
         </div>
 
@@ -151,7 +151,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
               className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${
                 activeTab === tab.id
                   ? "bg-[#173f32] text-white shadow-md"
-                  : "bg-white text-zinc-700 border border-black/10 hover:border-[#173f32]/40"
+                  : "bg-[#173f32] text-white border border-white/15 hover:border-[#173f32]/40"
               }`}
             >
               {tab.label}
@@ -162,7 +162,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
 
       {totalItems === 0 ? (
         <div className="text-center py-20">
-          <p className="text-zinc-500 italic font-medium">Aucun produit trouvé.</p>
+          <p className="text-white/65 italic font-medium">Aucun produit trouvé.</p>
         </div>
       ) : (
         <>
@@ -202,7 +202,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
             {filtered.compositions.map((comp) => (
               <div
                 key={comp.id}
-                className="group bg-white border border-black/5 rounded-[28px] overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer"
+                className="group bg-[#0b4938] border border-white/15 rounded-[28px] overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer"
                 onClick={() => setSelectedComposition(comp)}
               >
                 <div className="relative aspect-square overflow-hidden bg-zinc-800">
@@ -214,28 +214,28 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute top-6 left-6">
-                    <span className="bg-white/90 backdrop-blur-xl border border-black/5 text-[#173f32] px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                    <span className="bg-[#102e25]/90 backdrop-blur-xl border border-black/5 text-[#ffcd47] px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">
                       {comp.type.charAt(0).toUpperCase() + comp.type.slice(1).replace(/-/g, " ")}
                     </span>
                   </div>
                   <div className="absolute bottom-6 left-6 right-6">
-                    <div className="inline-flex bg-white/95 backdrop-blur-xl rounded-full px-4 py-2 shadow-lg">
-                      <span className="text-xl font-black text-[#173f32] leading-none">
+                    <div className="inline-flex bg-[#102e25]/95 backdrop-blur-xl rounded-full px-4 py-2 shadow-lg">
+                      <span className="text-xl font-black text-[#ffcd47] leading-none">
                         {comp.basePrice.toFixed(2)}€
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className="p-6 pb-4 flex-1">
-                  <h3 className="text-xl font-black text-[#173f32] mb-2 line-clamp-1 group-hover:text-orange-600 transition-colors">
+                  <h3 className="text-xl font-black text-[#ffcd47] mb-2 line-clamp-1 group-hover:text-[#ffcd47] transition-colors">
                     {comp.name}
                   </h3>
-                  <p className="text-zinc-500 line-clamp-2 min-h-[42px] text-sm leading-relaxed">
+                  <p className="text-white/65 line-clamp-2 min-h-[42px] text-sm leading-relaxed">
                     {comp.description}
                   </p>
                 </div>
                 <div className="p-6 pt-0 mt-auto">
-                  <button className="w-full h-12 rounded-full bg-[#173f32] hover:bg-[#225943] text-white font-bold text-sm transition-colors">
+                  <button className="w-full h-12 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold text-sm transition-colors">
                     Composer
                   </button>
                 </div>

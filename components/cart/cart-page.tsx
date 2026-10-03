@@ -127,8 +127,8 @@ export default function CartPage() {
     return (
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <div className="h-8 bg-zinc-800 rounded w-48 mb-2 animate-pulse"></div>
-          <div className="h-4 bg-zinc-800 rounded w-32 animate-pulse"></div>
+          <div className="h-8 bg-[#244f40] rounded w-48 mb-2 animate-pulse"></div>
+          <div className="h-4 bg-[#244f40] rounded w-32 animate-pulse"></div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
@@ -136,10 +136,10 @@ export default function CartPage() {
               <Card key={i} className="glassmorphism border-white/10">
                 <CardContent className="p-4">
                   <div className="animate-pulse flex gap-4">
-                    <div className="w-20 h-20 bg-zinc-800 rounded-lg"></div>
+                    <div className="w-20 h-20 bg-[#244f40] rounded-lg"></div>
                     <div className="flex-1 space-y-2">
-                      <div className="h-4 bg-zinc-800 rounded w-3/4"></div>
-                      <div className="h-4 bg-zinc-800 rounded w-1/2"></div>
+                      <div className="h-4 bg-[#244f40] rounded w-3/4"></div>
+                      <div className="h-4 bg-[#244f40] rounded w-1/2"></div>
                     </div>
                   </div>
                 </CardContent>
@@ -150,8 +150,8 @@ export default function CartPage() {
             <Card className="glassmorphism border-white/10">
               <CardContent className="p-6">
                 <div className="animate-pulse space-y-4">
-                  <div className="h-4 bg-zinc-800 rounded w-1/2"></div>
-                  <div className="h-8 bg-zinc-800 rounded w-full"></div>
+                  <div className="h-4 bg-[#244f40] rounded w-1/2"></div>
+                  <div className="h-8 bg-[#244f40] rounded w-full"></div>
                 </div>
               </CardContent>
             </Card>
@@ -163,11 +163,11 @@ export default function CartPage() {
 
   if (processedItems.length === 0) {
     return (
-      <div className="text-center py-16 bg-black text-white rounded-3xl border border-white/10 glassmorphism shadow-2xl">
+      <div className="text-center py-16 bg-[#102e25] text-white rounded-3xl border border-white/10 glassmorphism shadow-2xl">
         <ShoppingBag className="h-16 w-16 mx-auto text-zinc-500 mb-4" />
         <h2 className="text-2xl font-bold mb-4">Votre panier est vide</h2>
         <p className="text-zinc-400 mb-8 max-w-md mx-auto">Nos fruits frais, légumes coupés, jus et soupes artisanales n'attendent plus que vous pour faire le plein de vitamines.</p>
-        <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-6 px-8 text-lg rounded-full">
+        <Button asChild className="bg-[#ffcd47] hover:bg-[#ffe18a] text-white font-bold py-6 px-8 text-lg rounded-full">
           <Link href="/#marketplace">Remplir mon panier</Link>
         </Button>
       </div>
@@ -175,7 +175,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto selection:bg-orange-500/30">
+    <div className="max-w-6xl mx-auto selection:bg-[#ffcd47]/30">
       <div className="mb-8">
         <h1 className="text-4xl font-black mb-2 tracking-tight text-white">Panier.</h1>
         <p className="text-zinc-400 font-medium">
@@ -207,10 +207,10 @@ export default function CartPage() {
           </div>
 
           {/* Delivery Options */}
-          <Card className="glassmorphism border-white/10 bg-black/60 shadow-2xl mt-8">
+          <Card className="glassmorphism border-white/10 bg-[#173f32]/95 shadow-2xl mt-8">
             <CardHeader className="border-b border-white/5 pb-4">
               <CardTitle className="flex items-center gap-3 text-white">
-                <Truck className="h-5 w-5 text-orange-500" />
+                <Truck className="h-5 w-5 text-[#ffcd47]" />
                 Détails de Livraison
               </CardTitle>
             </CardHeader>
@@ -221,11 +221,11 @@ export default function CartPage() {
                     <p className="font-bold text-white">Livraison standard</p>
                     <p className="text-sm text-zinc-400 mt-1">Chez vous sous 24-48h (Chaîne du froid respectée)</p>
                   </div>
-                  <span className="font-black text-xl text-orange-500 bg-orange-500/10 px-4 py-2 rounded-lg">{deliveryFee === 0 ? "Offert" : `${deliveryFee.toFixed(2)}€`}</span>
+                  <span className="font-black text-xl text-[#ffcd47] bg-[#ffcd47]/10 px-4 py-2 rounded-lg">{deliveryFee === 0 ? "Offert" : `${deliveryFee.toFixed(2)}€`}</span>
                 </div>
 
                 {deliveryFee > 0 && (
-                  <div className="text-sm font-medium text-orange-400 bg-orange-500/10 p-4 rounded-xl border border-orange-500/20 flex items-center gap-2">
+                  <div className="text-sm font-medium text-[#ffcd47] bg-[#ffcd47]/10 p-4 rounded-xl border border-[#ffcd47]/20 flex items-center gap-2">
                     Il ne vous manque que <span className="font-bold">{(deliveryConfig.threshold - subtotal).toFixed(2)}€</span> pour profiter de la livraison gratuite !
                   </div>
                 )}
@@ -235,7 +235,7 @@ export default function CartPage() {
                   className="w-full bg-white/5 hover:bg-white/10 border-white/10 text-white rounded-xl py-6 transition-all"
                   onClick={() => setShowCalendar(!showCalendar)}
                 >
-                  <Calendar className="h-5 w-5 mr-3 text-orange-500" />
+                  <Calendar className="h-5 w-5 mr-3 text-[#ffcd47]" />
                   Programmer un créneau spécifique
                 </Button>
 
@@ -254,7 +254,7 @@ export default function CartPage() {
 
         {/* Order Summary */}
         <div className="lg:col-span-1">
-          <Card className="sticky top-28 glassmorphism border-white/10 bg-black/60 shadow-2xl">
+          <Card className="sticky top-28 glassmorphism border-white/10 bg-[#173f32]/95 shadow-2xl">
             <CardHeader className="border-b border-white/5">
               <CardTitle className="text-white">Récapitulatif</CardTitle>
             </CardHeader>
@@ -273,12 +273,12 @@ export default function CartPage() {
 
               <div className="flex justify-between items-center text-xl font-black text-white py-2">
                 <span>Total TTC</span>
-                <span className="text-3xl text-orange-500">{total.toFixed(2)}€</span>
+                <span className="text-3xl text-[#ffcd47]">{total.toFixed(2)}€</span>
               </div>
 
               {selectedDelivery && (
-                <div className="p-4 border border-orange-500/30 bg-orange-500/10 rounded-xl">
-                  <p className="text-sm font-semibold text-orange-400">
+                <div className="p-4 border border-[#ffcd47]/30 bg-[#ffcd47]/10 rounded-xl">
+                  <p className="text-sm font-semibold text-[#ffcd47]">
                     🚚 Livraison programmée le {selectedDelivery.date} à {selectedDelivery.time}
                   </p>
                 </div>
@@ -286,7 +286,7 @@ export default function CartPage() {
 
               <Button
                 asChild
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)] py-6 text-lg rounded-xl mt-4"
+                className="w-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white shadow-[0_0_20px_rgba(249,115,22,0.3)] py-6 text-lg rounded-xl mt-4"
               >
                 <Link href={selectedDelivery?.dateISO && selectedDelivery.slotId ? `/commande?date=${selectedDelivery.dateISO}&slot=${encodeURIComponent(selectedDelivery.slotId)}` : "/commande"}>Passer commande</Link>
               </Button>
