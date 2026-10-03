@@ -1,0 +1,120 @@
+name: Complete original POWER characters
+
+on:
+  push:
+    branches: [fix/unify-power-mascot-design]
+    paths: [.github/workflows/power-original-sprites-completion.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: power-original-sprites-completion
+  cancel-in-progress: false
+
+jobs:
+  complete:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/unify-power-mascot-design
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Image conversion only
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Import exact original pixels and extend identity tests
+        run: |
+          python - <<'PY'
+          import hashlib, io, json, urllib.request
+          from pathlib import Path
+          from PIL import Image
+          url = 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/ee60cb77-6a1a-4805-a82f-569eac1824da.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzQzN2U2NTFjZmI1ZjEwYiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MTE0MTA3M30.y7D8kqG-g7yRSfYux-R1195fNGBg6gPM6lffaOxxiAw'
+          expected = '3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046'
+          with urllib.request.urlopen(url, timeout=45) as r:
+            data = r.read(10 * 1024 * 1024 + 1)
+          if len(data) > 10 * 1024 * 1024 or hashlib.sha256(data).hexdigest() != expected:
+            raise RuntimeError('Original sprite sheet checksum mismatch; no files changed')
+          im = Image.open(io.BytesIO(data)).convert('RGBA')
+          if im.size != (1254, 1254):
+            raise RuntimeError('Unexpected original dimensions')
+          names = [
+            ('orange','Orange',r'\boranges?\b'),
+            ('figue','Figue',r'\bfigues?\b'),
+            ('melon','Melon',r'\bmelons?\b'),
+            ('peche','Pêche',r'\bpeches?\b'),
+            ('asperge','Asperge',r'\basperges?\b'),
+            ('betterave','Betterave',r'\bbetteraves?\b'),
+            ('chou-fleur','Chou-fleur',r'\bchoux? fleurs?\b'),
+            ('endive','Endive',r'\bendives?\b'),
+            ('epinard','Épinard',r'\bepinards?\b'),
+            ('haricot-vert','Haricot vert',r'\bharicots? verts?\b'),
+            ('poireau','Poireau',r'\bpoireaux?\b'),
+            ('radis','Radis',r'\bradis\b'),
+            ('brocoli','Brocoli',r'\bbrocolis?\b'),
+            ('navet','Navet',r'\bnavets?\b'),
+            ('patate-douce','Patate douce',r'\bpatates? douces?\b'),
+            ('echalote','Échalote',r'\bechalottes?\b|\bechalotes?\b'),
+          ]
+          out = Path('public/brand/mascots/v2')
+          old = {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in out.glob('*.webp')}
+          if len(old) != 25:
+            raise RuntimeError('Expected exactly the original 25 assets before this one-time import')
+          manifest_path = out / 'sources.json'
+          manifest = json.loads(manifest_path.read_text())
+          for i, (key, label, pattern) in enumerate(names):
+            col,row = i % 4, i // 4
+            box = (round(col*1254/4),round(row*1254/4),round((col+1)*1254/4),round((row+1)*1254/4))
+            crop = im.crop(box)
+            path = out / (key + '.webp')
+            if path.exists():
+              raise RuntimeError('Refusing to replace approved asset ' + key)
+            crop.save(path, 'WEBP', lossless=True, method=4)
+            manifest[key] = {'width':crop.width,'height':crop.height,'sourceSha256':expected,'crop':list(box),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+          for name,digest in old.items():
+            assert hashlib.sha256((out/name).read_bytes()).hexdigest() == digest, 'Existing mascot changed'
+          manifest_path.write_text(json.dumps(manifest,indent=2)+'\n')
+          lib = Path('lib/power-avatars.ts')
+          text = lib.read_text()
+          entries = ''.join('  { key: '+json.dumps(key)+', label: '+json.dumps(label,ensure_ascii=False)+', image: "/brand/mascots/v2/'+key+'.webp", position: "50% 50%" },\n' for key,label,_ in names)
+          assert text.count('] as const') == 1
+          text = text.replace('] as const',entries+'] as const',1)
+          anchor = 'const PRODUCT_MASCOT_RULES: ReadonlyArray<readonly [RegExp, PowerAvatarKey]> = [\n'
+          assert anchor in text
+          rules = ''.join('  [/'+pattern+'/, "'+key+'"],\n' for key,_,pattern in names)
+          text = text.replace(anchor,anchor+rules,1)
+          lib.write_text(text)
+          tests = Path('__tests__/power-mascot-resolution.test.ts')
+          t = tests.read_text()
+          t = t.replace('const expectedPairs = [\n','const expectedPairs = [\n'+''.join('  ['+json.dumps(label,ensure_ascii=False)+', "'+key+'"],\n' for key,label,_ in names),1)
+          a = t.index('const missingArtwork = [')
+          b = t.index('\n]',a)
+          missing = t[a:b]
+          for label in ['Poireau','Échalote','Betterave','Patate douce','Navet','Asperge','Orange']:
+            missing = missing.replace(json.dumps(label,ensure_ascii=False)+', ', '')
+          t = t[:a]+missing+t[b:]
+          t = t.replace('keeps 25 separate source files','keeps 41 separate source files').replace('.size).toBe(25)', '.size).toBe(41)')
+          tests.write_text(t)
+          print('16 original characters added; 25 approved original files preserved byte for byte.')
+          PY
+      - run: corepack enable
+      - name: Install using existing project configuration
+        run: yarn install --no-immutable
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+      - name: Check types and all existing tests
+        run: yarn typecheck && yarn test
+      - name: Save only artwork and identity mapping on preview branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/brand/mascots/v2 lib/power-avatars.ts __tests__/power-mascot-resolution.test.ts
+          git diff --cached --stat
+          git commit -m 'assets: add 16 exact POWER characters; preserve 25 approved images'
+          git push origin HEAD:fix/unify-power-mascot-design
