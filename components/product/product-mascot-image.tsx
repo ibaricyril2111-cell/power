@@ -1,11 +1,13 @@
-import Image from "next/image"
-import { avatarForProductName } from "@/lib/power-avatars"
+import { POWER_AVATARS, avatarForProductName } from "@/lib/power-avatars"
+
+function fallbackMascot(name: string) {
+  const score = [...name].reduce((sum, char) => sum + char.charCodeAt(0), 0)
+  return POWER_AVATARS[score % POWER_AVATARS.length]
+}
 
 export default function ProductMascotImage({
   name,
-  fallbackImage,
   alt,
-  sizes = "(max-width: 768px) 100vw, 300px",
   className = "",
 }: {
   name: string
@@ -14,31 +16,19 @@ export default function ProductMascotImage({
   sizes?: string
   className?: string
 }) {
-  const mascot = avatarForProductName(name)
-
-  if (mascot) {
-    return (
-      <div
-        role="img"
-        aria-label={alt || name}
-        className={`absolute inset-0 bg-[#173f32] ${className}`}
-        style={{
-          backgroundImage: `url("${mascot.image}")`,
-          backgroundSize: "500%",
-          backgroundPosition: mascot.position,
-          backgroundRepeat: "no-repeat",
-        }}
-      />
-    )
-  }
+  const mascot = avatarForProductName(name) ?? fallbackMascot(name)
 
   return (
-    <Image
-      src={fallbackImage || "/placeholder.svg"}
-      alt={alt || name}
-      fill
-      sizes={sizes}
-      className={`object-cover ${className}`}
+    <div
+      role="img"
+      aria-label={alt || `Personnage POWER ${name}`}
+      className={`absolute inset-0 bg-[#0b4938] ${className}`}
+      style={{
+        backgroundImage: `url("${mascot.image}")`,
+        backgroundSize: "500%",
+        backgroundPosition: mascot.position,
+        backgroundRepeat: "no-repeat",
+      }}
     />
   )
 }
