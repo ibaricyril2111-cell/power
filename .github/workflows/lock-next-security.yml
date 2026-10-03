@@ -1,0 +1,37 @@
+name: Lock Next.js security upgrade
+
+on:
+  push:
+    branches:
+      - fix/unify-power-mascot-design
+
+permissions:
+  contents: write
+
+jobs:
+  lock-upgrade:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/unify-power-mascot-design
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: corepack enable
+      - name: Resolve Next.js 16.3.8 and lockfile
+        run: yarn up next@16.3.8
+      - name: Verify
+        run: |
+          yarn typecheck
+          yarn test
+      - name: Commit resolved lockfile
+        run: |
+          rm .github/workflows/lock-next-security.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json yarn.lock .github/workflows/lock-next-security.yml
+          git commit -m "security: lock Next.js 16.3.8"
+          git pull --rebase origin fix/unify-power-mascot-design
+          git push origin HEAD:fix/unify-power-mascot-design
