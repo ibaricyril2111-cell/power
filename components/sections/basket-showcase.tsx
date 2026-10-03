@@ -15,7 +15,7 @@ export default function BasketShowcase() {
   }
 
   return (
-    <section id="paniers" className="w-full bg-[#102e25] px-5 py-20 sm:px-8 md:py-28">
+    <section id="paniers" className="w-full bg-[#073b2d] px-5 py-20 sm:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.7fr] lg:items-end">
           <div>
@@ -27,7 +27,7 @@ export default function BasketShowcase() {
             {baskets.map((basket) => (
               <button key={basket.name} onClick={openBaskets} className={`${basket.tone} group rounded-[28px] p-6 text-left transition duration-300 hover:-translate-y-1 hover:shadow-xl`}>
                 <div className="flex items-start justify-between">
-                  <span className="rounded-full bg-[#ffcd47] px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">Panier</span>
+                  <span className="rounded-full bg-[#ffcd47] px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#073b2d]">Panier</span>
                   <span className="text-3xl font-black text-white">{basket.price}€</span>
                 </div>
                 <h3 className="mt-12 text-3xl font-black tracking-tight text-white">{basket.name}</h3>
