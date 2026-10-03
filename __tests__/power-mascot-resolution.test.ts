@@ -4,6 +4,22 @@ import { resolve } from "node:path"
 import { POWER_AVATARS, avatarForProductName, powerAvatar } from "../lib/power-avatars"
 
 const expectedPairs = [
+  ["Orange", "orange"],
+  ["Figue", "figue"],
+  ["Melon", "melon"],
+  ["Pêche", "peche"],
+  ["Asperge", "asperge"],
+  ["Betterave", "betterave"],
+  ["Chou-fleur", "chou-fleur"],
+  ["Endive", "endive"],
+  ["Épinard", "epinard"],
+  ["Haricot vert", "haricot-vert"],
+  ["Poireau", "poireau"],
+  ["Radis", "radis"],
+  ["Brocoli", "brocoli"],
+  ["Navet", "navet"],
+  ["Patate douce", "patate-douce"],
+  ["Échalote", "echalote"],
   ["Fraises Gariguette", "fraise"],
   ["Tomates cerises", "tomate"],
   ["Mangue avion", "mangue"],
@@ -17,9 +33,9 @@ const expectedPairs = [
 ] as const
 
 const missingArtwork = [
-  "Poireau", "Ail", "Échalote", "Basilic", "Coriandre", "Menthe",
-  "Betterave", "Pastèque", "Patate douce", "Piment", "Gombo", "Navet",
-  "Asperge", "Orange", "Pomelos", "Butternut", "Potimarron",
+   "Ail",  "Basilic", "Coriandre", "Menthe",
+   "Pastèque",  "Piment", "Gombo", 
+    "Pomelos", "Butternut", "Potimarron",
   "Jus de mangue", "Salade de fruits", "Produit inconnu",
 ]
 
@@ -39,8 +55,8 @@ describe("POWER product/character identity", () => {
     expect(existsSync(resolve(process.cwd(), "public", avatar.image.slice(1)))).toBe(true)
   })
 
-  it("keeps 25 separate source files rather than enlarging a contact sheet", () => {
-    expect(new Set(POWER_AVATARS.map((avatar) => avatar.image)).size).toBe(25)
+  it("keeps 41 separate source files rather than enlarging a contact sheet", () => {
+    expect(new Set(POWER_AVATARS.map((avatar) => avatar.image)).size).toBe(41)
     const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "public/brand/mascots/v2/sources.json"), "utf8"))
     for (const avatar of POWER_AVATARS) {
       expect(manifest[avatar.key].width).toBeGreaterThanOrEqual(250)

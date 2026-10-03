@@ -148,5 +148,197 @@
     "height": 251,
     "sourceSha256": "994a5e1ea081cdcaf7926a6e0e162ef66ee1cc2bc3b5cc3dc2b98f4f86372878",
     "sha256": "0e85d0acd4133a7ae467e69df7e8f0241c24d100c3c34103d4f3755043ae59ea"
+  },
+  "orange": {
+    "width": 314,
+    "height": 314,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      0,
+      0,
+      314,
+      314
+    ],
+    "sha256": "2ab80f35ed1c9bc8204239aadb777821a1abbfd24b11bf85395b109584fe82da"
+  },
+  "figue": {
+    "width": 313,
+    "height": 314,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      314,
+      0,
+      627,
+      314
+    ],
+    "sha256": "a1b914f530bb80978cca803ca0213ca93021c1e758031c9521a67e8bc61fe1cb"
+  },
+  "melon": {
+    "width": 313,
+    "height": 314,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      627,
+      0,
+      940,
+      314
+    ],
+    "sha256": "45d441ccbf754dbc04b530b5f2708a80e4bba958e17fba1ead8287ff1bc69c01"
+  },
+  "peche": {
+    "width": 314,
+    "height": 314,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      940,
+      0,
+      1254,
+      314
+    ],
+    "sha256": "472d33fccd84347b0eeb9839c6b865b6b6984a1a7adb32d9ccbad6a5aaeb7216"
+  },
+  "asperge": {
+    "width": 314,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      0,
+      314,
+      314,
+      627
+    ],
+    "sha256": "36b864eca3cb62f1ed40117c4107110849d771c4d5480b63b7b065ea4b20e85f"
+  },
+  "betterave": {
+    "width": 313,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      314,
+      314,
+      627,
+      627
+    ],
+    "sha256": "f0f593486477a114bf94e1771944e2ae8eb64a466fad82b634674426240aa586"
+  },
+  "chou-fleur": {
+    "width": 313,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      627,
+      314,
+      940,
+      627
+    ],
+    "sha256": "dd5bd83cc4858cf0ecbe2453085e2a29533d499db9f53c06f9ad7ff1493c0830"
+  },
+  "endive": {
+    "width": 314,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      940,
+      314,
+      1254,
+      627
+    ],
+    "sha256": "ed36f880fa2f6b2e8ad518041c3c6dc52766f35d8a097bc5fe22ee70fb5415fe"
+  },
+  "epinard": {
+    "width": 314,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      0,
+      627,
+      314,
+      940
+    ],
+    "sha256": "0e472ea7f3e634e9c1eccfdc7c3b4c44cbc4bbbc80603cc1c88d9866fc22e69a"
+  },
+  "haricot-vert": {
+    "width": 313,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      314,
+      627,
+      627,
+      940
+    ],
+    "sha256": "0a25be50e94c2128d6d8223e05e774d7b107ba04880d852debf933bf3deed4db"
+  },
+  "poireau": {
+    "width": 313,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      627,
+      627,
+      940,
+      940
+    ],
+    "sha256": "a4720b44f9ae4c5894345c7aa150d21c878fedf930be58e590bfe4fa765e72f2"
+  },
+  "radis": {
+    "width": 314,
+    "height": 313,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      940,
+      627,
+      1254,
+      940
+    ],
+    "sha256": "84031b8fa4decf326cfaccdde4f1c268dff63abe8b5e7282db7febc1a5e3b893"
+  },
+  "brocoli": {
+    "width": 314,
+    "height": 314,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      0,
+      940,
+      314,
+      1254
+    ],
+    "sha256": "ef36ba07258b0ead30a273eee68cc6de3eb1587dbb0acdbb34e62b6655126773"
+  },
+  "navet": {
+    "width": 313,
+    "height": 314,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      314,
+      940,
+      627,
+      1254
+    ],
+    "sha256": "25ac385821bf4632a6219c643d4cc4c29f6abfe95cfb8362098d44c560469133"
+  },
+  "patate-douce": {
+    "width": 313,
+    "height": 314,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      627,
+      940,
+      940,
+      1254
+    ],
+    "sha256": "2a7b68e5e1fb3d209ec2d798cdeaed8d557b5b98f9abc56208770280ce186ee4"
+  },
+  "echalote": {
+    "width": 314,
+    "height": 314,
+    "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
+    "crop": [
+      940,
+      940,
+      1254,
+      1254
+    ],
+    "sha256": "a2bb2e30890cf38b426b1342d60c71172686e56785d5478ee77849186c3df29c"
   }
 }
