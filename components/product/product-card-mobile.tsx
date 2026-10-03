@@ -73,7 +73,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
 
   return (
     <div
-      className="flex min-w-0 flex-col overflow-hidden bg-[#173f32] border border-white/10 rounded-[22px] shadow-sm active:scale-[0.99] transition cursor-pointer"
+      className="flex min-w-0 flex-col overflow-hidden bg-[#0b4938] border border-white/15 rounded-[18px] shadow-sm active:scale-[0.99] transition cursor-pointer"
       role="button"
       tabIndex={0}
       aria-label={`Voir le détail de ${product.name}`}
@@ -85,7 +85,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
         }
       }}
     >
-      <div className="relative w-full aspect-square overflow-hidden bg-[#173f32]">
+      <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#0b4938]">
         <ProductMascotImage
             name={product.name}
             fallbackImage={product.image}
@@ -102,7 +102,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
 
       <div className="min-w-0 p-3 pb-2">
         <p className="mb-1 truncate text-[9px] font-bold uppercase tracking-wider text-[#ffcd47]">{product.category}</p>
-        <h3 className="text-sm font-bold text-[#ffcd47] truncate">{product.name}</h3>
+        <h3 className="text-sm font-black text-white truncate">{product.name}</h3>
         <div className="flex items-center gap-1.5 mt-1">
           {product.promoPrice != null && <span className="text-white/65 line-through text-xs">{product.price.toFixed(2)}€</span>}
           <span className="text-[#ffcd47] font-black text-sm">{(product.promoPrice ?? product.price).toFixed(2)}€</span>
@@ -116,9 +116,9 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
           aria-label={`Ajouter ${product.name} au panier`}
           onClick={handleAdd}
           disabled={loading || !product.inStock}
-          className="w-full h-9 rounded-full bg-[#173f32] hover:bg-[#225943] text-white transition-all active:scale-95 flex items-center justify-center disabled:opacity-50"
+          className="w-full h-10 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-black transition-all active:scale-95 flex items-center justify-center disabled:opacity-50"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Plus className="mr-1 h-4 w-4" /> Ajouter</>}
         </button>
       ) : (
         <div className="flex items-center justify-between gap-1.5">
@@ -134,7 +134,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
             aria-label={`Ajouter ${product.name}`}
             onClick={handleIncrement}
             disabled={loading}
-            className="h-8 w-8 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white flex items-center justify-center transition-colors disabled:opacity-50"
+            className="h-8 w-8 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] flex items-center justify-center transition-colors disabled:opacity-50"
           >
             {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
           </button>
