@@ -83,17 +83,7 @@ export default async function SeasonalStars() {
                     className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#0b4938] p-3 transition hover:-translate-y-1 hover:border-[#ffcd47]/70"
                   >
                     <div className="relative aspect-square overflow-hidden rounded-[19px] bg-[#244f40]">
-<div
-                        role="img"
-                        aria-label={`Personnage POWER ${product.name}`}
-                        className="absolute inset-0 transition-transform duration-300 group-hover:scale-105"
-                        style={{
-                          backgroundImage: `url("${mascot.image}")`,
-                          backgroundSize: "500%",
-                          backgroundPosition: mascot.position,
-                          backgroundRepeat: "no-repeat",
-                        }}
-                      />
+<ProductMascotImage name={product.name} alt={`Personnage POWER ${product.name}`} className="transition-transform duration-300 group-hover:scale-105" />
                       <span className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#ffcd47] text-sm shadow-lg">⭐</span>
                     </div>
                     <p className="mt-3 truncate text-sm font-black">{product.name}</p>
