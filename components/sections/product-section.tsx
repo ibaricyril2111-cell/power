@@ -57,15 +57,15 @@ export default async function ProductSection() {
   const categories = [...new Set(products.map(p => p.category.name))]
 
   return (
-    <section id="fruits" className="py-20 px-5 sm:px-8 w-full bg-[#102e25] md:py-28">
+    <section id="fruits" className="w-full bg-[#073b2d] px-3 py-12 sm:px-6 md:py-16">
       <div className="mx-auto w-full max-w-7xl">
-        <div className="mb-12 max-w-2xl">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#ffcd47]">La boutique POWER · nos mascottes vous accompagnent</p>
+        <div className="mb-8 max-w-2xl">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#ffcd47]">Tous les produits · personnages POWER</p>
           <h2 className="mt-3 text-4xl md:text-6xl font-black text-white tracking-[-0.05em]">
-            Le marché POWER, vivant jusque dans votre panier.
+            Tout le marché POWER
           </h2>
           <p className="mt-4 text-white/70 max-w-xl text-lg leading-relaxed">
-            Fruits, légumes, aromates et produits frais sélectionnés pour POWER. Ajoutez au panier, choisissez votre créneau et retirez en boutique ou faites-vous livrer selon votre zone.
+            Fruits, légumes, aromates, jus et préparations : retrouve toute la bande POWER et ajoute directement tes produits au panier.
           </p>
         </div>
         <ProductGrid
