@@ -78,7 +78,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
   }
 
   return (
-    <Card className="group bg-white border-black/5 rounded-[28px] overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+    <Card className="group bg-[#0b4938] border-white/15 rounded-[20px] overflow-hidden hover:-translate-y-1 hover:border-[#ffcd47]/70 hover:shadow-xl transition-all duration-300 h-full flex flex-col">
       {/* Toute la zone visuelle et textuelle ouvre le détail : obliger à viser l'icône œil
           est une cible inutilement petite, et le réflexe est de cliquer sur la carte.
           Le pied de carte reste hors de cette zone pour que « Ajouter au panier » et les
@@ -96,7 +96,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
           }
         }}
       >
-        <div className="relative aspect-[4/3] overflow-hidden bg-[#173f32]">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#0b4938]">
           <ProductMascotImage
             name={product.name}
             fallbackImage={product.image}
@@ -137,8 +137,8 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
 
         <div className="p-6 pb-4">
           <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#ffcd47]">{product.category}</p>
-          <h3 className="text-xl font-black text-[#ffcd47] mb-2 line-clamp-1 group-hover:text-[#ffcd47] transition-colors">{product.name}</h3>
-          <p className="text-white/65 line-clamp-2 min-h-[42px] text-sm leading-relaxed">{product.description}</p>
+          <h3 className="text-lg font-black text-white mb-1 line-clamp-1">{product.name}</h3>
+          <p className="text-white/70 line-clamp-1 min-h-[22px] text-sm leading-relaxed">{product.description}</p>
         </div>
       </CardContent>
 
@@ -147,7 +147,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
           <Button
             onClick={handleAdd}
             disabled={loading || !product.inStock}
-            className="w-full h-12 rounded-full bg-[#173f32] hover:bg-[#225943] text-[#102e25] font-bold text-sm transition-all"
+            className="w-full h-12 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-black text-sm transition-all"
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingCart className="w-5 h-5 mr-2" />}
             {loading ? "" : "Ajouter au panier"}
@@ -166,7 +166,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
               aria-label={`Ajouter ${product.name}`}
               onClick={handleIncrement}
               disabled={loading}
-              className="h-12 w-12 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white flex items-center justify-center transition-colors disabled:opacity-50"
+              className="h-12 w-12 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] flex items-center justify-center transition-colors disabled:opacity-50"
             >
               {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
             </button>
