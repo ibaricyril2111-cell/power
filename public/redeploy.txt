@@ -1,0 +1,3 @@
+POWER preview redeploy trigger
+Reference: validated mascot architecture
+Timestamp marker: 2026-10-03
