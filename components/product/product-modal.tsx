@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
+import ProductMascotImage from "@/components/product/product-mascot-image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -66,7 +66,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-[#f5f0e8] to-[#e8e0d4] text-white border-zinc-300">
+      <DialogContent className="max-w-4xl max-h-[90dvh] overflow-y-auto rounded-[24px] bg-[#073b2d] text-white border-[#ffcd47]/25 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-white">
             {product.name}
@@ -74,19 +74,17 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
         </DialogHeader>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Image */}
-          <div className="relative">
-            <Image
-              src={product.image || "/placeholder.svg"}
-              alt={product.name}
-              width={500}
-              height={400}
-              className="w-full h-80 object-cover rounded-lg"
+          {/* Exact same official character as the catalogue; no normal-photo fallback. */}
+          <div className="relative aspect-square w-full overflow-hidden rounded-[20px] border border-white/10 bg-[#0b4938]">
+            <ProductMascotImage
+              name={product.name}
+              alt={`Personnage POWER ${product.name}`}
+              sizes="(max-width: 767px) 85vw, 400px"
             />
 
             <div className="absolute top-4 left-4 flex flex-col gap-2">
               {product.organic && (
-                <Badge className="badge-brand">
+                <Badge className="bg-[#073b2d]/95 text-[#ffcd47] border-[#ffcd47]/30">
                   <Leaf className="h-3 w-3 mr-1" />
                   Bio
                 </Badge>
@@ -99,21 +97,20 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
             </div>
           </div>
 
-          {/* Product Info */}
+          {/* Commercial data and quantity logic are unchanged. */}
           <div className="space-y-6">
             <div>
-              <p className="text-white/65 mb-4">{product.description}</p>
+              <p className="text-white/75 mb-4">{product.description}</p>
 
               <div className="flex items-center gap-4 mb-4">
-                {product.promoPrice != null && <span className="text-xl font-semibold text-zinc-400 line-through">{product.price.toFixed(2)}€</span>}
-                <span className="text-3xl font-bold text-orange-500">{(product.promoPrice ?? product.price).toFixed(2)}€</span>
-                <span className="text-zinc-400">/{product.unit}</span>
+                {product.promoPrice != null && <span className="text-xl font-semibold text-white/60 line-through">{product.price.toFixed(2)}€</span>}
+                <span className="text-3xl font-bold text-[#ffcd47]">{(product.promoPrice ?? product.price).toFixed(2)}€</span>
+                <span className="text-white/70">/{product.unit}</span>
               </div>
             </div>
 
-            <Separator className="bg-zinc-200" />
+            <Separator className="bg-white/15" />
 
-            {/* Quantité */}
             <div>
               <label className="block text-sm font-medium text-white/80 mb-2">Quantité</label>
               <QuantitySelector
@@ -125,37 +122,35 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
               />
             </div>
 
-            <Separator className="bg-zinc-200" />
+            <Separator className="bg-white/15" />
 
-            {/* Features */}
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm text-white/70">
-                <Truck className="h-4 w-4 text-orange-500" />
+              <div className="flex items-center gap-3 text-sm text-white/75">
+                <Truck className="h-4 w-4 text-[#ffcd47]" />
                 <span>Livraison sous 24h</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-white/70">
-                <Shield className="h-4 w-4 text-orange-500" />
+              <div className="flex items-center gap-3 text-sm text-white/75">
+                <Shield className="h-4 w-4 text-[#ffcd47]" />
                 <span>Fraîcheur garantie</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-white/70">
-                <Leaf className="h-4 w-4 text-orange-500" />
+              <div className="flex items-center gap-3 text-sm text-white/75">
+                <Leaf className="h-4 w-4 text-[#ffcd47]" />
                 <span>Produit local</span>
               </div>
             </div>
 
-            <Separator className="bg-zinc-200" />
+            <Separator className="bg-white/15" />
 
-            {/* Add to Cart */}
             <div className="space-y-3">
               <div className="flex items-center justify-between text-lg font-semibold text-white">
                 <span>Total :</span>
-                <span className="text-orange-500">
+                <span className="text-[#ffcd47]">
                   {lineTotal(product.promoPrice ?? product.price, quantity).toFixed(2)}€
                 </span>
               </div>
 
               <Button
-                className="w-full btn-primary py-3"
+                className="w-full min-h-12 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-black py-3"
                 onClick={handleAddToCart}
                 disabled={!product.inStock || isAdding}
               >
