@@ -1,0 +1,150 @@
+name: POWER original crop quality and component evidence
+on:
+  push:
+    branches: [fix/unify-power-mascot-design]
+    paths: [.github/workflows/power-crop-and-component-review.yml]
+permissions:
+  contents: write
+concurrency:
+  group: power-crop-component-review
+  cancel-in-progress: false
+jobs:
+  review:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/unify-power-mascot-design
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: python -m pip install --disable-pip-version-check Pillow==11.3.0 playwright==1.55.0
+      - name: Isolate complete characters; no neighbouring heads or clipped leaves
+        run: |
+          python - <<'PY'
+          import io,hashlib,json,urllib.request
+          from pathlib import Path
+          from PIL import Image,ImageDraw,ImageChops,ImageFilter
+          url='https://d2jqrm6oza8nb6.cloudfront.net/datasets/ee60cb77-6a1a-4805-a82f-569eac1824da.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzQzN2U2NTFjZmI1ZjEwYiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MTE0MTA3M30.y7D8kqG-g7yRSfYux-R1195fNGBg6gPM6lffaOxxiAw'
+          expected='3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046'
+          with urllib.request.urlopen(url,timeout=45) as r: data=r.read(10000000)
+          assert hashlib.sha256(data).hexdigest()==expected
+          im=Image.open(io.BytesIO(data)).convert('RGBA')
+          assert im.size==(1254,1254)
+          names=['orange','figue','melon','peche','asperge','betterave','chou-fleur','endive','epinard','haricot-vert','poireau','radis','brocoli','navet','patate-douce','echalote']
+          bounds=[(35,26,302,294),(341,20,631,286),(651,38,942,298),(973,22,1240,299),(44,303,296,605),(342,306,620,603),(657,324,956,598),(990,302,1224,608),(30,627,308,924),(371,619,612,923),(665,604,912,929),(980,610,1237,921),(26,928,300,1223),(342,925,626,1221),(655,939,934,1214),(979,921,1230,1225)]
+          out=Path('public/brand/mascots/v2'); manifest_path=out/'sources.json';manifest=json.loads(manifest_path.read_text())
+          assert len(manifest)==41
+          preserved={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in out.glob('*.webp') if p.stem not in names}
+          for key,b in zip(names,bounds):
+            mask=im.getchannel('A').point(lambda x:255 if x>16 else 0)
+            seed=((b[0]+b[2])//2,(b[1]+b[3])//2)
+            assert mask.getpixel(seed)==255
+            ImageDraw.floodfill(mask,seed,128)
+            selected=mask.point(lambda x:255 if x==128 else 0).filter(ImageFilter.MaxFilter(3))
+            alpha=ImageChops.multiply(im.getchannel('A'),selected)
+            obj=im.copy();obj.putalpha(alpha);box=alpha.getbbox();crop=obj.crop(box)
+            size=max(crop.size)+12
+            canvas=Image.new('RGBA',(size,size))
+            canvas.paste(crop,((size-crop.width)//2,(size-crop.height)//2))
+            path=out/(key+'.webp');canvas.save(path,'WEBP',lossless=True,method=4)
+            manifest[key]={'width':size,'height':size,'sourceSha256':expected,'crop':list(box),'method':'connected alpha component, original colour pixels, native resolution','sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+          for name,digest in preserved.items(): assert hashlib.sha256((out/name).read_bytes()).hexdigest()==digest
+          manifest_path.write_text(json.dumps(manifest,indent=2)+'\n')
+          print('16 complete isolated characters; all original 25 unchanged; no resizing or generated faces.')
+          PY
+      - run: corepack enable
+      - run: yarn install --no-immutable
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+      - name: Existing type and regression checks
+        run: yarn typecheck && yarn test
+      - name: Commit only refined new image crops
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/brand/mascots/v2
+          git commit -m 'quality: keep whole POWER characters, remove adjacent sprite fragments'
+          git push origin HEAD:fix/unify-power-mascot-design
+      - name: Install isolated browser renderer, not application dependencies
+        run: |
+          npm install --prefix /tmp/power-render --no-audit --no-fund esbuild@0.25.9
+          python -m playwright install --with-deps chromium
+      - name: Render unchanged production components using explicit test data and no database
+        run: |
+          mkdir -p .power-ui-review power-component-evidence
+          cat > .power-ui-review/fixture.tsx <<'TSX'
+          import React from 'react'
+          import {createRoot} from 'react-dom/client'
+          import ProductModal from '../components/product/product-modal'
+          import CartDrawer from '../components/cart/cart-drawer'
+          const product={id:'visual-test-fraise',name:'Fraises Gariguette',price:1.23,unit:'barquette',image:'/unused-normal-photo.jpg',description:'Données fictives de contrôle : les tarifs du magasin ne sont pas modifiés.',category:'Fruits',inStock:true,organic:false,currentStock:10}
+          const mode=new URLSearchParams(location.search).get('mode')
+          createRoot(document.getElementById('root')!).render(mode==='cart'?<CartDrawer open onOpenChange={()=>{}}/>:<ProductModal product={product} isOpen onClose={()=>{}}/>)
+          TSX
+          cat > .power-ui-review/cart-mock.ts <<'TS'
+          export async function getCartItems(){return {success:true,data:[{id:'visual-item-1',quantity:1,product:{name:'Fraises Gariguette',price:1.23,promoPrice:null,unit:'barquette',image:'/unused-normal-photo.jpg'}},{id:'visual-item-2',quantity:2,product:{name:'Tomates cerises',price:4.56,promoPrice:null,unit:'pièce',image:'/unused-normal-photo.jpg'}}]}}
+          export async function addToCart(){throw new Error('Visual fixture: writes forbidden')}
+          export async function updateCartItemQuantity(){throw new Error('Visual fixture: writes forbidden')}
+          export async function removeCartItem(){throw new Error('Visual fixture: writes forbidden')}
+          TS
+          echo 'export async function getDeliveryConfig(){return {fee:4.9,threshold:30}}' > .power-ui-review/content-mock.ts
+          cat > .power-ui-review/image-mock.tsx <<'TSX'
+          import React from 'react'
+          export default function Image({fill,priority,fetchPriority,style,...props}:any){return <img {...props} style={{...(fill?{position:'absolute',inset:0,width:'100%',height:'100%'}:{}),...style}}/>}
+          TSX
+          cat > .power-ui-review/link-mock.tsx <<'TSX'
+          import React from 'react'
+          export default function Link({prefetch,replace,scroll,...props}:any){return <a {...props}/>}
+          TSX
+          node <<'JS'
+          const esbuild=require('/tmp/power-render/node_modules/esbuild')
+          const path=require('node:path')
+          const root=process.cwd(),f=path.join(root,'.power-ui-review')
+          esbuild.buildSync({entryPoints:[path.join(f,'fixture.tsx')],outfile:path.join(f,'bundle.js'),bundle:true,platform:'browser',format:'iife',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},alias:{'@/app/actions/cart':path.join(f,'cart-mock.ts'),'@/app/actions/content':path.join(f,'content-mock.ts'),'next/image':path.join(f,'image-mock.tsx'),'next/link':path.join(f,'link-mock.tsx'),'@':root}})
+          JS
+          yarn exec tailwindcss -i app/globals.css -o .power-ui-review/site.css
+          ln -s ../public/brand .power-ui-review/brand
+          cat > .power-ui-review/index.html <<'HTML'
+          <!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contrôle des composants POWER</title><link rel="stylesheet" href="/site.css"><style>body{background:#073b2d}.review-label{position:fixed;bottom:0;left:0;right:0;z-index:10000;text-align:center;background:#ffcd47;color:#073b2d;font:700 10px/1.4 Arial;padding:5px;pointer-events:none}</style><body><div id="root"></div><div class="review-label">TEST VISUEL DU CODE · PRIX FICTIFS · AUCUNE COMMANDE RÉELLE</div><script src="/bundle.js"></script></body></html>
+          HTML
+          python -m http.server 4173 --bind 127.0.0.1 --directory .power-ui-review > /tmp/power-render-server.log 2>&1 &
+          python - <<'PY'
+          import asyncio,json,subprocess
+          from pathlib import Path
+          from playwright.async_api import async_playwright
+          async def main():
+            out=Path('power-component-evidence');report={'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'kind':'isolated renders of actual ProductModal and CartDrawer source','fixture':'fictitious prices; mocked server actions; no production data or writes','screens':[],'errors':[]}
+            async with async_playwright() as p:
+              browser=await p.chromium.launch()
+              context=await browser.new_context(viewport={'width':390,'height':844},device_scale_factor=2,is_mobile=True,has_touch=True)
+              async def local_only(route):
+                if not route.request.url.startswith('http://127.0.0.1:4173/') or route.request.method!='GET': await route.abort()
+                else: await route.continue_()
+              await context.route('**/*',local_only)
+              page=await context.new_page();page.on('pageerror',lambda error:report['errors'].append(str(error)))
+              for mode,name in [('detail','POWER_fiche_code_corrige.png'),('cart','POWER_panier_code_corrige.png')]:
+                await page.goto('http://127.0.0.1:4173/?mode='+mode,wait_until='networkidle')
+                await page.get_by_role('dialog').wait_for(timeout=10000)
+                await page.wait_for_function('Array.from(document.images).every(i=>i.complete && i.naturalWidth>0)')
+                assert await page.locator('[data-mascot-key="fraise"]').count()==1
+                if mode=='cart': assert await page.locator('[data-mascot-key="tomate"]').count()==1
+                assert await page.locator('img[src*="unused-normal-photo"]').count()==0
+                await page.screenshot(path=str(out/name),full_page=True);report['screens'].append(name)
+              await browser.close()
+            (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
+            if report['errors']: raise RuntimeError('Browser errors: '+str(report['errors']))
+          asyncio.run(main())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: POWER-corrected-component-evidence
+          path: power-component-evidence/
+          if-no-files-found: warn
+          retention-days: 7
