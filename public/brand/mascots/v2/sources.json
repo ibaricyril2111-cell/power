@@ -150,195 +150,211 @@
     "sha256": "0e85d0acd4133a7ae467e69df7e8f0241c24d100c3c34103d4f3755043ae59ea"
   },
   "orange": {
-    "width": 314,
-    "height": 314,
+    "width": 282,
+    "height": 282,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      0,
-      0,
-      314,
-      314
+      34,
+      25,
+      303,
+      295
     ],
-    "sha256": "2ab80f35ed1c9bc8204239aadb777821a1abbfd24b11bf85395b109584fe82da"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "e44b0fd1f1ff3051120ca9c615dfea940423d3dce3f81c9b84eb433382cdbdae"
   },
   "figue": {
-    "width": 313,
-    "height": 314,
+    "width": 304,
+    "height": 304,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      314,
-      0,
-      627,
-      314
+      340,
+      19,
+      632,
+      287
     ],
-    "sha256": "a1b914f530bb80978cca803ca0213ca93021c1e758031c9521a67e8bc61fe1cb"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "0a5305b24b572efb93dbef3d1a83d5f387b8a33f451e48d650944d0c47ec9560"
   },
   "melon": {
-    "width": 313,
-    "height": 314,
+    "width": 305,
+    "height": 305,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      627,
-      0,
-      940,
-      314
+      650,
+      37,
+      943,
+      298
     ],
-    "sha256": "45d441ccbf754dbc04b530b5f2708a80e4bba958e17fba1ead8287ff1bc69c01"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "90bbb1d495d9040751ce24d404f712cad7a8d45381090eff621b8caaa9ea3501"
   },
   "peche": {
-    "width": 314,
-    "height": 314,
+    "width": 290,
+    "height": 290,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      940,
-      0,
-      1254,
-      314
+      972,
+      21,
+      1241,
+      299
     ],
-    "sha256": "472d33fccd84347b0eeb9839c6b865b6b6984a1a7adb32d9ccbad6a5aaeb7216"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "0237b82b7cd2d0ae1df5319b01e2e2b2c8ad0f009a5c57a8a74304fff52fec3f"
   },
   "asperge": {
-    "width": 314,
-    "height": 313,
+    "width": 316,
+    "height": 316,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      0,
-      314,
-      314,
-      627
+      43,
+      302,
+      296,
+      606
     ],
-    "sha256": "36b864eca3cb62f1ed40117c4107110849d771c4d5480b63b7b065ea4b20e85f"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "44f7f2f1cee58bf7134379265b91cde4e4eff4ca6c18478db9d7cd0d678491c4"
   },
   "betterave": {
-    "width": 313,
-    "height": 313,
+    "width": 311,
+    "height": 311,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      314,
-      314,
-      627,
-      627
+      341,
+      305,
+      621,
+      604
     ],
-    "sha256": "f0f593486477a114bf94e1771944e2ae8eb64a466fad82b634674426240aa586"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "e371baa916424826292d6748faace8c3aa943562cf0a5cde743874606b5718f0"
   },
   "chou-fleur": {
     "width": 313,
     "height": 313,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      627,
-      314,
-      940,
-      627
+      656,
+      323,
+      957,
+      599
     ],
-    "sha256": "dd5bd83cc4858cf0ecbe2453085e2a29533d499db9f53c06f9ad7ff1493c0830"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "2bdefefddbd88ddbbef9acc7a268bcf7918032da2596bcbed29706aa2621578c"
   },
   "endive": {
-    "width": 314,
-    "height": 313,
+    "width": 320,
+    "height": 320,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      940,
-      314,
-      1254,
-      627
+      989,
+      301,
+      1225,
+      609
     ],
-    "sha256": "ed36f880fa2f6b2e8ad518041c3c6dc52766f35d8a097bc5fe22ee70fb5415fe"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "eee4c2d4ec32fa056d62035ccd6b8cdba6bf4ef8d404b815508f18b5f40f01ed"
   },
   "epinard": {
-    "width": 314,
-    "height": 313,
+    "width": 311,
+    "height": 311,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      0,
-      627,
-      314,
-      940
+      29,
+      626,
+      309,
+      925
     ],
-    "sha256": "0e472ea7f3e634e9c1eccfdc7c3b4c44cbc4bbbc80603cc1c88d9866fc22e69a"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "4f8d144d36fa0436e256bfab7ed79fdd0dd75387fe32ed2a52b074bb4ea2544a"
   },
   "haricot-vert": {
-    "width": 313,
-    "height": 313,
+    "width": 318,
+    "height": 318,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      314,
-      627,
-      627,
-      940
+      370,
+      618,
+      613,
+      924
     ],
-    "sha256": "0a25be50e94c2128d6d8223e05e774d7b107ba04880d852debf933bf3deed4db"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "0be99d1951e9e342f63df27d6c21ff9864ac06c056e3895b55e75dec3d7ff7be"
   },
   "poireau": {
-    "width": 313,
-    "height": 313,
+    "width": 339,
+    "height": 339,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      627,
-      627,
-      940,
-      940
+      664,
+      603,
+      913,
+      930
     ],
-    "sha256": "a4720b44f9ae4c5894345c7aa150d21c878fedf930be58e590bfe4fa765e72f2"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "a5c3b65ddd019a23a493c3728a9a46469de57f30b5fa88a26928afd7c155fbfa"
   },
   "radis": {
-    "width": 314,
-    "height": 313,
+    "width": 324,
+    "height": 324,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      940,
-      627,
-      1254,
-      940
+      979,
+      610,
+      1238,
+      922
     ],
-    "sha256": "84031b8fa4decf326cfaccdde4f1c268dff63abe8b5e7282db7febc1a5e3b893"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "c8e3e701c55f505d88a5ba9f5eaf202740bd9295002908e2ffe1454c26e84eb8"
   },
   "brocoli": {
-    "width": 314,
-    "height": 314,
+    "width": 309,
+    "height": 309,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      0,
-      940,
-      314,
-      1254
+      25,
+      927,
+      301,
+      1224
     ],
-    "sha256": "ef36ba07258b0ead30a273eee68cc6de3eb1587dbb0acdbb34e62b6655126773"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "abfb50f4e6e2f62c7ee608cea0121020d84dee71ec33a53c5c89768e01c829a2"
   },
   "navet": {
-    "width": 313,
-    "height": 314,
+    "width": 310,
+    "height": 310,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      314,
-      940,
+      341,
+      924,
       627,
-      1254
+      1222
     ],
-    "sha256": "25ac385821bf4632a6219c643d4cc4c29f6abfe95cfb8362098d44c560469133"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "cf72f12fec0f9ad3b9703422bc8c3dce2b216d6a5fead9d38c31139e576ce096"
   },
   "patate-douce": {
-    "width": 313,
-    "height": 314,
+    "width": 293,
+    "height": 293,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      627,
-      940,
-      940,
-      1254
+      654,
+      938,
+      935,
+      1215
     ],
-    "sha256": "2a7b68e5e1fb3d209ec2d798cdeaed8d557b5b98f9abc56208770280ce186ee4"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "8fb9e407e6573552a5c0eba6c92305620216cd862fd3bfd499fbcdc566b58ee7"
   },
   "echalote": {
-    "width": 314,
-    "height": 314,
+    "width": 318,
+    "height": 318,
     "sourceSha256": "3d79038658f6ef62be09d401a679a360f0e9965ca782015d5bf404b3e49b1046",
     "crop": [
-      940,
-      940,
-      1254,
-      1254
+      979,
+      920,
+      1231,
+      1226
     ],
-    "sha256": "a2bb2e30890cf38b426b1342d60c71172686e56785d5478ee77849186c3df29c"
+    "method": "connected alpha component, original colour pixels, native resolution",
+    "sha256": "820cf8253eb8366c5b90f7ddbcef1f9eca391c62f4fc4bc5466d4e30cf31d816"
   }
 }
