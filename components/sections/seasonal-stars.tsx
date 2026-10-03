@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { prisma } from "@/lib/db"
 import { avatarForProductName } from "@/lib/power-avatars"
+import ProductMascotImage from "@/components/product/product-mascot-image"
 
 type Season = {
   key: "hiver" | "printemps" | "ete" | "automne"
@@ -54,9 +55,9 @@ export default async function SeasonalStars() {
   if (ranked.length === 0) return null
 
   return (
-    <section id="saison" className="w-full bg-[#173f32] px-5 py-16 text-white sm:px-8 md:py-24">
+    <section id="saison" className="w-full bg-[#0b4938] px-5 py-16 text-white sm:px-8 md:py-24">
       <div className="mx-auto max-w-7xl">
-        <div className="overflow-hidden rounded-[36px] border border-white/10 bg-[#102e25] shadow-2xl">
+        <div className="overflow-hidden rounded-[36px] border border-white/10 bg-[#073b2d] shadow-2xl">
           <div className="relative border-b border-white/10 px-6 py-8 sm:px-9">
             <div className="absolute right-5 top-4 text-5xl opacity-90" aria-hidden="true">{season.emoji}</div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#ffcd47]">La bande POWER de saison</p>
@@ -79,7 +80,7 @@ export default async function SeasonalStars() {
                   <Link
                     key={product.id}
                     href={`/produits/${product.id}`}
-                    className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#173f32] p-3 transition hover:-translate-y-1 hover:border-[#ffcd47]/70"
+                    className="group overflow-hidden rounded-[24px] border border-white/10 bg-[#0b4938] p-3 transition hover:-translate-y-1 hover:border-[#ffcd47]/70"
                   >
                     <div className="relative aspect-square overflow-hidden rounded-[19px] bg-[#244f40]">
 <div
