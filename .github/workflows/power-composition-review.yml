@@ -1,0 +1,30 @@
+name: POWER composition artwork review
+on:
+  push:
+    branches: [fix/unify-power-mascot-design]
+    paths: [.github/workflows/power-composition-review.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Collect existing artwork and source only
+        run: |
+          mkdir -p power-composition-review/brand power-composition-review/source
+          cp public/brand/*.webp power-composition-review/brand/
+          cp -r public/brand/mascots/v2 power-composition-review/brand/mascots
+          cp components/product/composition-*.tsx power-composition-review/source/
+          cp lib/composition-pricing.ts lib/power-avatars.ts power-composition-review/source/
+          cp package.json power-composition-review/source/
+          git rev-parse HEAD > power-composition-review/source-commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: POWER-composition-artwork-source
+          path: power-composition-review/
+          retention-days: 7
+          if-no-files-found: error
