@@ -59,7 +59,7 @@ export default async function ProductsPage({
                             const isLowStock = !isOutOfStock && product.currentStock <= 5
                             return (
                             <div key={product.id} className="group glassmorphism bg-[#173f32]/85 rounded-3xl overflow-hidden border border-white/5 hover:border-[#ffcd47]/50 transition-all duration-500 flex flex-col">
-                                <div className="relative aspect-square overflow-hidden bg-[#244f40]">
+                                <Link href={"/produits/" + encodeURIComponent(product.id)} aria-label={"Voir le détail de " + product.name} className="relative block aspect-square overflow-hidden bg-[#244f40]">
                                     <ProductMascotImage
                                         name={product.name}
                                         fallbackImage={product.image}
@@ -85,7 +85,7 @@ export default async function ProductsPage({
                                     <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm font-bold border border-white/10">
                                         {product.promoPrice != null && <span className="line-through text-zinc-400 mr-2">{product.price.toFixed(2)}€</span>}{(product.promoPrice ?? product.price).toFixed(2)}€ / {product.unit}
                                     </div>
-                                </div>
+                                </Link>
 
                                 <div className="p-6 flex flex-col flex-1 gap-4">
                                     <div className="flex flex-col gap-1">

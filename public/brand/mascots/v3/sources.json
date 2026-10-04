@@ -1,0 +1,1602 @@
+{
+  "mangue": {
+    "label": "Mangue",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "fraise": {
+    "label": "Fraise",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "ananas": {
+    "label": "Ananas",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "tomate": {
+    "label": "Tomate",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "banane": {
+    "label": "Banane",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "pomme": {
+    "label": "Pomme",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "poire": {
+    "label": "Poire",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "orange": {
+    "label": "Orange",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "citron": {
+    "label": "Citron",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "citron-vert": {
+    "label": "Citron vert",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 1,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 154,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "clementine": {
+    "label": "Clémentine",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "pamplemousse": {
+    "label": "Pamplemousse",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "mandarine": {
+    "label": "Mandarine",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "kiwi": {
+    "label": "Kiwi",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "pasteque": {
+    "label": "Pastèque",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "melon": {
+    "label": "Melon",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "raisin": {
+    "label": "Raisin",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "cerise": {
+    "label": "Cerise",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "abricot": {
+    "label": "Abricot",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "peche": {
+    "label": "Pêche",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 2,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 279,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "nectarine": {
+    "label": "Nectarine",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "prune": {
+    "label": "Prune",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "framboise": {
+    "label": "Framboise",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "mure": {
+    "label": "Mûre",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "myrtille": {
+    "label": "Myrtille",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "groseille": {
+    "label": "Groseille",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "cassis": {
+    "label": "Cassis",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "figue": {
+    "label": "Figue",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "grenade": {
+    "label": "Grenade",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "kaki": {
+    "label": "Kaki",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 3,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 403,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "passion": {
+    "label": "Fruit de la passion",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "noix-de-coco": {
+    "label": "Noix de coco",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "papaye": {
+    "label": "Papaye",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "pitaya": {
+    "label": "Pitaya",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "litchi": {
+    "label": "Litchi",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "goyave": {
+    "label": "Goyave",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "carambole": {
+    "label": "Carambole",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "ramboutan": {
+    "label": "Ramboutan",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "mangoustan": {
+    "label": "Mangoustan",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "durian": {
+    "label": "Durian",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 4,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 527,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "corossol": {
+    "label": "Corossol",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "cherimole": {
+    "label": "Chérimole",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "tamarin": {
+    "label": "Tamarin",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "kumquat": {
+    "label": "Kumquat",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "physalis": {
+    "label": "Physalis",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "datte": {
+    "label": "Datte",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "avocat": {
+    "label": "Avocat",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "jacquier": {
+    "label": "Fruit du jacquier",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "longane": {
+    "label": "Longane",
+    "family": "exotiques",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "nefle": {
+    "label": "Nèfle",
+    "family": "fruits",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 5,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 652,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "carotte": {
+    "label": "Carotte",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "courgette": {
+    "label": "Courgette",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "aubergine": {
+    "label": "Aubergine",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "concombre": {
+    "label": "Concombre",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "poivron": {
+    "label": "Poivron rouge",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "brocoli": {
+    "label": "Brocoli",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "chou-fleur": {
+    "label": "Chou-fleur",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "chou-rouge": {
+    "label": "Chou rouge",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "salade": {
+    "label": "Laitue",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "epinard": {
+    "label": "Épinard",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 6,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 780,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "poireau": {
+    "label": "Poireau",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "celeri-branche": {
+    "label": "Céleri branche",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "fenouil": {
+    "label": "Fenouil",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "artichaut": {
+    "label": "Artichaut",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "asperge": {
+    "label": "Asperge",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "haricot-vert": {
+    "label": "Haricot vert",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "petit-pois": {
+    "label": "Petit pois",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "radis": {
+    "label": "Radis",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "betterave": {
+    "label": "Betterave",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "navet": {
+    "label": "Navet",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 7,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 912,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "panais": {
+    "label": "Panais",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "pomme-de-terre": {
+    "label": "Pomme de terre",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "patate-douce": {
+    "label": "Patate douce",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "potiron": {
+    "label": "Potimarron",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "butternut": {
+    "label": "Butternut",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "champignon": {
+    "label": "Champignon",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "oignon": {
+    "label": "Oignon",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "ail": {
+    "label": "Ail",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "echalote": {
+    "label": "Échalote",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "endive": {
+    "label": "Endive",
+    "family": "legumes",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 8,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 1044,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "basilic": {
+    "label": "Basilic",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "menthe": {
+    "label": "Menthe",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "persil": {
+    "label": "Persil",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "coriandre": {
+    "label": "Coriandre",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "ciboulette": {
+    "label": "Ciboulette",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "thym": {
+    "label": "Thym",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "romarin": {
+    "label": "Romarin",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "sauge": {
+    "label": "Sauge",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "estragon": {
+    "label": "Estragon",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "aneth": {
+    "label": "Aneth",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 9,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 1171,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "laurier": {
+    "label": "Laurier",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 1,
+    "crop": {
+      "left": 10,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "origan": {
+    "label": "Origan",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 2,
+    "crop": {
+      "left": 111,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "sarriette": {
+    "label": "Sarriette",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 3,
+    "crop": {
+      "left": 212,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "cerfeuil": {
+    "label": "Cerfeuil",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 4,
+    "crop": {
+      "left": 313,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "melisse": {
+    "label": "Mélisse",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 5,
+    "crop": {
+      "left": 414,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "verveine": {
+    "label": "Verveine",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 6,
+    "crop": {
+      "left": 516,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "oseille": {
+    "label": "Oseille",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 7,
+    "crop": {
+      "left": 617,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "gingembre": {
+    "label": "Gingembre",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 8,
+    "crop": {
+      "left": 718,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "curcuma": {
+    "label": "Curcuma",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 9,
+    "crop": {
+      "left": 819,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  },
+  "citronnelle": {
+    "label": "Citronnelle",
+    "family": "aromates",
+    "source": "approved-family-100.png",
+    "approved": "2026-10-04",
+    "row": 10,
+    "column": 10,
+    "crop": {
+      "left": 920,
+      "top": 1298,
+      "width": 95,
+      "height": 95
+    },
+    "width": 95,
+    "height": 95
+  }
+}

@@ -1,6 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/db"
+import { configureEmptyPowerSmoothies } from "@/lib/configure-power-smoothies"
 
 /** Composition prête à être configurée côté client : ses formats et ses ingrédients. */
 export type CompositionWithChoices = {
@@ -10,7 +11,7 @@ export type CompositionWithChoices = {
     description: string | null
     basePrice: number
     imageUrl: string | null
-    sizes: { id: string; name: string; price: number; description: string | null; isDefault: boolean }[]
+    sizes: { id: string; name: string; price: number; description: string | null; isDefault: boolean; includedChoices: number }[]
     options: {
         id: string
         name: string
@@ -32,16 +33,24 @@ const SELECT_CHOICES = {
     },
 }
 
-export async function getCompositionsByTypes(types: string[]): Promise<{
+export async function getCompositionsByTypes(types: string[] = []): Promise<{
     success: boolean
     data: CompositionWithChoices[]
 }> {
     try {
-        const compositions = await prisma.composition.findMany({
-            where: { type: { in: types } },
+        const query = {
+            where: types.length > 0 ? { type: { in: types } } : {},
             orderBy: { name: "asc" },
             include: SELECT_CHOICES,
-        })
+        } as const
+        let compositions = await prisma.composition.findMany(query)
+        try {
+            if (await configureEmptyPowerSmoothies(compositions)) {
+                compositions = await prisma.composition.findMany(query)
+            }
+        } catch (configurationError) {
+            console.error("POWER smoothie configuration will be retried:", configurationError)
+        }
         return { success: true, data: compositions }
     } catch (error) {
         console.error("Error fetching compositions:", error)

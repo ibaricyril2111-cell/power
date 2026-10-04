@@ -33,9 +33,7 @@ const expectedPairs = [
 ] as const
 
 const missingArtwork = [
-   "Ail",  "Basilic", "Coriandre", "Menthe",
-   "Pastèque",  "Piment", "Gombo", 
-    "Pomelos", "Butternut", "Potimarron",
+   "Piment", "Gombo",
   "Jus de mangue", "Salade de fruits", "Produit inconnu",
 ]
 
@@ -51,16 +49,19 @@ describe("POWER product/character identity", () => {
   it.each(POWER_AVATARS)("uses the same $key image for product and avatar", (avatar) => {
     expect(avatarForProductName(avatar.label)).toEqual(avatar)
     expect(powerAvatar(avatar.key).image).toBe(avatar.image)
-    expect(avatar.image).toBe(`/brand/mascots/v2/${avatar.key}.webp`)
+    expect(avatar.image).toBe(`/brand/mascots/v3/${avatar.key}.webp`)
     expect(existsSync(resolve(process.cwd(), "public", avatar.image.slice(1)))).toBe(true)
   })
 
-  it("keeps 41 separate source files rather than enlarging a contact sheet", () => {
-    expect(new Set(POWER_AVATARS.map((avatar) => avatar.image)).size).toBe(41)
-    const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "public/brand/mascots/v2/sources.json"), "utf8"))
+  it("retains all 100 individually addressable characters from the newly approved atlas", () => {
+    expect(POWER_AVATARS).toHaveLength(100)
+    expect(new Set(POWER_AVATARS.map((avatar) => avatar.image)).size).toBe(100)
+    const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "public/brand/mascots/v3/sources.json"), "utf8"))
     for (const avatar of POWER_AVATARS) {
-      expect(manifest[avatar.key].width).toBeGreaterThanOrEqual(250)
-      expect(manifest[avatar.key].height).toBeGreaterThanOrEqual(250)
+      expect(manifest[avatar.key].approved).toBe("2026-10-04")
+      expect(manifest[avatar.key].source).toBe("approved-family-100.png")
+      expect(manifest[avatar.key].width).toBe(95)
+      expect(manifest[avatar.key].height).toBe(95)
     }
   })
 

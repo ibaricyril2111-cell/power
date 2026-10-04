@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useMemo } from "react"
 import CompositionArtwork from "@/components/product/composition-artwork"
+import SmoothieStage from "@/components/product/smoothie-stage"
+import IngredientChoice from "@/components/product/ingredient-choice"
+import { compositionArtworkKind } from "@/lib/power-composition-artwork"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { ShoppingCart, Check, Loader2, Info } from "lucide-react"
@@ -49,6 +52,12 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
     const [selectedOptions, setSelectedOptions] = useState<string[]>([])
     const [quantity, setQuantity] = useState(1)
     const [isAdding, setIsAdding] = useState(false)
+    const isDrink = compositionArtworkKind(composition) === "drink"
+    const selectedIngredients = selectedOptions.flatMap((id) => {
+        const ingredient = options.find((option) => option.id === id)
+        return ingredient ? [ingredient] : []
+    })
+    const needsIngredient = isDrink && options.length > 0 && selectedIngredients.length === 0
 
     // Sur un format à quota, rien n'est pré-coché : le client choisit ses ingrédients.
     // Sur une formule fixe, on présente la recette standard du commerçant.
@@ -94,6 +103,7 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
     const rankOf = (id: string) => selectedOptions.indexOf(id)
 
     const handleAddToCart = async () => {
+        if (isAdding || needsIngredient) return
         setIsAdding(true)
         try {
             const result = await addToCart({
@@ -124,13 +134,13 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Visuel et description */}
-            <div className="space-y-4">
-                <div className="relative h-[240px] sm:h-[280px] md:h-[340px] rounded-2xl overflow-hidden bg-[#0b4938] border border-white/15">
-                    <CompositionArtwork
+            <div className={"space-y-3 self-start " + (isDrink ? "sticky top-0 z-20 bg-[#073b2d] pb-3 md:top-2" : "")}>
+                <div className={"relative rounded-2xl overflow-hidden bg-[#0b4938] border border-white/15 " + (isDrink ? "h-[220px] sm:h-[260px] md:h-[340px]" : "h-[240px] sm:h-[280px] md:h-[340px]")}>
+                    {isDrink ? <SmoothieStage ingredients={selectedIngredients} /> : <CompositionArtwork
                         composition={composition}
                         selectedOptionIds={options.length > 0 ? selectedOptions : undefined}
                         sizes="(max-width: 767px) 90vw, 360px"
-                    />
+                    />}
                 </div>
                 {composition.description && (
                     <p className="text-white/80 text-sm">{composition.description}</p>
@@ -211,11 +221,14 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                                 ? `Encore ${remaining} au choix, compris dans le prix.`
                                 : "Quota atteint — chaque ingrédient de plus est facturé en supplément."}
                         </p>
-                        <div className="flex flex-wrap gap-2">
+                        <div className={isDrink ? "grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-3" : "flex flex-wrap gap-2"}>
                             {options.map((option) => {
                                 const rank = rankOf(option.id)
                                 const active = rank >= 0
                                 const isPaid = active && rank >= quota
+                                if (isDrink) return <IngredientChoice key={option.id} name={option.name} active={active}
+                                    onClick={() => toggleOption(option.id)}
+                                    priceLabel={isPaid || (!active && remaining === 0) ? "+" + option.extraPrice.toFixed(2) + " €" : "Compris dans la formule"} />
                                 return (
                                     <button
                                         key={option.id}
@@ -253,10 +266,12 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                         <p className="text-xs text-white/65 mb-2">
                             Comprise dans le prix. Décochez ce que vous ne voulez pas.
                         </p>
-                        <div className="flex flex-wrap gap-2">
+                        <div className={isDrink ? "grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-3" : "flex flex-wrap gap-2"}>
                             {includedOptions.map((option) => {
                                 const active = selectedOptions.includes(option.id)
                                 const locked = option.isRemovable === false
+                                if (isDrink) return <IngredientChoice key={option.id} name={option.name} active={active} locked={locked}
+                                    onClick={() => toggleOption(option.id)} priceLabel="Compris dans la formule" />
                                 return (
                                     <button
                                         key={option.id}
@@ -285,9 +300,11 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                             Suppléments
                         </label>
                         <p className="text-xs text-white/65 mb-2">Ajoutés au prix du format.</p>
-                        <div className="flex flex-wrap gap-2">
+                        <div className={isDrink ? "grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-3" : "flex flex-wrap gap-2"}>
                             {extraOptions.map((option) => {
                                 const active = selectedOptions.includes(option.id)
+                                if (isDrink) return <IngredientChoice key={option.id} name={option.name} active={active}
+                                    onClick={() => toggleOption(option.id)} priceLabel={"+" + option.extraPrice.toFixed(2) + " €"} />
                                 return (
                                     <button
                                         key={option.id}
@@ -332,14 +349,14 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                     <Button
                         className="w-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold min-h-12 rounded-xl py-3"
                         onClick={handleAddToCart}
-                        disabled={isAdding}
+                        disabled={isAdding || needsIngredient}
                     >
                         {isAdding ? (
                             <Loader2 className="h-5 w-5 mr-2 animate-spin" />
                         ) : (
                             <ShoppingCart className="h-5 w-5 mr-2" />
                         )}
-                        {isAdding ? "Ajout en cours…" : "Ajouter au panier"}
+                        {isAdding ? "Ajout en cours…" : needsIngredient ? "Choisis au moins un ingrédient" : "Ajouter au panier"}
                     </Button>
                 </div>
             </div>

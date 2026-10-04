@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
-import ProductMascotImage from "@/components/product/product-mascot-image"
+import CartArtwork from "@/components/cart/cart-artwork"
+import SelectionSummary from "@/components/cart/selection-summary"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -10,6 +11,8 @@ import { ShoppingBag, Plus, Minus, Trash2, Loader2 } from "lucide-react"
 import { getCartItems, updateCartItemQuantity, removeCartItem } from "@/app/actions/cart"
 import { getDeliveryConfig } from "@/app/actions/content"
 import { cartItemUnitPrice, deliveryFee as computeDeliveryFee } from "@/lib/pricing"
+import { compositionUnit, describeSelection } from "@/lib/composition-pricing"
+import { quantityStep, roundToStep, formatQuantity, unitLabel } from "@/lib/units"
 
 interface CartDrawerProps {
   open: boolean
@@ -101,6 +104,8 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
         image: item.product.image || "/placeholder.svg",
         total: (item.product.promoPrice ?? item.product.price) * item.quantity,
         customData: null,
+        composition: null,
+        selection: null,
       }
     } else if (item.composition) {
       const customPrice = cartItemUnitPrice(item)
@@ -109,10 +114,12 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
         name: item.composition.name,
         price: customPrice,
         quantity: item.quantity,
-        unit: "pièce",
+        unit: compositionUnit(item.composition.type),
         image: item.composition.imageUrl || "/placeholder.svg",
         total: customPrice * item.quantity,
         customData: item.customData || null,
+        composition: item.composition,
+        selection: describeSelection(item.customData ?? {}, item.composition.sizes ?? [], item.composition.options ?? []),
       }
     }
     return null
@@ -161,16 +168,18 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
             processedItems.map((item) => (
               <div key={item.id} className="flex gap-3 p-3 rounded-2xl bg-[#0b4938] border border-white/15 shadow-sm">
                 <div className="relative w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden bg-[#0b4938] border border-white/10">
-                  <ProductMascotImage
+                  <CartArtwork
                     name={item.name}
-                    alt={`Personnage POWER ${item.name}`}
+                    composition={item.composition}
+                    optionIds={item.customData?.optionIds}
                     sizes="64px"
                   />
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm font-semibold text-white truncate">{item.name}</h4>
-                  <p className="text-xs text-white/70">{item.price.toFixed(2)}€ / {item.unit}</p>
+                  <p className="text-xs text-white/70">{item.price.toFixed(2)}€ / {unitLabel(item.unit)}</p>
+                  <SelectionSummary selection={item.selection} />
 
                   {item.customData?.size && (
                     <div className="mt-1">
@@ -193,16 +202,16 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
                     <div className="flex items-center gap-1.5">
                       <button
                         aria-label={`Réduire la quantité de ${item.name}`}
-                        onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                        onClick={() => handleUpdateQuantity(item.id, roundToStep(item.quantity - quantityStep(item.unit), item.unit))}
                         disabled={updatingId === item.id}
                         className="h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors disabled:opacity-50"
                       >
                         <Minus className="h-3 w-3" />
                       </button>
-                      <span className="w-6 text-center text-sm font-bold text-white">{item.quantity}</span>
+                      <span className="min-w-6 text-center text-xs font-bold text-white">{formatQuantity(item.quantity, item.unit)}</span>
                       <button
                         aria-label={`Augmenter la quantité de ${item.name}`}
-                        onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => handleUpdateQuantity(item.id, roundToStep(item.quantity + quantityStep(item.unit), item.unit))}
                         disabled={updatingId === item.id}
                         className="h-8 w-8 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] flex items-center justify-center text-[#073b2d] transition-colors disabled:opacity-50"
                       >

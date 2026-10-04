@@ -16,20 +16,20 @@ export const metadata = {
 }
 
 export default async function JusSoupesPage() {
-    const { data: compositions } = await getCompositionsByTypes(['jus', 'soupe'])
+    const { data: compositions } = await getCompositionsByTypes(['jus', 'smoothie', 'soupe'])
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="min-h-screen bg-[#073b2d] text-white">
             <Header />
             <div className="pt-24"><FruitShowcase linkToCatalog /></div>
             <main id="jus-disponibles" className="max-w-7xl mx-auto scroll-mt-28 px-4 pt-12 pb-20">
                 <div className="flex flex-col gap-8">
                     <div>
-                        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl border-b border-white/10 pb-6 uppercase italic">
-                            Jus & Soupes <span className="text-orange-500">Ultra-Frais</span>
+                        <h1 className="text-4xl font-black tracking-tight sm:text-5xl border-b border-white/15 pb-6">
+                            Jus, smoothies & <span className="text-[#ffcd47]">soupes POWER</span>
                         </h1>
-                        <p className="mt-4 text-zinc-400 max-w-2xl text-xl">
-                            Des vitamines pures, pressées à froid et sans conservateurs. Le goût du fruit, rien d'autre.
+                        <p className="mt-4 text-white/75 max-w-2xl text-lg">
+                            Choisis ta formule, clique sur tes fruits préférés et regarde les personnages apparaître dans ton mixeur.
                         </p>
                     </div>
 
@@ -41,7 +41,7 @@ export default async function JusSoupesPage() {
                                 fallbackLabel="ÉNERGIE"
                                 badge={
                                     <div className="absolute top-6 left-6 bg-black/60 backdrop-blur-xl border border-white/10 text-white px-4 py-2 rounded-full flex items-center gap-2 font-bold text-xs uppercase tracking-widest">
-                                        <Soup className="w-4 h-4 text-orange-500" /> Pressé à Froid
+                                        <Soup className="w-4 h-4 text-[#ffcd47]" /> À composer
                                     </div>
                                 }
                             />

@@ -1,6 +1,7 @@
 "use client"
 
-import Image from "next/image"
+import CartArtwork from "@/components/cart/cart-artwork"
+import type { CompositionArtworkSource } from "@/lib/power-composition-artwork"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Trash2, AlertTriangle, Plus, Minus } from "lucide-react"
@@ -17,6 +18,7 @@ interface CartItemProps {
     total: number
     stock?: number | null
     customData?: any
+    composition?: CompositionArtworkSource | null
     /** Détail lisible d'une composition configurée (format, formule, suppléments). */
     selection?: {
       sizeName: string | null
@@ -40,12 +42,11 @@ export default function CartItem({ item, onUpdateQuantity, onRemove }: CartItemP
       <CardContent className="p-4">
         <div className="flex items-center gap-4">
           <div className="relative w-20 h-20 flex-shrink-0">
-            <Image
-              src={item.image || "/placeholder.svg"}
-              alt={item.name}
-              fill
+            <CartArtwork
+              name={item.name}
+              composition={item.composition}
+              optionIds={item.customData?.optionIds}
               sizes="80px"
-              className={`object-cover rounded-lg ${isOutOfStock ? "opacity-50" : ""}`}
             />
             {isOutOfStock && (
               <div className="absolute inset-0 flex items-center justify-center bg-red-500 bg-opacity-75 rounded-lg">
