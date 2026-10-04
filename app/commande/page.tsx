@@ -220,27 +220,27 @@ export default function CommandePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
+          <Loader2 className="h-8 w-8 animate-spin text-[#ffcd47]" />
         </div>
       </div>
     )
   }
 
   if (loadError) {
-    return <div className="min-h-screen bg-black text-white"><Header /><div className="pt-32 px-4 text-center"><p role="alert">Impossible de charger votre panier. Veuillez réessayer.</p><Button className="mt-4" onClick={() => window.location.reload()}>Réessayer</Button></div></div>
+    return <div className="min-h-screen bg-[#102e25] text-white"><Header /><div className="pt-32 px-4 text-center"><p role="alert">Impossible de charger votre panier. Veuillez réessayer.</p><Button className="mt-4" onClick={() => window.location.reload()}>Réessayer</Button></div></div>
   }
 
   if (processedItems.length === 0) {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 max-w-4xl mx-auto text-center">
           <h1 className="text-3xl font-black mb-4">Votre panier est vide</h1>
           <p className="text-zinc-400 mb-8">Ajoutez des produits avant de passer commande.</p>
-          <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8 py-6">
+          <Button asChild className="bg-[#ffcd47] hover:bg-[#ffe18a] text-white rounded-full px-8 py-6">
             <Link href="/#marketplace">Voir les produits</Link>
           </Button>
         </div>
@@ -249,7 +249,7 @@ export default function CommandePage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#102e25] text-white">
       <Header />
       <div className="pt-32 pb-16 px-4">
         <div className="max-w-5xl mx-auto">
@@ -260,7 +260,7 @@ export default function CommandePage() {
           </Link>
 
           <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-8">
-            Finaliser ma <span className="text-orange-500">commande</span>
+            Finaliser ma <span className="text-[#ffcd47]">commande</span>
           </h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -274,11 +274,11 @@ export default function CommandePage() {
                     onClick={() => { if (deliveryMethod !== "livraison") { setDeliveryMethod("livraison"); setSelectedDelivery(null) } }}
                     className={`p-5 rounded-2xl border transition-all text-left ${
                       deliveryMethod === "livraison"
-                        ? "border-orange-500 bg-orange-500/10"
+                        ? "border-[#ffcd47] bg-[#ffcd47]/10"
                         : "border-white/10 bg-white/5 hover:border-white/20"
                     }`}
                   >
-                    <Truck className={`h-6 w-6 mb-2 ${deliveryMethod === "livraison" ? "text-orange-500" : "text-zinc-400"}`} />
+                    <Truck className={`h-6 w-6 mb-2 ${deliveryMethod === "livraison" ? "text-[#ffcd47]" : "text-zinc-400"}`} />
                     <p className="font-bold text-white">Livraison</p>
                     <p className="text-xs text-zinc-400 mt-1">Chez vous sous 24-48h</p>
                     <p className="text-xs text-zinc-500 mt-1">
@@ -290,11 +290,11 @@ export default function CommandePage() {
                     onClick={() => { if (deliveryMethod !== "retrait") { setDeliveryMethod("retrait"); setSelectedDelivery(null) } }}
                     className={`p-5 rounded-2xl border transition-all text-left ${
                       deliveryMethod === "retrait"
-                        ? "border-orange-500 bg-orange-500/10"
+                        ? "border-[#ffcd47] bg-[#ffcd47]/10"
                         : "border-white/10 bg-white/5 hover:border-white/20"
                     }`}
                   >
-                    <Store className={`h-6 w-6 mb-2 ${deliveryMethod === "retrait" ? "text-orange-500" : "text-zinc-400"}`} />
+                    <Store className={`h-6 w-6 mb-2 ${deliveryMethod === "retrait" ? "text-[#ffcd47]" : "text-zinc-400"}`} />
                     <p className="font-bold text-white">Retrait en magasin</p>
                     <p className="text-xs text-zinc-400 mt-1">Venez chercher votre commande</p>
                     <p className="text-xs text-green-400 mt-1">Gratuit</p>
@@ -308,7 +308,7 @@ export default function CommandePage() {
                   <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-4 flex items-center gap-2">
                     <User className="h-4 w-4" /> Adresse de livraison
                   </h2>
-                  <Card className="glassmorphism bg-zinc-900/40 border-white/5 rounded-2xl">
+                  <Card className="glassmorphism bg-[#173f32]/80 border-white/5 rounded-2xl">
                     <CardContent className="p-5 space-y-4">
                       <div>
                         <label htmlFor="address" className="text-xs text-zinc-400 font-medium mb-1 block">Adresse *</label>
@@ -357,7 +357,7 @@ export default function CommandePage() {
                 <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-4 flex items-center gap-2">
                   <User className="h-4 w-4" /> Contact
                 </h2>
-                <Card className="glassmorphism bg-zinc-900/40 border-white/5 rounded-2xl">
+                <Card className="glassmorphism bg-[#173f32]/80 border-white/5 rounded-2xl">
                   <CardContent className="p-5">
                     <label htmlFor="phone" className="text-xs text-zinc-400 font-medium mb-1 block">Téléphone *</label>
                     <Input
@@ -390,10 +390,10 @@ export default function CommandePage() {
               </div>
 
               {deliveryMethod === "retrait" && (
-                <Card className="glassmorphism bg-zinc-900/40 border-white/5 rounded-2xl">
+                <Card className="glassmorphism bg-[#173f32]/80 border-white/5 rounded-2xl">
                   <CardContent className="p-6 space-y-4">
                     <h3 className="font-bold text-white flex items-center gap-2">
-                      <MapPin className="h-5 w-5 text-orange-500" />
+                      <MapPin className="h-5 w-5 text-[#ffcd47]" />
                       Point de retrait
                     </h3>
                     <div className="bg-white/5 border border-white/10 rounded-xl p-4">
@@ -401,8 +401,8 @@ export default function CommandePage() {
                       <p className="text-sm text-zinc-400 mt-1">114 Rue Paul Vaillant Couturier</p>
                       <p className="text-sm text-zinc-400">94140 Alfortville</p>
                     </div>
-                    <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4">
-                      <p className="text-sm text-orange-400 font-medium">Un code de retrait vous sera attribué après confirmation.</p>
+                    <div className="bg-[#ffcd47]/10 border border-[#ffcd47]/20 rounded-xl p-4">
+                      <p className="text-sm text-[#ffcd47] font-medium">Un code de retrait vous sera attribué après confirmation.</p>
                       <p className="text-xs text-zinc-400 mt-1">Présentez-le en magasin pour récupérer votre commande.</p>
                     </div>
                   </CardContent>
@@ -414,7 +414,7 @@ export default function CommandePage() {
                 <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-4 flex items-center gap-2">
                   <Tag className="h-4 w-4" /> Code promo
                 </h2>
-                <Card className="glassmorphism bg-zinc-900/40 border-white/5 rounded-2xl">
+                <Card className="glassmorphism bg-[#173f32]/80 border-white/5 rounded-2xl">
                   <CardContent className="p-5">
                     {appliedPromo ? (
                       <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 rounded-xl px-4 py-3">
@@ -442,7 +442,7 @@ export default function CommandePage() {
                         <Button
                           onClick={handleApplyPromo}
                           disabled={promoLoading || !promoInput.trim()}
-                          className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl px-6 shrink-0"
+                          className="bg-[#ffcd47] hover:bg-[#ffe18a] text-white rounded-xl px-6 shrink-0"
                         >
                           {promoLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Appliquer"}
                         </Button>
@@ -462,11 +462,11 @@ export default function CommandePage() {
                     onClick={() => setPaymentMethod("cash")}
                     className={`p-5 rounded-2xl border transition-all text-left ${
                       paymentMethod === "cash"
-                        ? "border-orange-500 bg-orange-500/10"
+                        ? "border-[#ffcd47] bg-[#ffcd47]/10"
                         : "border-white/10 bg-white/5 hover:border-white/20"
                     }`}
                   >
-                    <Banknote className={`h-6 w-6 mb-2 ${paymentMethod === "cash" ? "text-orange-500" : "text-zinc-400"}`} />
+                    <Banknote className={`h-6 w-6 mb-2 ${paymentMethod === "cash" ? "text-[#ffcd47]" : "text-zinc-400"}`} />
                     <p className="font-bold text-white">Espèces</p>
                     <p className="text-xs text-zinc-400 mt-1">Payez en espèces à la réception</p>
                   </button>
@@ -474,11 +474,11 @@ export default function CommandePage() {
                     onClick={() => setPaymentMethod("card_on_delivery")}
                     className={`p-5 rounded-2xl border transition-all text-left ${
                       paymentMethod === "card_on_delivery"
-                        ? "border-orange-500 bg-orange-500/10"
+                        ? "border-[#ffcd47] bg-[#ffcd47]/10"
                         : "border-white/10 bg-white/5 hover:border-white/20"
                     }`}
                   >
-                    <CreditCard className={`h-6 w-6 mb-2 ${paymentMethod === "card_on_delivery" ? "text-orange-500" : "text-zinc-400"}`} />
+                    <CreditCard className={`h-6 w-6 mb-2 ${paymentMethod === "card_on_delivery" ? "text-[#ffcd47]" : "text-zinc-400"}`} />
                     <p className="font-bold text-white">Carte bleue</p>
                     <p className="text-xs text-zinc-400 mt-1">Payez par carte à la réception</p>
                   </button>
@@ -488,14 +488,14 @@ export default function CommandePage() {
 
             {/* Colonne droite : récap */}
             <div className="lg:col-span-1">
-              <Card className="sticky top-28 glassmorphism bg-zinc-900/40 border-white/10 rounded-2xl">
+              <Card className="sticky top-28 glassmorphism bg-[#173f32]/80 border-white/10 rounded-2xl">
                 <CardContent className="p-5 space-y-4">
                   <h3 className="font-bold text-white">Récapitulatif</h3>
 
                   <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
                     {processedItems.map((item) => (
                       <div key={item.id} className="flex gap-3">
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-zinc-800 flex-shrink-0">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-[#244f40] flex-shrink-0">
                           <Image src={item.image} alt={item.name} fill sizes="48px" className="object-cover" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -504,7 +504,7 @@ export default function CommandePage() {
                           {item.customData?.ingredients?.length > 0 && (
                             <div className="flex flex-wrap gap-0.5 mt-0.5">
                               {item.customData.ingredients.map((ing: any, i: number) => (
-                                <span key={i} className="text-[8px] bg-orange-500/10 text-orange-400 px-1 rounded">
+                                <span key={i} className="text-[8px] bg-[#ffcd47]/10 text-[#ffcd47] px-1 rounded">
                                   {ing.name}
                                 </span>
                               ))}
@@ -536,7 +536,7 @@ export default function CommandePage() {
                       </div>
                     )}
                     {selectedDelivery && (
-                      <div className="text-xs text-orange-400 bg-orange-500/10 px-2 py-1.5 rounded-lg">
+                      <div className="text-xs text-[#ffcd47] bg-[#ffcd47]/10 px-2 py-1.5 rounded-lg">
                         {selectedDelivery.date} — {selectedDelivery.time}
                       </div>
                     )}
@@ -546,7 +546,7 @@ export default function CommandePage() {
 
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-white">Total TTC</span>
-                    <span className="text-2xl font-black text-orange-500">{total.toFixed(2)}€</span>
+                    <span className="text-2xl font-black text-[#ffcd47]">{total.toFixed(2)}€</span>
                   </div>
 
                   <Button
@@ -557,7 +557,7 @@ export default function CommandePage() {
                       !/^(?:\+)?[0-9]{10,15}$/.test(phone.replace(/[\s.()\-]/g, "")) ||
                       (deliveryMethod === "livraison" && (!address.trim() || !postalCode.trim() || !city.trim()))
                     }
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-6 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.3)] text-base disabled:opacity-50"
+                    className="w-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white font-bold py-6 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.3)] text-base disabled:opacity-50"
                   >
                     {isCheckingOut ? (
                       <>

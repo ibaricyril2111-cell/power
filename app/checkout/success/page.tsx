@@ -10,6 +10,9 @@ import { Separator } from "@/components/ui/separator"
 import { CheckCircle2, Package, Truck, Clock, ArrowRight, Loader2, ShoppingBag, MapPin } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
+import { getUserProfile } from "@/app/actions/account"
+import { PowerAvatar } from "@/components/account/power-avatar"
+import { DEFAULT_POWER_AVATAR, isPowerAvatarKey, type PowerAvatarKey } from "@/lib/power-avatars"
 
 interface OrderData {
   id: string
@@ -41,6 +44,13 @@ function SuccessContent() {
   const [order, setOrder] = useState<OrderData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const [avatarKey, setAvatarKey] = useState<PowerAvatarKey>(DEFAULT_POWER_AVATAR)
+
+  useEffect(() => {
+    getUserProfile().then((res) => {
+      if (res.success && isPowerAvatarKey(res.data?.avatarKey)) setAvatarKey(res.data.avatarKey)
+    }).catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (!sessionId && !orderId) {
@@ -77,10 +87,10 @@ function SuccessContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 flex flex-col items-center justify-center gap-6">
-          <Loader2 className="h-12 w-12 animate-spin text-orange-500" />
+          <Loader2 className="h-12 w-12 animate-spin text-[#ffcd47]" />
           <p className="text-zinc-400 text-lg">Confirmation de votre paiement en cours...</p>
         </div>
         <Footer />
@@ -90,20 +100,20 @@ function SuccessContent() {
 
   if (error || !order) {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 max-w-2xl mx-auto text-center">
-          <div className="w-20 h-20 bg-orange-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="h-10 w-10 text-orange-500" />
+          <div className="w-20 h-20 bg-[#ffcd47]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle2 className="h-10 w-10 text-[#ffcd47]" />
           </div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-4">
-            Merci pour votre <span className="text-orange-500">commande !</span>
+            Merci pour votre <span className="text-[#ffcd47]">commande !</span>
           </h1>
           <p className="text-zinc-400 mb-8">
             Votre paiement a été traité avec succès. Vous recevrez un email de confirmation sous peu.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8 py-6 font-bold">
+            <Button asChild className="bg-[#ffcd47] hover:bg-[#ffe18a] text-white rounded-full px-8 py-6 font-bold">
               <Link href="/mon-compte">Voir mes commandes</Link>
             </Button>
             <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-full px-8 py-6 font-bold">
@@ -117,17 +127,20 @@ function SuccessContent() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#102e25] text-white">
       <Header />
       <div className="pt-32 pb-16 px-4">
         <div className="max-w-3xl mx-auto">
           {/* Success Header */}
           <div className="text-center mb-10">
-            <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 animate-in zoom-in duration-500">
-              <CheckCircle2 className="h-10 w-10 text-green-500" />
+            <div className="mx-auto mb-5 flex justify-center animate-in zoom-in duration-500">
+              <PowerAvatar avatarKey={avatarKey} size={96} />
+            </div>
+            <div className="mb-4 flex items-center justify-center gap-2 text-sm font-bold text-green-400">
+              <CheckCircle2 className="h-5 w-5" /> C’est dans le panier !
             </div>
             <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-3 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              Commande <span className="text-orange-500">confirmée !</span>
+              Commande <span className="text-[#ffcd47]">confirmée !</span>
             </h1>
             <p className="text-zinc-400 text-lg">
               Merci pour votre confiance. Un email de confirmation vous a été envoyé.
@@ -135,13 +148,13 @@ function SuccessContent() {
           </div>
 
           {/* Order Summary Card */}
-          <Card className="glassmorphism bg-zinc-900/40 border-white/10 rounded-3xl overflow-hidden mb-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200">
+          <Card className="glassmorphism bg-[#173f32]/85 border-white/10 rounded-3xl overflow-hidden mb-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200">
             <CardContent className="p-0">
               {/* Order Header */}
               <div className="p-6 bg-white/5 border-b border-white/5 flex flex-col sm:flex-row justify-between gap-4">
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-1">Commande</p>
-                  <p className="text-xl font-black text-orange-500">{order.orderNumber}</p>
+                  <p className="text-xl font-black text-[#ffcd47]">{order.orderNumber}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-1">Total payé</p>
@@ -155,8 +168,8 @@ function SuccessContent() {
                 {order.items.map((item, i) => (
                   <div key={i} className="flex justify-between items-center bg-white/5 rounded-xl p-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center">
-                        <ShoppingBag className="w-4 h-4 text-orange-500" />
+                      <div className="w-8 h-8 bg-[#ffcd47]/10 rounded-lg flex items-center justify-center">
+                        <ShoppingBag className="w-4 h-4 text-[#ffcd47]" />
                       </div>
                       <span className="text-white font-medium">{item.name}</span>
                     </div>
@@ -187,13 +200,13 @@ function SuccessContent() {
           </Card>
 
           {/* Delivery Info */}
-          <Card className="glassmorphism bg-zinc-900/40 border-white/10 rounded-3xl overflow-hidden mb-6 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
+          <Card className="glassmorphism bg-[#173f32]/85 border-white/10 rounded-3xl overflow-hidden mb-6 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300">
             <CardContent className="p-6">
               {order.deliveryMethod === "retrait" ? (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center">
-                      <MapPin className="w-5 h-5 text-orange-500" />
+                    <div className="w-10 h-10 bg-[#ffcd47]/10 rounded-xl flex items-center justify-center">
+                      <MapPin className="w-5 h-5 text-[#ffcd47]" />
                     </div>
                     <div>
                       <p className="font-bold text-white">Retrait en magasin</p>
@@ -201,22 +214,22 @@ function SuccessContent() {
                     </div>
                   </div>
                   {order.pickupCode && (
-                    <div className="bg-orange-500/10 border border-orange-500/20 rounded-2xl p-4 text-center">
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500/60 mb-2">Code de retrait</p>
-                      <p className="text-3xl font-black text-orange-500 tracking-[0.3em]">{order.pickupCode}</p>
+                    <div className="bg-[#ffcd47]/10 border border-[#ffcd47]/20 rounded-2xl p-4 text-center">
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ffcd47]/60 mb-2">Code de retrait</p>
+                      <p className="text-3xl font-black text-[#ffcd47] tracking-[0.3em]">{order.pickupCode}</p>
                       <p className="text-xs text-zinc-400 mt-2">Présentez ce code lors du retrait</p>
                     </div>
                   )}
                   <div className="flex items-center gap-2 text-sm text-zinc-400">
-                    <Clock className="w-4 h-4 text-orange-500" />
-                    <span>Disponible sous 2h après confirmation</span>
+                    <Clock className="w-4 h-4 text-[#ffcd47]" />
+                    <span>Retrait au créneau que vous avez choisi</span>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center">
-                      <Truck className="w-5 h-5 text-orange-500" />
+                    <div className="w-10 h-10 bg-[#ffcd47]/10 rounded-xl flex items-center justify-center">
+                      <Truck className="w-5 h-5 text-[#ffcd47]" />
                     </div>
                     <div>
                       <p className="font-bold text-white">Livraison à domicile</p>
@@ -229,13 +242,13 @@ function SuccessContent() {
                   </div>
                   {order.deliveryDate && (
                     <div className="flex items-center gap-2 text-sm text-zinc-400">
-                      <Clock className="w-4 h-4 text-orange-500" />
+                      <Clock className="w-4 h-4 text-[#ffcd47]" />
                       <span>Date : {new Date(order.deliveryDate).toLocaleDateString("fr-FR")}</span>
                     </div>
                   )}
                   {order.deliverySlot && (
                     <div className="flex items-center gap-2 text-sm text-zinc-400">
-                      <Clock className="w-4 h-4 text-orange-500" />
+                      <Clock className="w-4 h-4 text-[#ffcd47]" />
                       <span>Créneau : {order.deliverySlot}</span>
                     </div>
                   )}
@@ -245,7 +258,7 @@ function SuccessContent() {
           </Card>
 
           {/* Timeline */}
-          <Card className="glassmorphism bg-zinc-900/40 border-white/10 rounded-3xl overflow-hidden mb-8 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-400">
+          <Card className="glassmorphism bg-[#173f32]/85 border-white/10 rounded-3xl overflow-hidden mb-8 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-400">
             <CardContent className="p-6">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-6">Suivi de commande</p>
               <div className="space-y-0">
@@ -271,7 +284,7 @@ function SuccessContent() {
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8 py-6 font-bold gap-2">
+            <Button asChild className="bg-[#ffcd47] hover:bg-[#ffe18a] text-white rounded-full px-8 py-6 font-bold gap-2">
               <Link href={`/commandes/${order.id}`}>
                 Suivre ma commande <ArrowRight className="w-4 h-4" />
               </Link>
@@ -290,8 +303,8 @@ function SuccessContent() {
 export default function CheckoutSuccessPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-orange-500" />
+      <div className="min-h-screen bg-[#102e25] text-white flex items-center justify-center">
+        <Loader2 className="h-12 w-12 animate-spin text-[#ffcd47]" />
       </div>
     }>
       <SuccessContent />

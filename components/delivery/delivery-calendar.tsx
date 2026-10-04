@@ -114,18 +114,18 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
   }))
 
   return (
-    <Card className="glassmorphism bg-zinc-900/40 border-white/5 overflow-hidden rounded-[32px]">
-      <CardHeader className="border-b border-white/5 pb-8">
-        <CardTitle className="flex items-center gap-3 text-2xl font-black uppercase italic tracking-tighter">
-          <CalendarIcon className="h-6 w-6 text-orange-500" />
-          {isRetrait ? "Planifier le " : "Planifier la "}<span className="text-orange-500">{isRetrait ? "Retrait" : "Livraison"}</span>
+    <Card className="min-w-0 overflow-hidden rounded-[28px] border-[#ffcd47]/20 bg-[#0b4a36] text-white shadow-none">
+      <CardHeader className="border-b border-white/10 px-4 pb-5 sm:px-6">
+        <CardTitle className="flex flex-wrap items-center gap-2 text-xl font-black leading-snug sm:text-2xl">
+          <CalendarIcon aria-hidden="true" className="h-6 w-6 shrink-0 text-[#ffcd47]" />
+          <span>{isRetrait ? "Planifier le " : "Planifier la "}<span className="text-[#ffcd47]">{isRetrait ? "retrait" : "livraison"}</span></span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-10 pt-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-10">
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-4 mb-4">Choisir une Date</h4>
-            <div className="p-1 sm:p-4 bg-black/40 rounded-3xl border border-white/5">
+      <CardContent className="space-y-6 px-4 pt-5 sm:px-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
+          <div className="min-w-0 space-y-3">
+            <h4 className="text-sm font-bold text-white">Choisir une date</h4>
+            <div className="flex justify-center rounded-2xl border border-white/10 bg-[#073b2d] p-1 sm:p-3">
               <Calendar
                 mode="single"
                 selected={selectedDate}
@@ -136,48 +136,51 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
             </div>
           </div>
 
-          <div className="space-y-4 flex flex-col">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-4 mb-4">Choisir un Créneau</h4>
+          <div className="flex min-w-0 flex-col space-y-3" aria-busy={loadingSlots}>
+            <h4 className="text-sm font-bold text-white">Choisir un créneau</h4>
             {loadingSlots ? (
-              <div className="flex-1 flex items-center justify-center">
-                <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
+              <div role="status" className="flex min-h-24 flex-1 items-center justify-center gap-2 text-[#ffcd47]">
+                <Loader2 aria-hidden="true" className="h-5 w-5 animate-spin" />
+                <span className="text-sm">Chargement des créneaux…</span>
               </div>
             ) : selectedDate ? (
               displaySlots.length === 0 ? (
-                <div className="flex-1 flex items-center justify-center border border-dashed border-white/5 rounded-3xl text-zinc-600 font-bold italic text-center px-6 py-8">
+                <div role="status" className="flex flex-1 items-center justify-center rounded-2xl border border-dashed border-white/20 bg-[#073b2d] px-4 py-6 text-center text-sm leading-relaxed text-emerald-50">
                   Aucun créneau de {isRetrait ? "retrait" : "livraison"} disponible pour cette date. Veuillez en choisir une autre.
                 </div>
               ) : (
-              <div className="grid grid-cols-1 gap-3 flex-1">
+              <div className="grid flex-1 grid-cols-1 gap-3">
                 {displaySlots.map((slot) => (
                   <Button
                     key={slot.id}
+                    type="button"
                     variant={selectedTime === slot.time ? "default" : "outline"}
-                    className={`h-14 rounded-2xl justify-between px-6 font-bold uppercase italic transition-all ${selectedTime === slot.time
-                        ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20 border-0"
-                        : "bg-black/40 border-white/5 text-zinc-400 hover:text-white hover:border-orange-500/50"
+                    aria-pressed={selectedTime === slot.time}
+                    className={`min-h-14 h-auto w-full justify-between gap-2 whitespace-normal rounded-2xl px-3 py-3 font-bold transition-colors focus-visible:ring-2 focus-visible:ring-[#ffcd47] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b4a36] sm:px-5 ${selectedTime === slot.time
+                        ? "border-transparent bg-[#ffcd47] text-[#073b2d] hover:bg-[#ffe18a] hover:text-[#073b2d]"
+                        : "border-white/20 bg-[#073b2d] text-white hover:border-[#ffcd47] hover:bg-[#115741] hover:text-white"
                       }`}
                     disabled={!slot.available}
                     onClick={() => handleSlotSelect(slot)}
                   >
-                    <div className="flex items-center gap-3">
-                      <Clock className={`w-4 h-4 ${selectedTime === slot.time ? "text-white" : "text-orange-500"}`} />
+                    <span className="flex items-center gap-2">
+                      <Clock aria-hidden="true" className={`h-4 w-4 shrink-0 ${selectedTime === slot.time ? "text-[#073b2d]" : "text-[#ffcd47]"}`} />
                       <span>{slot.time}</span>
-                    </div>
+                    </span>
                     {/* La capacité ne concerne que la livraison ; en retrait, pas de quota. */}
                     {isRetrait ? null : !slot.available ? (
-                      <Badge variant="secondary" className="bg-zinc-800 text-zinc-600 border-0 text-[8px] font-black uppercase tracking-widest">
+                      <Badge variant="secondary" className="border-0 bg-white/10 text-xs text-white">
                         Complet
                       </Badge>
                     ) : (
-                      <span className="text-[10px] text-zinc-600">{slot.remaining} places</span>
+                      <span className={`shrink-0 text-xs ${selectedTime === slot.time ? "text-[#073b2d]" : "text-emerald-100"}`}>{slot.remaining} places</span>
                     )}
                   </Button>
                 ))}
               </div>
               )
             ) : (
-              <div className="flex-1 flex items-center justify-center border border-dashed border-white/5 rounded-3xl text-zinc-600 font-bold italic">
+              <div className="flex min-h-24 flex-1 items-center justify-center rounded-2xl border border-dashed border-white/20 px-4 py-6 text-center text-sm text-emerald-50">
                 Sélectionnez une date d'abord
               </div>
             )}
@@ -185,10 +188,10 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
         </div>
 
         {selectedDelivery && (
-          <div className="p-6 bg-orange-500/10 border border-orange-500/20 rounded-[24px] animate-in fade-in zoom-in-95 duration-500">
-            <div className="flex items-center gap-4 text-orange-500">
-              <CheckCircle2 className="w-6 h-6 shrink-0" />
-              <p className="font-black uppercase italic text-sm tracking-tight leading-none pt-1">
+          <div role="status" className="rounded-2xl border border-[#ffcd47]/30 bg-[#073b2d] p-4 sm:p-5">
+            <div className="flex items-start gap-3 text-[#ffcd47]">
+              <CheckCircle2 aria-hidden="true" className="h-5 w-5 shrink-0" />
+              <p className="text-sm font-bold leading-relaxed">
                 {isRetrait ? "Retrait programmé" : "Livraison programmée"} le {selectedDelivery.date} - {selectedDelivery.time}
               </p>
             </div>

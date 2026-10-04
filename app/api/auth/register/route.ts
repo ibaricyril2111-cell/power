@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import { z } from "zod"
 import { sendWelcomeEmail } from "@/lib/email"
 import { rateLimit, clientIp } from "@/lib/rate-limit"
+import { avatarSettingKey, DEFAULT_POWER_AVATAR, isPowerAvatarKey } from "@/lib/power-avatars"
 
 const registerSchema = z.object({
     // L'email est normalisé dès la validation : sans cela « Jean@x.fr » et « jean@x.fr »
@@ -16,6 +17,7 @@ const registerSchema = z.object({
     // puis est vidé, et une chaîne vide finit en base malgré la règle "requis".
     firstName: z.string().trim().min(1, "Le prénom est requis"),
     lastName: z.string().trim().min(1, "Le nom est requis"),
+    avatarKey: z.string().optional(),
 })
 
 export async function POST(req: Request) {
@@ -31,6 +33,7 @@ export async function POST(req: Request) {
         }
 
         const { email, password, firstName, lastName } = parsed.data
+        const avatarKey = isPowerAvatarKey(parsed.data.avatarKey) ? parsed.data.avatarKey : DEFAULT_POWER_AVATAR
 
         // Anti-abus : borne les créations de comptes par IP (chaque inscription déclenche
         // aussi un email de bienvenue — protège du bombardement d'emails).
@@ -83,6 +86,20 @@ export async function POST(req: Request) {
             throw createError
         }
 
+        // L'avatar est une préférence d'expérience, stockée sans modifier la table User.
+        // Cela permet de l'étendre à de nouvelles mascottes sans toucher aux données de commande.
+        // Préférence d'avatar non bloquante : l'inscription doit rester disponible
+        // même si le stockage des préférences est temporairement indisponible.
+        try {
+            await prisma.siteSetting.upsert({
+                where: { key: avatarSettingKey(user.id) },
+                update: { value: avatarKey },
+                create: { key: avatarSettingKey(user.id), value: avatarKey },
+            })
+        } catch (avatarError) {
+            console.error("⚠️ Avatar POWER non enregistré:", avatarError)
+        }
+
         // Email de bienvenue — non bloquant : le compte est déjà créé, une panne Resend
         // ne doit pas transformer une inscription réussie en erreur côté client.
         try {
@@ -98,6 +115,7 @@ export async function POST(req: Request) {
                 email: user.email,
                 firstName: user.firstName,
                 lastName: user.lastName,
+                avatarKey,
             }
         }, { status: 201 })
     } catch (error) {

@@ -2,15 +2,14 @@
 
 import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
-import ImageWithFallback from "@/components/product/image-with-fallback"
+import ProductMascotImage from "@/components/product/product-mascot-image"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { ShoppingBag, Plus, Minus, Trash2, Loader2, X } from "lucide-react"
+import { ShoppingBag, Plus, Minus, Trash2, Loader2 } from "lucide-react"
 import { getCartItems, updateCartItemQuantity, removeCartItem } from "@/app/actions/cart"
 import { getDeliveryConfig } from "@/app/actions/content"
 import { cartItemUnitPrice, deliveryFee as computeDeliveryFee } from "@/lib/pricing"
-import { describeSelection } from "@/lib/composition-pricing"
 
 interface CartDrawerProps {
   open: boolean
@@ -89,6 +88,7 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
     }
   }
 
+  // Prices, stock-related actions and totals remain unchanged by this visual correction.
   const getItemData = (item: any) => {
     if (item.product) {
       return {
@@ -103,7 +103,6 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
         customData: null,
       }
     } else if (item.composition) {
-      // Même calcul que le serveur : prix du format retenu plus les suppléments.
       const customPrice = cartItemUnitPrice(item)
       return {
         id: item.id,
@@ -127,34 +126,32 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="w-full sm:max-w-md bg-gradient-to-b from-[#f5f0e8] via-[#e8e0d4] to-[#d4cbbe] border-zinc-300 p-0 flex flex-col">
-        {/* Header */}
-        <SheetHeader className="p-4 pb-3 border-b border-zinc-300">
-          <SheetTitle className="text-zinc-900 flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-orange-500" />
+      <SheetContent side="right" className="w-full sm:max-w-md bg-[#073b2d] text-white border-white/15 p-0 flex flex-col shadow-2xl">
+        <SheetHeader className="p-4 pb-3 border-b border-white/15">
+          <SheetTitle className="text-white flex items-center gap-2">
+            <ShoppingBag className="h-5 w-5 text-[#ffcd47]" />
             Mon Panier
             {totalQuantity > 0 && (
-              <span className="text-xs bg-orange-500 text-white px-2 py-0.5 rounded-full font-bold">
+              <span className="text-xs bg-[#ffcd47] text-[#073b2d] px-2 py-0.5 rounded-full font-bold">
                 {totalQuantity}
               </span>
             )}
           </SheetTitle>
         </SheetHeader>
 
-        {/* Items */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-6 w-6 animate-spin text-orange-500" />
+              <Loader2 className="h-6 w-6 animate-spin text-[#ffcd47]" />
             </div>
           ) : processedItems.length === 0 ? (
             <div className="text-center py-12">
-              <ShoppingBag className="h-12 w-12 mx-auto text-zinc-400 mb-3" />
-              <p className="text-zinc-700 font-medium mb-1">Votre panier est vide</p>
-              <p className="text-zinc-500 text-sm mb-4">Ajoutez des produits depuis notre marketplace</p>
+              <ShoppingBag className="h-12 w-12 mx-auto text-[#ffcd47] mb-3" />
+              <p className="text-white font-medium mb-1">Votre panier est vide</p>
+              <p className="text-white/70 text-sm mb-4">Ajoutez des produits depuis notre marketplace</p>
               <Button
                 onClick={() => onOpenChange(false)}
-                className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-6"
+                className="bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold rounded-full px-6"
                 asChild
               >
                 <Link href="/#marketplace">Voir les produits</Link>
@@ -162,33 +159,28 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
             </div>
           ) : (
             processedItems.map((item) => (
-              <div key={item.id} className="flex gap-3 p-3 rounded-xl bg-white/60 border border-zinc-200 shadow-sm">
-                {/* Image */}
-                <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-zinc-200">
-                  <ImageWithFallback
-                    src={item.image}
-                    alt={item.name}
-                    fill
+              <div key={item.id} className="flex gap-3 p-3 rounded-2xl bg-[#0b4938] border border-white/15 shadow-sm">
+                <div className="relative w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden bg-[#0b4938] border border-white/10">
+                  <ProductMascotImage
+                    name={item.name}
+                    alt={`Personnage POWER ${item.name}`}
                     sizes="64px"
-                    className="object-cover"
                   />
                 </div>
 
-                {/* Info */}
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-semibold text-zinc-900 truncate">{item.name}</h4>
-                  <p className="text-xs text-zinc-500">{item.price.toFixed(2)}€ / {item.unit}</p>
+                  <h4 className="text-sm font-semibold text-white truncate">{item.name}</h4>
+                  <p className="text-xs text-white/70">{item.price.toFixed(2)}€ / {item.unit}</p>
 
-                  {/* Ingrédients composition */}
                   {item.customData?.size && (
                     <div className="mt-1">
-                      <span className="text-[10px] text-zinc-500">
+                      <span className="text-[10px] text-white/70">
                         {item.customData.sizeLabel || item.customData.size}
                       </span>
                       {item.customData.ingredients?.length > 0 && (
                         <div className="flex flex-wrap gap-0.5 mt-0.5">
                           {item.customData.ingredients.map((ing: any, i: number) => (
-                            <span key={i} className="text-[9px] bg-orange-500/15 text-orange-600 px-1 py-0.5 rounded">
+                            <span key={i} className="text-[9px] bg-[#ffcd47]/15 text-[#ffcd47] px-1 py-0.5 rounded">
                               {ing.name}
                             </span>
                           ))}
@@ -197,34 +189,33 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
                     </div>
                   )}
 
-                  {/* Quantité + prix */}
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-1.5">
                       <button
                         aria-label={`Réduire la quantité de ${item.name}`}
                         onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                         disabled={updatingId === item.id}
-                        className="h-7 w-7 rounded-full bg-zinc-200 hover:bg-zinc-300 flex items-center justify-center text-zinc-700 transition-colors disabled:opacity-50"
+                        className="h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors disabled:opacity-50"
                       >
                         <Minus className="h-3 w-3" />
                       </button>
-                      <span className="w-6 text-center text-sm font-bold text-zinc-900">{item.quantity}</span>
+                      <span className="w-6 text-center text-sm font-bold text-white">{item.quantity}</span>
                       <button
                         aria-label={`Augmenter la quantité de ${item.name}`}
                         onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                         disabled={updatingId === item.id}
-                        className="h-7 w-7 rounded-full bg-orange-500 hover:bg-orange-600 flex items-center justify-center text-white transition-colors disabled:opacity-50"
+                        className="h-8 w-8 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] flex items-center justify-center text-[#073b2d] transition-colors disabled:opacity-50"
                       >
                         <Plus className="h-3 w-3" />
                       </button>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-zinc-900">{item.total.toFixed(2)}€</span>
+                      <span className="text-sm font-bold text-[#ffcd47]">{item.total.toFixed(2)}€</span>
                       <button
                         aria-label={`Supprimer ${item.name} du panier`}
                         onClick={() => handleRemoveItem(item.id)}
                         disabled={updatingId === item.id}
-                        className="h-7 w-7 rounded-full hover:bg-red-100 flex items-center justify-center text-zinc-400 hover:text-red-500 transition-colors"
+                        className="h-8 w-8 rounded-full hover:bg-red-500/15 flex items-center justify-center text-white/70 hover:text-red-300 transition-colors"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
@@ -236,43 +227,40 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
           )}
         </div>
 
-        {/* Footer — Résumé + Passer commande */}
         {processedItems.length > 0 && (
-          <div className="border-t border-zinc-300 p-4 space-y-3 bg-[#e8e0d4]">
-            <div className="flex justify-between text-sm text-zinc-500">
+          <div className="border-t border-white/15 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] space-y-3 bg-[#052e23]">
+            <div className="flex justify-between text-sm text-white/70">
               <span>Sous-total</span>
-              <span className="text-zinc-900 font-medium">{subtotal.toFixed(2)}€</span>
+              <span className="text-white font-medium">{subtotal.toFixed(2)}€</span>
             </div>
-            <div className="flex justify-between text-sm text-zinc-500">
+            <div className="flex justify-between text-sm text-white/70">
               <span>Livraison</span>
-              <span className={deliveryFee === 0 ? "text-green-600 font-medium" : "text-zinc-900 font-medium"}>
+              <span className={deliveryFee === 0 ? "text-green-300 font-medium" : "text-white font-medium"}>
                 {deliveryFee === 0 ? "Gratuit" : `${deliveryFee.toFixed(2)}€`}
               </span>
             </div>
             {deliveryFee > 0 && (
-              <p className="text-[10px] text-orange-600 bg-orange-500/10 px-2 py-1 rounded-lg text-center">
+              <p className="text-[10px] text-[#ffcd47] bg-[#ffcd47]/10 px-2 py-1 rounded-lg text-center">
                 Plus que {(deliveryConfig.threshold - subtotal).toFixed(2)}€ pour la livraison gratuite
               </p>
             )}
-            <Separator className="bg-zinc-300" />
+            <Separator className="bg-white/15" />
             <div className="flex justify-between items-center">
-              <span className="text-zinc-900 font-bold">Total TTC</span>
-              <span className="text-xl font-black text-orange-500">{total.toFixed(2)}€</span>
+              <span className="text-white font-bold">Total TTC</span>
+              <span className="text-xl font-black text-[#ffcd47]">{total.toFixed(2)}€</span>
             </div>
 
             <Button
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-6 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.3)] text-base"
+              className="w-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold py-6 rounded-xl shadow-lg text-base"
               asChild
               onClick={() => onOpenChange(false)}
             >
-              <Link href="/commande">
-                Passer commande
-              </Link>
+              <Link href="/commande">Passer commande</Link>
             </Button>
 
             <button
               onClick={() => onOpenChange(false)}
-              className="w-full text-center text-sm text-zinc-500 hover:text-zinc-700 transition-colors py-1"
+              className="w-full text-center text-sm text-white/70 hover:text-white transition-colors py-1"
             >
               Continuer mes achats
             </button>

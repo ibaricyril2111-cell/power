@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react'
+import { act, render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react'
 import DeliveryCalendar from '@/components/delivery/delivery-calendar'
 const { slots } = vi.hoisted(() => ({ slots: vi.fn() }))
 vi.mock('@/app/actions/delivery', () => ({ getAvailableDeliverySlots: slots }))
@@ -17,7 +17,7 @@ describe('créneaux de commande', () => {
     render(<DeliveryCalendar initialDate="2099-08-10" onSelectDelivery={select} selectedDelivery={null} />)
     fireEvent.click(await screen.findByRole('button', { name: /10:00/ }))
     expect(select).toHaveBeenLastCalledWith(expect.objectContaining({ slotId: 's1', dateISO: '2099-08-10' }))
-    fireEvent.click(screen.getByText('Changer date'))
+    await act(async () => { fireEvent.click(screen.getByText('Changer date')) })
     expect(select).toHaveBeenLastCalledWith(null)
   })
   it('ignore une réponse arrivée après le changement de date', async () => {
@@ -27,9 +27,51 @@ describe('créneaux de commande', () => {
     render(<DeliveryCalendar initialDate="2099-08-10" onSelectDelivery={select} selectedDelivery={null} />)
     fireEvent.click(screen.getByText('Changer date'))
     await screen.findByRole('button', { name: /10:00/ })
-    resolveOld(result('old'))
+    await act(async () => { resolveOld(result('old')) })
     await waitFor(() => expect(slots).toHaveBeenCalledTimes(2))
     fireEvent.click(screen.getByRole('button', { name: /10:00/ }))
     expect(select).toHaveBeenLastCalledWith(expect.objectContaining({ slotId: 'new', dateISO: '2099-08-11' }))
+  })
+
+  it('signale le créneau sélectionné sans soumettre le formulaire parent', async () => {
+    slots.mockResolvedValue(result('s1'))
+    render(<DeliveryCalendar initialDate="2099-08-10" onSelectDelivery={vi.fn()} selectedDelivery={null} />)
+    const button = await screen.findByRole('button', { name: /10:00/ })
+    expect(button.getAttribute('type')).toBe('button')
+    expect(button.getAttribute('aria-pressed')).toBe('false')
+    fireEvent.click(button)
+    expect(button.getAttribute('aria-pressed')).toBe('true')
+    expect(button.className).toContain('bg-[#ffcd47]')
+    expect(button.className).toContain('text-[#073b2d]')
+  })
+
+  it('affiche un chargement explicite puis un message lorsque la date est complète', async () => {
+    let finish: (value: { success: boolean; data: [] }) => void = () => {}
+    slots.mockImplementationOnce(() => new Promise(resolve => { finish = resolve }))
+    render(<DeliveryCalendar initialDate="2099-08-10" onSelectDelivery={vi.fn()} selectedDelivery={null} />)
+    expect(screen.getByRole('status').textContent).toContain('Chargement des créneaux')
+    await act(async () => { finish({ success: true, data: [] }) })
+    expect(screen.getByRole('status').textContent).toContain('Aucun créneau de livraison disponible')
+  })
+
+  it('ne permet pas de choisir un créneau de livraison sans place', async () => {
+    slots.mockResolvedValue({ success: true, data: [{ id: 'full', date: '2099-08-10', startTime: '10:00', endTime: '12:00', remainingSlots: 0 }] })
+    const select = vi.fn()
+    render(<DeliveryCalendar initialDate="2099-08-10" onSelectDelivery={select} selectedDelivery={null} />)
+    const button = await screen.findByRole('button', { name: /10:00/ })
+    expect((button as HTMLButtonElement).disabled).toBe(true)
+    fireEvent.click(button)
+    expect(select).not.toHaveBeenCalled()
+  })
+
+  it('conserve le mode retrait et n’affiche pas un quota de livraison pour le magasin', async () => {
+    slots.mockResolvedValue(result('pickup'))
+    const select = vi.fn()
+    render(<DeliveryCalendar mode="retrait" initialDate="2099-08-10" onSelectDelivery={select} selectedDelivery={null} />)
+    const button = await screen.findByRole('button', { name: /10:00/ })
+    expect(slots).toHaveBeenCalledWith('2099-08-10', '2099-08-10', 'retrait')
+    expect(screen.queryByText(/places/)).toBeNull()
+    fireEvent.click(button)
+    expect(select).toHaveBeenLastCalledWith(expect.objectContaining({ slotId: 'pickup', dateISO: '2099-08-10' }))
   })
 })
