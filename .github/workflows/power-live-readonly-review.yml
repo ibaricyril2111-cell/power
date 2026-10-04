@@ -1,0 +1,131 @@
+name: POWER live read-only image and navigation review
+on:
+  push:
+    branches: [fix/power-exact-reference-20261004]
+    paths: [.github/workflows/power-live-readonly-review.yml]
+permissions:
+  contents: read
+concurrency:
+  group: power-live-readonly-review
+  cancel-in-progress: true
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated browser
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - name: Inspect existing source and public site only
+        run: |
+          mkdir -p power-live-evidence
+          git rev-parse HEAD > power-live-evidence/source-commit.txt
+          git ls-files > power-live-evidence/tracked-files.txt
+          git grep -n -i -E 'jeu|game|jouer|quiz|memory|recompense|récompense' -- app components lib public docs > power-live-evidence/game-source-search.txt || true
+          git archive --format=zip -o power-live-evidence/review-source.zip HEAD app components lib hooks public __tests__ package.json next.config.mjs middleware.ts auth.config.ts .github
+          python - <<'PY'
+          import asyncio,json,re,datetime
+          from pathlib import Path
+          from urllib.parse import urlsplit
+          from playwright.async_api import async_playwright
+          out=Path('power-live-evidence')
+          report={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'mode':'Public unauthenticated browsing. All non-GET/HEAD requests blocked. No cart mutations, orders, account changes or form submissions.','pages':[]}
+          bases=[('public','https://powerprimeur.com'),('preview','https://power-git-fix-unify-power-mascot-design-ibaricyril2111-cell.vercel.app')]
+          async def run():
+            async with async_playwright() as p:
+              browser=await p.chromium.launch()
+              for label,base in bases:
+                context=await browser.new_context(viewport={'width':390,'height':844},device_scale_factor=1,is_mobile=True,has_touch=True,service_workers='block')
+                blocked=[]
+                async def read_only(route):
+                  req=route.request
+                  if req.method not in ('GET','HEAD'):
+                    blocked.append({'method':req.method,'url':req.url})
+                    await route.abort()
+                  else: await route.continue_()
+                await context.route('**/*',read_only)
+                for path in (['/','/produits','/panier','/commande','/contact','/jus-soupes'] if label=='public' else ['/']):
+                  page=await context.new_page()
+                  item={'base':label,'path':path,'errors':[],'failedResources':[],'blockedRequests':[]}
+                  start=len(blocked)
+                  page.on('pageerror',lambda e,i=item:i['errors'].append(str(e)))
+                  page.on('response',lambda r,i=item:i['failedResources'].append({'status':r.status,'url':r.url}) if r.status>=400 else None)
+                  try:
+                    response=await page.goto(base+path+'?power_review=20261004',wait_until='domcontentloaded',timeout=45000)
+                    await page.wait_for_timeout(2200)
+                    item['status']=response.status if response else None
+                    item['finalUrl']=page.url
+                    item['headers']=await response.all_headers() if response else {}
+                    # Load images already present in the document, without altering data.
+                    await page.evaluate("document.querySelectorAll('img').forEach(i=>i.loading='eager')")
+                    await page.wait_for_timeout(1800)
+                    item['title']=await page.title()
+                    item['text']=(await page.locator('body').inner_text())[:26000]
+                    item['images']=await page.locator('img').evaluate_all("es=>es.map(i=>({src:i.currentSrc||i.src,alt:i.alt,complete:i.complete,width:i.naturalWidth,height:i.naturalHeight,visible:!!(i.offsetWidth||i.offsetHeight)}))")
+                    item['links']=await page.locator('a').evaluate_all("es=>es.map(a=>({text:a.innerText,aria:a.getAttribute('aria-label'),href:a.getAttribute('href')}))")
+                    item['buttons']=await page.locator('button').evaluate_all("es=>es.map(b=>({text:b.innerText,aria:b.getAttribute('aria-label'),disabled:b.disabled}))")
+                    item['horizontalOverflow']=await page.evaluate('document.documentElement.scrollWidth>innerWidth+1')
+                    name=label+'-'+(path.strip('/').replace('/','-') or 'accueil')
+                    await page.screenshot(path=str(out/(name+'.png')),full_page=True)
+                    if path=='/' and label=='public':
+                      item['interactions']=[]
+                      for pattern in ['Menu','Voir le détail de','Choisir mon fruit','Faire mes courses']:
+                        controls=page.get_by_role('button',name=re.compile(pattern,re.I)) if pattern!='Faire mes courses' else page.get_by_role('link',name=re.compile(pattern,re.I))
+                        if not await controls.count():
+                          item['interactions'].append({'control':pattern,'result':'not found'})
+                          continue
+                        c=controls.first
+                        if not await c.is_visible():
+                          item['interactions'].append({'control':pattern,'result':'not visible'})
+                          continue
+                        try:
+                          before=await page.locator('body').inner_text()
+                          before_y=await page.evaluate('scrollY')
+                          before_url=page.url
+                          await c.click(timeout=5000)
+                          await page.wait_for_timeout(500)
+                          item['interactions'].append({'control':pattern,'textChanged':before!=await page.locator('body').inner_text(),'scrollChanged':before_y!=await page.evaluate('scrollY'),'urlChanged':before_url!=page.url,'dialogs':await page.get_by_role('dialog').count()})
+                          await page.keyboard.press('Escape')
+                        except Exception as e:
+                          item['interactions'].append({'control':pattern,'error':str(e)[:500]})
+                      await page.goto(base+'/?power_review=20261004',wait_until='domcontentloaded',timeout=30000)
+                      await page.wait_for_timeout(1000)
+                      search=page.get_by_placeholder(re.compile('Rechercher',re.I))
+                      for n in range(await search.count()):
+                        if await search.nth(n).is_visible():
+                          before=await page.locator('body').inner_text()
+                          await search.nth(n).fill('Mangue')
+                          await page.wait_for_timeout(900)
+                          item['search']={'textChanged':before!=await page.locator('body').inner_text(),'finalUrl':page.url}
+                          break
+                  except Exception as e:
+                    item['navigationError']=str(e)
+                  item['blockedRequests']=blocked[start:]
+                  report['pages'].append(item)
+                  await page.close()
+                await context.close()
+              await browser.close()
+          try: asyncio.run(run())
+          finally:
+            (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
+            for pg in report['pages']:
+              bad=[i for i in pg.get('images',[]) if i['complete'] and i['width']==0]
+              print(pg['base'],pg['path'],'HTTP',pg.get('status'),'images',len(pg.get('images',[])),'broken',len(bad),'JS',len(pg['errors']),pg.get('navigationError',''))
+              for e in pg['errors'][:3]: print('JS:',e[:300])
+              for i in bad[:8]: print('IMAGE:',i['alt'],i['src'])
+              for i in pg.get('interactions',[]): print('CLICK:',i)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: POWER-live-readonly-evidence
+          path: power-live-evidence/
+          retention-days: 5
