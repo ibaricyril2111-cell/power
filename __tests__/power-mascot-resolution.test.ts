@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest"
+import sharp from "sharp"
 import { existsSync, readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { POWER_AVATARS, avatarForProductName, powerAvatar } from "../lib/power-avatars"
@@ -49,19 +50,21 @@ describe("POWER product/character identity", () => {
   it.each(POWER_AVATARS)("uses the same $key image for product and avatar", (avatar) => {
     expect(avatarForProductName(avatar.label)).toEqual(avatar)
     expect(powerAvatar(avatar.key).image).toBe(avatar.image)
-    expect(avatar.image).toBe(`/brand/mascots/v3/${avatar.key}.webp`)
+    expect(avatar.image).toBe(`/brand/mascots/v4/${avatar.key}.webp`)
     expect(existsSync(resolve(process.cwd(), "public", avatar.image.slice(1)))).toBe(true)
   })
 
-  it("retains all 100 individually addressable characters from the newly approved atlas", () => {
+  it("retains all 100 characters with native high-definition portraits", async () => {
     expect(POWER_AVATARS).toHaveLength(100)
     expect(new Set(POWER_AVATARS.map((avatar) => avatar.image)).size).toBe(100)
-    const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "public/brand/mascots/v3/sources.json"), "utf8"))
+    const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "public/brand/mascots/v4/sources.json"), "utf8"))
     for (const avatar of POWER_AVATARS) {
-      expect(manifest[avatar.key].approved).toBe("2026-10-04")
-      expect(manifest[avatar.key].source).toBe("approved-family-100.png")
-      expect(manifest[avatar.key].width).toBe(95)
-      expect(manifest[avatar.key].height).toBe(95)
+      expect(manifest[avatar.key].reference).toBe(`/brand/mascots/v3/${avatar.key}.webp`)
+      const metadata = await sharp(resolve(process.cwd(), "public", avatar.image.slice(1))).metadata()
+      expect(metadata.width).toBeGreaterThanOrEqual(1200)
+      expect(metadata.height).toBeGreaterThanOrEqual(1200)
+      expect(metadata.width).toBe(manifest[avatar.key].width)
+      expect(metadata.height).toBe(manifest[avatar.key].height)
     }
   })
 

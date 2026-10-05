@@ -16,7 +16,7 @@ describe("smoothie selection in the cart and checkout", () => {
     const selection = { sizeId: "two", optionIds: ["mango", "strawberry", "kiwi"] }
     render(<><CartArtwork name="Smoothie" composition={{ name: "Smoothie", type: "smoothie", options }} optionIds={selection.optionIds} />
       <SelectionSummary selection={describeSelection(selection, [{ id: "two", name: "2 fruits", price: 5, includedChoices: 2 }], options)} /></>)
-    expect(screen.getByAltText("Personnage POWER Mangue").getAttribute("src")).toContain("/v3/mangue.webp")
+    expect(screen.getByAltText("Personnage POWER Mangue").getAttribute("src")).toContain("/v4/mangue.webp")
     expect(screen.getByAltText("Personnage POWER Fraise")).toBeTruthy()
     expect(screen.getByText("Kiwi +1.00 €")).toBeTruthy()
     expect(screen.getByText("2 fruits")).toBeTruthy()

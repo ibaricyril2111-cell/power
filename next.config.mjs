@@ -4,6 +4,7 @@ const nextConfig = {
   // collecte des données de /api/upload au build Vercel.
   serverExternalPackages: ['@neondatabase/serverless', 'ws', '@prisma/adapter-neon', 'sharp'],
   images: {
+    qualities: [75, 90],
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },

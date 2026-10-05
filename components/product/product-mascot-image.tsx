@@ -4,7 +4,7 @@ import { avatarForProductName } from "@/lib/power-avatars"
 export default function ProductMascotImage({
   name,
   alt,
-  sizes = "(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 280px",
+  sizes = "(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 400px",
   className = "",
 }: {
   name: string
@@ -40,6 +40,7 @@ export default function ProductMascotImage({
         src={mascot.image}
         alt={alt || `Personnage POWER ${mascot.label}`}
         fill
+        quality={90}
         sizes={sizes}
         className="object-contain"
       />
