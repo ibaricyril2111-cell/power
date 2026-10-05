@@ -16,6 +16,9 @@ export default function AvatarChoicePromo() {
               {picks.map(key => <PowerAvatar key={key} avatarKey={key} size={44} className="border-2 border-[#ffcd47]/60" />)}
               <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 font-black">•••</span>
             </div>
+            <Link href="/personnages" className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-[#ffcd47] underline underline-offset-4">
+              Découvrir et commander les 100 personnages →
+            </Link>
           </div>
           <Link href="/connexion" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ffcd47] px-6 text-sm font-black text-[#073b2d] hover:bg-[#ffe18a]">
             Rejoins la team POWER ! ♡

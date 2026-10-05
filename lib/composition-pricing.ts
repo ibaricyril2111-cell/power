@@ -119,7 +119,7 @@ export function compositionUnit(type?: string | null): string {
  * suffixe que s'il manque, pour éviter « Smoothie à composer à composer ».
  */
 export function compositionTitle(name: string): string {
-    return /à composer\s*$/i.test(name) ? name : `${name} à composer`
+    return /à composer\b/i.test(name) ? name : `${name} à composer`
 }
 
 /** Prix d'appel affiché en vitrine, sans configuration : le format le moins cher. */

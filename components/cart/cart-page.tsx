@@ -11,7 +11,7 @@ import { ShoppingBag, Truck, Calendar, Loader2 } from "lucide-react"
 import { getCartItems, updateCartItemQuantity, removeCartItem, clearCart } from "@/app/actions/cart"
 import { getDeliveryConfig } from "@/app/actions/content"
 import { cartItemUnitPrice, deliveryFee as computeDeliveryFee } from "@/lib/pricing"
-import { describeSelection } from "@/lib/composition-pricing"
+import { compositionUnit, describeSelection } from "@/lib/composition-pricing"
 
 interface DeliveryInfo {
   date: string
@@ -107,12 +107,13 @@ export default function CartPage() {
         name: item.composition.name,
         price: customPrice,
         quantity: item.quantity,
-        unit: 'pièce',
+        unit: compositionUnit(item.composition.type),
         image: item.composition.imageUrl || '/placeholder.svg',
         total: customPrice * item.quantity,
         stock: 50,
         customData: item.customData || null,
         selection: detail,
+        composition: item.composition,
       }
     }
     return null

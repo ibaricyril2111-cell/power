@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import CartArtwork from "@/components/cart/cart-artwork"
+import SelectionSummary from "@/components/cart/selection-summary"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 import DeliveryCalendar from "@/components/delivery/delivery-calendar"
@@ -14,7 +15,7 @@ import { getCartItems } from "@/app/actions/cart"
 import { getUserProfile } from "@/app/actions/account"
 import { getDeliveryConfig } from "@/app/actions/content"
 import { cartItemUnitPrice, deliveryFee as computeDeliveryFee } from "@/lib/pricing"
-import { describeSelection } from "@/lib/composition-pricing"
+import { compositionUnit, describeSelection } from "@/lib/composition-pricing"
 import { Truck, Store, ArrowLeft, Loader2, MapPin, Clock, User, Tag, X, Banknote, CreditCard } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
@@ -107,6 +108,8 @@ export default function CommandePage() {
         image: item.product.image || "/placeholder.svg",
         total: (item.product.promoPrice ?? item.product.price) * item.quantity,
         customData: null,
+        composition: null,
+        selection: null,
       }
     } else if (item.composition) {
       // Même calcul que le serveur : prix du format retenu plus les suppléments.
@@ -116,10 +119,12 @@ export default function CommandePage() {
         name: item.composition.name,
         price: customPrice,
         quantity: item.quantity,
-        unit: "pièce",
+        unit: compositionUnit(item.composition.type),
         image: item.composition.imageUrl || "/placeholder.svg",
         total: customPrice * item.quantity,
         customData: item.customData || null,
+        composition: item.composition,
+        selection: describeSelection(item.customData ?? {}, item.composition.sizes ?? [], item.composition.options ?? []),
       }
     }
     return null
@@ -496,11 +501,12 @@ export default function CommandePage() {
                     {processedItems.map((item) => (
                       <div key={item.id} className="flex gap-3">
                         <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-[#244f40] flex-shrink-0">
-                          <Image src={item.image} alt={item.name} fill sizes="48px" className="object-cover" />
+                          <CartArtwork name={item.name} composition={item.composition} optionIds={item.customData?.optionIds} sizes="48px" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-white truncate">{item.name}</p>
                           <p className="text-xs text-zinc-400">{item.quantity} x {item.price.toFixed(2)}€</p>
+                          <SelectionSummary selection={item.selection} />
                           {item.customData?.ingredients?.length > 0 && (
                             <div className="flex flex-wrap gap-0.5 mt-0.5">
                               {item.customData.ingredients.map((ing: any, i: number) => (

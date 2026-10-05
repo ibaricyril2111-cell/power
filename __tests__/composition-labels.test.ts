@@ -39,6 +39,7 @@ describe('unité de commande', () => {
 describe('titre du configurateur', () => {
   it('ne devrait pas repeter « à composer »', () => {
     expect(compositionTitle('Smoothie à composer')).toBe('Smoothie à composer')
+    expect(compositionTitle('Smoothie à composer / 2 fruits')).toBe('Smoothie à composer / 2 fruits')
     expect(compositionTitle('Smoothie à composer ')).toBe('Smoothie à composer ')
   })
 

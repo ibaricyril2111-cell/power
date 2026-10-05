@@ -1,31 +1,18 @@
 import { prisma } from "@/lib/db"
 import ProductGrid from "@/components/product/product-grid"
 import { productImage } from "@/lib/product-image"
+import { getCompositionsByTypes } from "@/app/actions/compositions"
 
 export default async function ProductSection() {
-  const [products, compositions] = await Promise.all([
+  const [products, compositionResult] = await Promise.all([
     prisma.product.findMany({
       where: { inStock: true },
       orderBy: [{ category: { name: 'asc' } }, { name: 'asc' }],
       include: { category: true }
     }),
-    prisma.composition.findMany({
-      orderBy: { name: 'asc' },
-      // Formats et ingrédients inclus : sans eux, le configurateur ouvert depuis la page
-      // d'accueil affiche « aucun format configuré » alors que tout est réglé en admin.
-      include: {
-        sizes: {
-          orderBy: [{ order: 'asc' }, { price: 'asc' }],
-          select: { id: true, name: true, price: true, description: true, isDefault: true, includedChoices: true },
-        },
-        options: {
-          where: { isActive: true },
-          orderBy: [{ order: 'asc' }, { name: 'asc' }],
-          select: { id: true, name: true, extraPrice: true, includedByDefault: true, isRemovable: true },
-        },
-      },
-    })
+    getCompositionsByTypes()
   ])
+  const compositions = compositionResult.data
 
   const formattedProducts = products.map((product) => ({
     id: product.id,
