@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Download, Share2, X } from "lucide-react"
 
 type InstallPromptEvent = Event & {
@@ -8,11 +8,16 @@ type InstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>
 }
 
+const DISMISS_KEY = "power:install-prompt-dismissed-until"
+const DISMISS_DURATION = 7 * 24 * 60 * 60 * 1000
+
 export default function PwaRegister() {
   const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null)
   const [showInstall, setShowInstall] = useState(false)
   const [showIosHelp, setShowIosHelp] = useState(false)
   const [isIos, setIsIos] = useState(false)
+  const dismissed = useRef(false)
+  const installTimer = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
@@ -25,24 +30,52 @@ export default function PwaRegister() {
       ("standalone" in navigator && Boolean((navigator as Navigator & { standalone?: boolean }).standalone))
     if (standalone) return
 
+    try {
+      dismissed.current = Number(localStorage.getItem(DISMISS_KEY) || 0) > Date.now()
+    } catch {
+      // If preferences cannot be saved, avoid interrupting every visit.
+      dismissed.current = true
+    }
+
     const ios = /iphone|ipad|ipod/i.test(navigator.userAgent)
     const mobile = ios || /android/i.test(navigator.userAgent)
     setIsIos(ios)
-    if (mobile) window.setTimeout(() => setShowInstall(true), 900)
+    if (mobile && !dismissed.current) {
+      installTimer.current = window.setTimeout(() => {
+        if (!dismissed.current) setShowInstall(true)
+      }, 900)
+    }
 
     const onBeforeInstall = (event: Event) => {
       event.preventDefault()
       setInstallPrompt(event as InstallPromptEvent)
-      setShowInstall(true)
+      if (!dismissed.current) setShowInstall(true)
     }
-    const onInstalled = () => setShowInstall(false)
+    const onInstalled = () => {
+      dismissed.current = true
+      window.clearTimeout(installTimer.current)
+      setShowInstall(false)
+    }
     window.addEventListener("beforeinstallprompt", onBeforeInstall)
     window.addEventListener("appinstalled", onInstalled)
     return () => {
+      window.clearTimeout(installTimer.current)
       window.removeEventListener("beforeinstallprompt", onBeforeInstall)
       window.removeEventListener("appinstalled", onInstalled)
     }
   }, [])
+
+  const dismiss = () => {
+    dismissed.current = true
+    window.clearTimeout(installTimer.current)
+    setShowInstall(false)
+    setShowIosHelp(false)
+    try {
+      localStorage.setItem(DISMISS_KEY, String(Date.now() + DISMISS_DURATION))
+    } catch {
+      // Closing the banner must still work when storage is unavailable.
+    }
+  }
 
   const install = async () => {
     if (installPrompt) {
@@ -58,7 +91,7 @@ export default function PwaRegister() {
 
   return (
     <aside className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-md rounded-3xl border border-orange-500/40 bg-zinc-950/95 p-4 text-white shadow-2xl backdrop-blur-xl" aria-label="Installer l'application Power">
-      <button onClick={() => setShowInstall(false)} className="absolute right-3 top-3 rounded-full p-2 text-zinc-400 hover:bg-white/10 hover:text-white" aria-label="Fermer">
+      <button onClick={dismiss} className="absolute right-3 top-3 rounded-full p-2 text-zinc-400 hover:bg-white/10 hover:text-white" aria-label="Fermer">
         <X className="h-4 w-4" />
       </button>
       <div className="pr-9">
