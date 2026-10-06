@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Search, ShoppingCart, Apple, Carrot, CupSoda, Salad, ShoppingBasket, Tag, UserRound, Smile } from "lucide-react"
+import { Menu, Search, ShoppingCart, Apple, Carrot, CupSoda, Salad, ShoppingBasket, Tag, UserRound } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { getCartItems } from "@/app/actions/cart"
 import CartDrawer from "@/components/cart/cart-drawer"
@@ -14,7 +14,6 @@ import { openMarketplace } from "@/lib/marketplace-navigation"
 
 const shortcuts = [
   { label: "Tous", tab: "tout", icon: ShoppingBasket },
-  { label: "100 mascottes", href: "/personnages", icon: Smile },
   { label: "Fruits", tab: "fruits", icon: Apple },
   { label: "Légumes", tab: "legumes", icon: Carrot },
   { label: "Jus & Smoothies", tab: "comp-jus", icon: CupSoda },
@@ -96,7 +95,6 @@ export default function Header() {
           {menuOpen && (
             <div className="mt-2 grid grid-cols-2 gap-2 rounded-2xl border border-white/10 bg-[#052e23] p-3 text-sm font-bold shadow-2xl sm:grid-cols-4">
               <Link href="/#marketplace" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Faire mes courses</Link>
-              <Link href="/personnages" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Les 100 mascottes</Link>
               <Link href="/livraison" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Livraison & retrait</Link>
               <Link href="/professionnels" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Professionnels</Link>
               <Link href="/contact" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Le magasin</Link>
