@@ -10,7 +10,7 @@ export default function MascotPortrait({ mascotKey, className = "", decorative =
     <span className={"relative block aspect-square overflow-hidden rounded-2xl bg-[#0b4938] " + className}
       data-mascot-key={avatar.key}>
       <Image src={avatar.image} alt={decorative ? "" : "Personnage POWER " + avatar.label}
-        fill sizes="100px" className="object-contain" />
+        fill quality={90} sizes="100px" className="object-contain" />
     </span>
   )
 }

@@ -29,7 +29,7 @@ describe("smoothie composition with the approved clickable characters", () => {
     expect((screen.getByRole("button", { name: "Choisis au moins un ingrédient" }) as HTMLButtonElement).disabled).toBe(true)
     fireEvent.click(screen.getByRole("button", { name: "Mangue" }))
     expect(container.querySelector('[data-selected-ingredient="mango"]')).toBeTruthy()
-    expect(screen.getByAltText("Personnage POWER Mangue").getAttribute("src")).toBe("/brand/mascots/v3/mangue.webp")
+    expect(screen.getByAltText("Personnage POWER Mangue").getAttribute("src")).toBe("/brand/mascots/v4/mangue.webp")
     fireEvent.click(screen.getByRole("button", { name: "Fraise" }))
     expect(container.querySelectorAll("[data-selected-ingredient]")).toHaveLength(2)
     fireEvent.click(screen.getByRole("button", { name: "Mangue" }))

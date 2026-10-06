@@ -1,0 +1,1002 @@
+{
+  "mangue": {
+    "reference": "/brand/mascots/v3/mangue.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-4ff2cabd-d5d1-419a-b243-43f0347ca3df",
+    "sourceSha256": "9a5a819ca54acbc96cb78591073b6c52c8ac5738fafec20f74088a703812439a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 249012
+  },
+  "fraise": {
+    "reference": "/brand/mascots/v3/fraise.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-3c75e945-066a-4d1c-be5a-cb35e3c83fda",
+    "sourceSha256": "b2fb02f193018700c2b66402bbc57b3594f44585a1d84660cde81293464042da",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 326116
+  },
+  "ananas": {
+    "reference": "/brand/mascots/v3/ananas.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-1fc70b23-0582-4015-80cb-6dacfc3d6c0a",
+    "sourceSha256": "a5a32e8c1a2df747b144112f0800648142e3c080a97f33f9c0a2ed9e58e4bce5",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 264260
+  },
+  "tomate": {
+    "reference": "/brand/mascots/v3/tomate.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-d63ca38f-aa0d-4559-930d-547a285cd4f4",
+    "sourceSha256": "2d3887fb8ad651b1c26890eff507902e37c1dc12ef0866ad8191c630719289f3",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 203080
+  },
+  "banane": {
+    "reference": "/brand/mascots/v3/banane.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-3fe055fa-2857-4e16-a23a-609d179f5758",
+    "sourceSha256": "367486bbe8cd433d88cacc47685913eb03f825c96eb750cb84581c1eb612f836",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 189790
+  },
+  "pomme": {
+    "reference": "/brand/mascots/v3/pomme.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-7ade514d-dc02-467a-b9fb-90c1026d2360",
+    "sourceSha256": "1525f7f02e32f0ff1bda7b0985dc32e4729b895d47ce55cdf41a2f45b9119a41",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 231986
+  },
+  "poire": {
+    "reference": "/brand/mascots/v3/poire.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-5317a2c7-25b5-40f2-9f69-61f3b719700b",
+    "sourceSha256": "fc9a21f2e862f6fa71f74eaf67ddd794b11db88facfb60d482eb9ae3a3891201",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 173138
+  },
+  "orange": {
+    "reference": "/brand/mascots/v3/orange.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-0d0a7249-65da-489e-9758-5bcfa70f3a4e",
+    "sourceSha256": "829bc621bcbd3c6f5e4e79b4295db93a9db56b453c59f9261d00438b991843c9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 271630
+  },
+  "citron": {
+    "reference": "/brand/mascots/v3/citron.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-4c8dbc07-4f0c-4de6-84f7-b878bb348ae3",
+    "sourceSha256": "3cefea9cab72f6744cb5979726035d230e427fead2656b6354a3bca7b8c38c7f",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 206756
+  },
+  "citron-vert": {
+    "reference": "/brand/mascots/v3/citron-vert.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-bd3be0f0-879d-40c0-a51b-661c62934503",
+    "sourceSha256": "18cc748a26ae11ee322350f8d63ce9d4d9872b5a44f6b2c1bd61ce921bf0e268",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 232950
+  },
+  "clementine": {
+    "reference": "/brand/mascots/v3/clementine.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-6dc65139-3454-432b-a843-c1a7f3bdd9ff",
+    "sourceSha256": "bda4ebad339cf44d403867f4db7e28f012c1c5fa2f1bd7206078bad6f4b4e567",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 240438
+  },
+  "pamplemousse": {
+    "reference": "/brand/mascots/v3/pamplemousse.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-237d6c9c-8825-46ff-b8c0-4c433e898ef7",
+    "sourceSha256": "becb7ade3cff5c571febae10b0ea285f93e1c530f047546acbc4953aac6383d5",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 267680
+  },
+  "mandarine": {
+    "reference": "/brand/mascots/v3/mandarine.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-a07ab093-8eab-42bd-851d-eafb8639a156",
+    "sourceSha256": "6aad0448138710727a35773fca77a302cae0a07543ae9de4ad6a7c7d0632b4f9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 281598
+  },
+  "kiwi": {
+    "reference": "/brand/mascots/v3/kiwi.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-b4c3c811-8ca2-45ad-8264-b72d70b53bf4",
+    "sourceSha256": "11d9b313b43918e67b87f7ceeb0ad289a5c83162a2781ccf045ae2108f61b0e8",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 377320
+  },
+  "pasteque": {
+    "reference": "/brand/mascots/v3/pasteque.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-af7fd24a-c7ac-42b3-82f7-00762b280d9e",
+    "sourceSha256": "f67fb2c1e390966962a2c542d0f76fd9e51065e6494200a6d13ce1d511cf0aca",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 333180
+  },
+  "melon": {
+    "reference": "/brand/mascots/v3/melon.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-1043b375-7491-49f4-8479-5bf9ac03f577",
+    "sourceSha256": "ec46841b0ce3bc75e5af6d3f57f60099dbde4c7a7aad630fab608a38b7d7aed5",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 340730
+  },
+  "raisin": {
+    "reference": "/brand/mascots/v3/raisin.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-6ee8546b-5503-4c3d-98d6-ee61cf262118",
+    "sourceSha256": "c3ff67a2333506d09259d9b1ab8ecdeabf9603e1f2b33c3428bcc8eef952b1a9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 322736
+  },
+  "cerise": {
+    "reference": "/brand/mascots/v3/cerise.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-102b9769-1375-44b1-a07f-8b6a037148fb",
+    "sourceSha256": "3cb3e7e94f445bdab6ed5ab9fb0ea6beac812f7fc419e8cca4fd2431d01f95ba",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 228908
+  },
+  "abricot": {
+    "reference": "/brand/mascots/v3/abricot.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-ea4a48f5-536a-4fe4-9ee8-4cca964eb16e",
+    "sourceSha256": "0262fc4a787b5a390c402965b738940b91b5824ff6fede6f0b07700146bed8b1",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 264082
+  },
+  "peche": {
+    "reference": "/brand/mascots/v3/peche.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-8a272f3c-01d7-445e-acb9-d1e9157cfc99",
+    "sourceSha256": "4951ddcd0d741b3deff717daf1601409b264a4a3d3dbe4b9ff95b473b9ff222a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 255268
+  },
+  "nectarine": {
+    "reference": "/brand/mascots/v3/nectarine.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-f9bcf88a-5f2f-45cd-a1c8-de5c91ef0c75",
+    "sourceSha256": "5aff281487d39d820f722cf7271539fcf7cbb59c06eca91de25bc7eba4dcab62",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 281974
+  },
+  "prune": {
+    "reference": "/brand/mascots/v3/prune.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-4e22da80-42c1-4bce-ad2a-4ff107c56dca",
+    "sourceSha256": "c45ce6716af255c1920a8c7d16078c30d37acbc2517c18a0c49cced6aacf7a12",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 319052
+  },
+  "framboise": {
+    "reference": "/brand/mascots/v3/framboise.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-29187ef9-22cc-4761-8006-12a0debf6c96",
+    "sourceSha256": "77290eb8270b88ca7e185cda3cfbd675d84ad6c6d9c057d776e9504fd3be918f",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 305772
+  },
+  "mure": {
+    "reference": "/brand/mascots/v3/mure.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-4409fd1f-d96f-4970-8282-4a90ef6d5915",
+    "sourceSha256": "05bcb764382eb7a588953484263d30fa8583c877961374e12536d1ec6d6ba9bb",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 335888
+  },
+  "myrtille": {
+    "reference": "/brand/mascots/v3/myrtille.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-72e27691-9c7b-448f-90e2-a4af5e22e170",
+    "sourceSha256": "c313758763e4948d70691b130022198b70ef150f80b60f000dff19f9085d005e",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 239464
+  },
+  "groseille": {
+    "reference": "/brand/mascots/v3/groseille.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-97ad9349-e341-435e-a28c-073bfbc9c0d4",
+    "sourceSha256": "4e6212c2d3498544462709b7e2e00fe75cb630cdd74fe453ea94a45c973f7d43",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 319172
+  },
+  "cassis": {
+    "reference": "/brand/mascots/v3/cassis.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-b66ff9be-3b99-4fa9-8bac-cca7c099b5c3",
+    "sourceSha256": "ba93701a435c35b6ae3d5b92bc4937620c5f16834c1e21a66a9bd024431f94dd",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 296016
+  },
+  "figue": {
+    "reference": "/brand/mascots/v3/figue.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-4eb0fcff-6126-4904-af06-ddeb373f8271",
+    "sourceSha256": "46c96f4dfe5824c625a789a58b3f7dfc0c0952a5ba2bdea1a604a60f1f20f11a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 289616
+  },
+  "grenade": {
+    "reference": "/brand/mascots/v3/grenade.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-746d4249-bc1c-4379-b873-8682be1d4974",
+    "sourceSha256": "2c200e08e144f13276dac2abc6b248815042690a6097d4f10115c17779af4c16",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 322072
+  },
+  "kaki": {
+    "reference": "/brand/mascots/v3/kaki.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-6bfc1a17-4b1f-436b-8ed8-826470db7a34",
+    "sourceSha256": "9897f5b284a2415b0894daaa8e1f53947849c6db77f86bdf1f2438081a65d16e",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 238920
+  },
+  "passion": {
+    "reference": "/brand/mascots/v3/passion.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-d22caa84-ad77-4431-8f0a-5987a642babd",
+    "sourceSha256": "c18eb2bd824d55d866dc8c13bfd559073d4650fbe2bacac31813874ca269f123",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 341446
+  },
+  "noix-de-coco": {
+    "reference": "/brand/mascots/v3/noix-de-coco.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-8c082d2f-533b-4002-99bc-c4f85fd1baa9",
+    "sourceSha256": "99fff57011dd40b5df87b483f291b925aa14dfcbf1c4459cd519b4c07b3b07f5",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 426638
+  },
+  "papaye": {
+    "reference": "/brand/mascots/v3/papaye.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-db635c3c-b475-40d1-b49a-5356ed3f3c68",
+    "sourceSha256": "132dfc5ab4b6068e601b8dcb699a6c08748ca0b528ee52aec8f00bbe8a44f61a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 254120
+  },
+  "pitaya": {
+    "reference": "/brand/mascots/v3/pitaya.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-b10cf9ea-e220-4262-9fa8-37432db7d3c0",
+    "sourceSha256": "749e41e9c7d699ba02302d2a8b74fd489b00d8a797546e64804d221f48dfeda4",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 269168
+  },
+  "litchi": {
+    "reference": "/brand/mascots/v3/litchi.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-a8ede254-e488-413f-ba8b-5c0da9f1578b",
+    "sourceSha256": "0b8b8355e2a8ec9947a9c297099928350727305bd877263b6624d62dc1c111b8",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 243930
+  },
+  "goyave": {
+    "reference": "/brand/mascots/v3/goyave.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-c258fe4c-429a-4ce4-9136-924ec9a10564",
+    "sourceSha256": "008022b3422eb0adb1d2fd098740f44d3ff2d5ae4f0f803d1eebf1fe04497aa2",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 224616
+  },
+  "carambole": {
+    "reference": "/brand/mascots/v3/carambole.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-425a9bfb-a49a-4488-8ca6-73c79975e807",
+    "sourceSha256": "7d4a092e404dc339752519c3194ab27bb0f50a1b078319e821dcdcc2278d01bd",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 227906
+  },
+  "ramboutan": {
+    "reference": "/brand/mascots/v3/ramboutan.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-bc84a359-5964-4982-984f-f6c5c2b1203a",
+    "sourceSha256": "ae172b47046c5427f9cea1df275d94a88c41b2f3aac767d09d995fec4a7ca282",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 358660
+  },
+  "mangoustan": {
+    "reference": "/brand/mascots/v3/mangoustan.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-b669939b-21ef-4e92-afa2-d265c572dd0a",
+    "sourceSha256": "459c648088c4172e5fa1fd5599cbd1a04b35a6f02bbf44712ef19d692ece0e91",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 322324
+  },
+  "durian": {
+    "reference": "/brand/mascots/v3/durian.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-af32707a-1cd7-4525-a7d0-f927f4e9d344",
+    "sourceSha256": "696d7554c23de94cb7db93c1c5aefeb88731a6266a1c939b7baab42bb5c53478",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 347740
+  },
+  "corossol": {
+    "reference": "/brand/mascots/v3/corossol.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-c4d214d3-d535-4be3-ae9d-3198bfbfa95a",
+    "sourceSha256": "0f897410b92cad3751585fc6a0cc7008794805f1184c37e317c2761a700e99b9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 325004
+  },
+  "cherimole": {
+    "reference": "/brand/mascots/v3/cherimole.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-ddd400a3-9109-4556-b47e-f096eacbb7e9",
+    "sourceSha256": "e3862b1b25a8bd2b03325e61c65b7f063399b094275aef79970dc5d11ae47fbd",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 251516
+  },
+  "tamarin": {
+    "reference": "/brand/mascots/v3/tamarin.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-3f4144d8-1f60-42d0-ad03-48df6cc8fc32",
+    "sourceSha256": "0f248cee866197986bb8e3b1d57aabea2344d6e9c35a4d453b06f15cc0abeac7",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 256502
+  },
+  "kumquat": {
+    "reference": "/brand/mascots/v3/kumquat.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-6637002a-ff33-4f0d-89d9-7cf1cd50e52e",
+    "sourceSha256": "b18582b7ef18e00d51716d54d6abf4725e346cd096ea80f00c694cad65d38317",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 238524
+  },
+  "physalis": {
+    "reference": "/brand/mascots/v3/physalis.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-e542f458-6aae-4565-a9e9-5454a64c3606",
+    "sourceSha256": "7c17cb96a61cda235131fca0e716b4c8afe7f2864f43dc429caa5a6b7fd4d55a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 296982
+  },
+  "datte": {
+    "reference": "/brand/mascots/v3/datte.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-5a1b6c51-c342-4f87-9c71-ff625d0d0973",
+    "sourceSha256": "1fc75bf194fcb97e14a9392eb722fe4bd7bc7a272fae3075124f5e59b2db9394",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 304328
+  },
+  "avocat": {
+    "reference": "/brand/mascots/v3/avocat.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-ca98a47f-0c54-4777-bc75-e5982c433f4f",
+    "sourceSha256": "5daa92f0fde57b97447b50ec5b7ff5eb2fd78c3dd6a92a52f7f10ee2d3a36112",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 266316
+  },
+  "jacquier": {
+    "reference": "/brand/mascots/v3/jacquier.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-f0b07cae-cc93-43fd-8ffe-ba40c1a990f8",
+    "sourceSha256": "076f28a8542c37c5218366ec6e67e0d79f65fc6818f61f0a7db6e915b87a82ed",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 326860
+  },
+  "longane": {
+    "reference": "/brand/mascots/v3/longane.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-61d5a0e9-7184-4183-908e-cc3d74e290ba",
+    "sourceSha256": "b112c97be3d2ab920924f720eb1df42c354066990316400ada5bdf97060ae84a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 242626
+  },
+  "nefle": {
+    "reference": "/brand/mascots/v3/nefle.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-6d11dc4e-80a2-4c22-8b1f-6b86dd60a107",
+    "sourceSha256": "262e7c43df57051e9ce018cc0e85d099686404b406a6fa391f48dec729a3576e",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 275818
+  },
+  "carotte": {
+    "reference": "/brand/mascots/v3/carotte.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-4ffa8ee4-479b-4f3f-8049-1cee9bf6ac5e",
+    "sourceSha256": "18ee927b5900b5d53702c5f72eaad69324ab1ae2f199416dc27b40257d79cd2c",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 254520
+  },
+  "courgette": {
+    "reference": "/brand/mascots/v3/courgette.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-e3a1f7ef-7210-4355-85c5-d8595176e315",
+    "sourceSha256": "34916fd9173b34bf3e58e38b128e59ec88ec9a417d48e8bc3ae2a8c4bc11a991",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 322348
+  },
+  "aubergine": {
+    "reference": "/brand/mascots/v3/aubergine.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-dd45d686-3285-419a-939f-5303b9d271e2",
+    "sourceSha256": "53be94651609b245543ac546db17d58efdb917eb63108490ca7eccca218c2a56",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 225324
+  },
+  "concombre": {
+    "reference": "/brand/mascots/v3/concombre.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-c6a61060-786d-45ba-882a-4d75c4c84899",
+    "sourceSha256": "f93cf96e7d9f2c165a2db41a3aff8439d03d45d868777fe94186eaf3ed3b31d9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 249098
+  },
+  "poivron": {
+    "reference": "/brand/mascots/v3/poivron.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-084f9853-5b29-4704-a61c-de8d5b36776c",
+    "sourceSha256": "25285c67ae7f097314052ac2b7077223ea308089be779e9a5ea8bef222304929",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 213944
+  },
+  "brocoli": {
+    "reference": "/brand/mascots/v3/brocoli.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-189e8ff9-4052-42da-b4d5-d06a224cf5ab",
+    "sourceSha256": "d1562402164b892ea901b3a70607f50e0aa594255ce9b1aed4acc7b4e5e181c2",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 318056
+  },
+  "chou-fleur": {
+    "reference": "/brand/mascots/v3/chou-fleur.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-7c21fb6f-f165-45af-bde3-e8ba16992437",
+    "sourceSha256": "eaf58235b956e5bf238d6cc85d49a02e6177c546ce48d9c1788515776ad2955e",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 241202
+  },
+  "chou-rouge": {
+    "reference": "/brand/mascots/v3/chou-rouge.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-85f629da-c111-4696-8674-c4795006938d",
+    "sourceSha256": "793ae4176b4c4336ddf5dc4eb5f075e5826b2ae7540499ed2ab6da2f09d4284f",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 297014
+  },
+  "salade": {
+    "reference": "/brand/mascots/v3/salade.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-b6835b8b-eea9-4b05-a71e-1653150e837b",
+    "sourceSha256": "f74c627102d633aa9fbc2be7d62a29604079eff980e0c8c793dd80ecf1b437fd",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 276586
+  },
+  "epinard": {
+    "reference": "/brand/mascots/v3/epinard.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-24aaa00b-2aef-40c8-bce6-5fe3f5554b8f",
+    "sourceSha256": "f059b4f4af9c6c85a68f5b7a253ab9fbe8e0bea3299f9a26ee906921451c7a24",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 299122
+  },
+  "poireau": {
+    "reference": "/brand/mascots/v3/poireau.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-22eeef3f-4d02-4009-b010-1c4cfff00bb3",
+    "sourceSha256": "93a1ad53b74f5368684c5c4585ee3ff0c433630f84583c345c9607e30d0efaa9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 192634
+  },
+  "celeri-branche": {
+    "reference": "/brand/mascots/v3/celeri-branche.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-1dc39afe-4681-417b-b47c-eb484bbea5b6",
+    "sourceSha256": "842e5229f058fac0937578e4793101936f588c100ef8822ad34b82fc3275a8fb",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 277314
+  },
+  "fenouil": {
+    "reference": "/brand/mascots/v3/fenouil.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-9de427f6-950a-4fab-bcbf-8c48f74da743",
+    "sourceSha256": "2d971eae9b255cf2a32369ac8316368e675850e4f892047d293016672ac2683c",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 235802
+  },
+  "artichaut": {
+    "reference": "/brand/mascots/v3/artichaut.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-f85cd9f9-5745-49fa-b11e-ec8f021ec758",
+    "sourceSha256": "ed73a575d36ea5c71fc4a6827fc3bc7da340ef009fe70058b3d013b4f66d20f7",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 294704
+  },
+  "asperge": {
+    "reference": "/brand/mascots/v3/asperge.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-793ec45a-98dc-4e6d-972f-ee1c6e243537",
+    "sourceSha256": "669b5811d05e808c3faa520ad15ab0628b1092c21509fcab85a2fba6e411c19f",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 176248
+  },
+  "haricot-vert": {
+    "reference": "/brand/mascots/v3/haricot-vert.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-ac97e35d-426b-4090-be3c-bb3b5552fcfe",
+    "sourceSha256": "60facd51b518fba26efa173be4e5872dd5ae4afe2e4c8a2dc456d961bae67d47",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 255648
+  },
+  "petit-pois": {
+    "reference": "/brand/mascots/v3/petit-pois.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-ed1ce1ff-b772-4107-8869-091285a71f97",
+    "sourceSha256": "d163134be3e4269e0f0b2ef6fc82493a823286020e07badc716da741da34f68d",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 203674
+  },
+  "radis": {
+    "reference": "/brand/mascots/v3/radis.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-c2e4a654-f1d0-4fc3-802d-8a44dbbd4d2c",
+    "sourceSha256": "2c05e10be81331f6098fd3f06289d3049955604a70fcd723a4fe4d31992c0e51",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 256548
+  },
+  "betterave": {
+    "reference": "/brand/mascots/v3/betterave.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-88678e95-1910-4dc0-9dba-4fec63f0e0fd",
+    "sourceSha256": "a46615d17ca45cbccac1ffcde2c9eabc60c5963550f61f51cec7ebe77b625b98",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 328316
+  },
+  "navet": {
+    "reference": "/brand/mascots/v3/navet.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-5b76d645-a513-4db7-8f0b-6afaea4c2320",
+    "sourceSha256": "dcdb9779ac4190acaeda3d6a42e1ac079a54e27106b1b97e84ab3b3fda41e13a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 246318
+  },
+  "panais": {
+    "reference": "/brand/mascots/v3/panais.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-9371fd79-5ba2-4418-96b1-d3533cce43f0",
+    "sourceSha256": "a686e13b65e27eea8f5b599c8cae741af9d5fcde6716f35c4dafe670f32e26bc",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 193742
+  },
+  "pomme-de-terre": {
+    "reference": "/brand/mascots/v3/pomme-de-terre.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-f252038b-f9dd-4d96-9939-df5a199b3f15",
+    "sourceSha256": "029239feebdc9edb1994f7b9aacb1e2830f385f277f368b72a74b8133dd24cd7",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 258704
+  },
+  "patate-douce": {
+    "reference": "/brand/mascots/v3/patate-douce.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-9f973a0d-1fc7-4994-8f42-8038a44041a3",
+    "sourceSha256": "97cd83ba12f6d86002b29d28c76c1dd03eb8f33224c4bb2c5fff6af0c66fde3c",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 291136
+  },
+  "potiron": {
+    "reference": "/brand/mascots/v3/potiron.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-f8d6cea6-8097-4a84-bc62-bda73b77c102",
+    "sourceSha256": "1080a12f4d6171347a62b378cddace648f5413ac5fac7c9eab7afb303aa565b5",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 299762
+  },
+  "butternut": {
+    "reference": "/brand/mascots/v3/butternut.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-313e8a35-b89c-4862-bac8-367b80bce025",
+    "sourceSha256": "fddc72d45230023645fa728036a4ad3429fc06f1551c50af0637c8500957eef9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 182474
+  },
+  "champignon": {
+    "reference": "/brand/mascots/v3/champignon.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-891ae079-1b38-46ed-b9d0-09afca73264b",
+    "sourceSha256": "df56cdf83a2ec6190f3726726b582a038a487626398e0d23691c32625430ab0c",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 207844
+  },
+  "oignon": {
+    "reference": "/brand/mascots/v3/oignon.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-0bc37853-9ad2-4a2e-8ef4-166e87db865a",
+    "sourceSha256": "a098de17b61e4f34fb44aa6c681f012fea8f60ba17f8b59a487a8b3c1b898f1e",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 237856
+  },
+  "ail": {
+    "reference": "/brand/mascots/v3/ail.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-f8fd59a5-d59f-4905-879d-d99d7679adb8",
+    "sourceSha256": "2c03ef9bd29b6b7ead34fddb66721290757d9620609c79adfb790c63815d42ee",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 165366
+  },
+  "echalote": {
+    "reference": "/brand/mascots/v3/echalote.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-01eaa6a0-e453-445c-8799-6134caf72160",
+    "sourceSha256": "2f881240d6ef8e8f8bd668c0db6948514225de54f1c067b37d5d4c2c700ce18c",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 241106
+  },
+  "endive": {
+    "reference": "/brand/mascots/v3/endive.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-c08ea921-9f43-4bc0-a701-fd8a06c461b3",
+    "sourceSha256": "67ec9e6ecf9c847cad9682372f824953073d26b3c5688ae4e599bf459d366951",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 217146
+  },
+  "basilic": {
+    "reference": "/brand/mascots/v3/basilic.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-26df959d-61a5-43a3-a52a-31e90787041b",
+    "sourceSha256": "92494a92d5881ca7a9807da70a3845665dae39bbdafa1116d9bfa42a0694dd9c",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 285576
+  },
+  "menthe": {
+    "reference": "/brand/mascots/v3/menthe.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-88c6f8e8-8c44-4b6c-87e3-fc8a2910e86e",
+    "sourceSha256": "39bed16c6f1183db09d9e496d3009af1efbc6f3067817f6f08d9e9b9ca72300e",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 388568
+  },
+  "persil": {
+    "reference": "/brand/mascots/v3/persil.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-474eff4e-0f85-4ef0-ba45-d2a378423941",
+    "sourceSha256": "0dff3ab91d29659a8b55026df40afb05c7c6436dafb47008e4aad16a6aba85f0",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 359244
+  },
+  "coriandre": {
+    "reference": "/brand/mascots/v3/coriandre.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-bc3fa520-7153-4acb-9831-7395c69074c3",
+    "sourceSha256": "93e39918449dfe3da448dbb68ceb65b42aa76a6e96018b0df2e85b078f13fecb",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 344208
+  },
+  "ciboulette": {
+    "reference": "/brand/mascots/v3/ciboulette.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-9e535018-f813-42db-aa15-0c2163228cc8",
+    "sourceSha256": "0618c80d7d751010c390774ede5627e3d96fe3e826689b2013d62a630c0bbd52",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 269884
+  },
+  "thym": {
+    "reference": "/brand/mascots/v3/thym.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-e2ee8623-744b-4c6e-93d0-b8f1df67469b",
+    "sourceSha256": "3c6033e2399af9d612a8a2b85a4b26bc892403a04a051d14764194d884796335",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 349086
+  },
+  "romarin": {
+    "reference": "/brand/mascots/v3/romarin.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-81e5e7e8-02f6-4835-8fd7-656f3d74c409",
+    "sourceSha256": "b78ebc388f21a62b7a60b51c77e3a02cddb1e0f5e53ccda8223c18349a55b2a0",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 411254
+  },
+  "sauge": {
+    "reference": "/brand/mascots/v3/sauge.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-fd52943e-dce2-46b5-81f4-599b8b9fc7b3",
+    "sourceSha256": "a830339ecf65c0cb1cd7ea7e3a005ca78dfd0f7cdeac80988eca6608678df36b",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 441608
+  },
+  "estragon": {
+    "reference": "/brand/mascots/v3/estragon.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-58cbdb1e-8750-4587-bfe2-380bba6174b9",
+    "sourceSha256": "fea8dfb22437bbd9a985613e71a48abd7ee7e060299139996288b9392aa2525e",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 296878
+  },
+  "aneth": {
+    "reference": "/brand/mascots/v3/aneth.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-c8baba0d-d1be-4f2c-92d8-6958370daf47",
+    "sourceSha256": "db5b3f50ceaa7d80f146c9c725d12195d4bbf6df2d30852bd47760ed6fa12cba",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 380998
+  },
+  "laurier": {
+    "reference": "/brand/mascots/v3/laurier.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-73672da7-f1aa-431a-adb9-c81a7a4a87f6",
+    "sourceSha256": "71d03365cb00b487ed7df95c37e5b70c0b26960f40c75ac088ee43ee25a4fcfc",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 329548
+  },
+  "origan": {
+    "reference": "/brand/mascots/v3/origan.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-8ceb3b00-a79e-4047-b561-aca5d2ef1436",
+    "sourceSha256": "df98ce2294d092e337ca3320225a0b847594a5e49bf29caa0e189fc4ae3fb07b",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 345712
+  },
+  "sarriette": {
+    "reference": "/brand/mascots/v3/sarriette.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-b5cfaa21-392f-4b4e-9a65-ef32c1e5c93d",
+    "sourceSha256": "ef9dc5906ad817a3fa9281ac049e609d6f2894a5f55e6bd9c7db013e898f274b",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 355300
+  },
+  "cerfeuil": {
+    "reference": "/brand/mascots/v3/cerfeuil.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-260e1981-aa49-40e4-afab-5db1714593fa",
+    "sourceSha256": "46d768372f37c01e682a17349fe93b52e939db5c09db6ccfd603714b9bd9ba54",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 371784
+  },
+  "melisse": {
+    "reference": "/brand/mascots/v3/melisse.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-6f563b07-56d4-483b-936f-d2c4b4203045",
+    "sourceSha256": "367e689d50ead5120236351864f7cbcbea0d046dc0ac37dec7a418a8f07c13e0",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 343688
+  },
+  "verveine": {
+    "reference": "/brand/mascots/v3/verveine.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-5ec8f9f5-e419-43fc-b517-0c927f228375",
+    "sourceSha256": "caa14f27feee2670d2dc07d61068c7efba78221a2f7b032efbc89771d9023eef",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 319990
+  },
+  "oseille": {
+    "reference": "/brand/mascots/v3/oseille.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-a76ecf9b-efd8-492d-9545-5959c45eb214",
+    "sourceSha256": "2e02847d046910a31e33c894beffc0b9bbd18609e15bb3e96a76f6a66f06053f",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 280834
+  },
+  "gingembre": {
+    "reference": "/brand/mascots/v3/gingembre.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-7d09fff2-9b8b-41ef-9c45-9b8962f94862",
+    "sourceSha256": "078d89bc58ea5861757d7da55411d8f8661d7774fc726c7465023a34227abcf0",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 372600
+  },
+  "curcuma": {
+    "reference": "/brand/mascots/v3/curcuma.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-e81e05df-937b-4814-86cf-646c42313815",
+    "sourceSha256": "d73cd042a2d091bf039768a42d7e76c20151c3d275430faebd49eee6d4472ff1",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 300912
+  },
+  "citronnelle": {
+    "reference": "/brand/mascots/v3/citronnelle.webp",
+    "method": "Individual identity-preserving high-definition re-render with imagegen; no upscaling",
+    "generated": "2026-10-05",
+    "sourceId": "exec-b5c97cc5-4c61-4708-b927-72d7543a6211",
+    "sourceSha256": "d5cbeacdfb4e1241a7c57873972808dac1124887ff6f7c9a9413494f40e367b6",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 223396
+  }
+}

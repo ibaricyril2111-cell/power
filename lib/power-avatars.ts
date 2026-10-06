@@ -27,7 +27,7 @@ const CHARACTERS = [
 export type PowerAvatarKey = (typeof CHARACTERS)[number][0]
 export type PowerFamily = (typeof CHARACTERS)[number][2]
 export const POWER_AVATARS = CHARACTERS.map(([key, label, family]) => ({
-  key, label, family, image: "/brand/mascots/v3/" + key + ".webp", position: "50% 50%",
+  key, label, family, image: "/brand/mascots/v4/" + key + ".webp", position: "50% 50%",
 }))
 export const DEFAULT_POWER_AVATAR: PowerAvatarKey = "mangue"
 export function isPowerAvatarKey(value: unknown): value is PowerAvatarKey {

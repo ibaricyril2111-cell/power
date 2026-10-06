@@ -64,7 +64,7 @@ export default async function ProductsPage({
                                         name={product.name}
                                         fallbackImage={product.image}
                                         alt={product.name}
-                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                        sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
                                         className={`group-hover:scale-110 transition-transform duration-700 ${isOutOfStock ? "opacity-40 grayscale" : ""}`}
                                     />
                                     {product.organic && (
