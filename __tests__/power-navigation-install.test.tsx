@@ -42,8 +42,18 @@ describe("readable POWER navigation", () => {
       expect(element.className).not.toContain("backdrop-blur")
       expect(element.className).not.toContain("/98")
     }
-    const categories = screen.getByRole("navigation", { name: "Catégories POWER" })
-    expect(within(categories).getByRole("link", { name: "100 mascottes" }).getAttribute("href")).toBe("/personnages")
+  })
+
+  it("keeps shopping shortcuts but removes mascots from the top navigation and menu", () => {
+    render(<Header />)
+    const header = screen.getByRole("banner")
+    const categories = within(header).getByRole("navigation", { name: "Catégories POWER" })
+    expect(within(categories).getByRole("button", { name: "Fruits" })).toBeTruthy()
+    expect(within(categories).getByRole("button", { name: "Jus & Smoothies" })).toBeTruthy()
+    expect(within(header).queryByRole("link", { name: /mascottes/i })).toBeNull()
+    fireEvent.click(within(header).getByRole("button", { name: "Menu" }))
+    expect(within(header).getByRole("link", { name: "Faire mes courses" })).toBeTruthy()
+    expect(within(header).queryByRole("link", { name: /mascottes/i })).toBeNull()
   })
 })
 
