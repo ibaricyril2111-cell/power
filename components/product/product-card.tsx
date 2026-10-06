@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Eye, Plus, Minus, Leaf, Loader2, ShoppingCart } from "lucide-react"
+import { Eye, Plus, Minus, Leaf, Loader2 } from "lucide-react"
 import { addToCart, decrementFromCart } from "@/app/actions/cart"
 import { toast } from "sonner"
 import ProductMascotImage from "@/components/product/product-mascot-image"
+import CartButtonContent from "@/components/product/cart-button-content"
 
 interface Product {
   id: string
@@ -138,8 +139,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
       <CardFooter className="p-6 pt-0 mt-auto">
         {quantity === 0 ? (
           <Button onClick={handleAdd} disabled={loading || !product.inStock} className="w-full h-12 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-black text-sm transition-all">
-            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ShoppingCart className="w-5 h-5 mr-2" />}
-            {loading ? "" : "Ajouter au panier"}
+            <CartButtonContent loading={loading}>{loading ? "Ajout…" : "Ajouter au panier"}</CartButtonContent>
           </Button>
         ) : (
           <div className="flex items-center justify-center gap-4 w-full">

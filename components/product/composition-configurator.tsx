@@ -4,10 +4,11 @@ import { useState, useEffect, useMemo } from "react"
 import CompositionArtwork from "@/components/product/composition-artwork"
 import SmoothieStage from "@/components/product/smoothie-stage"
 import IngredientChoice from "@/components/product/ingredient-choice"
+import CartButtonContent from "@/components/product/cart-button-content"
 import { compositionArtworkKind } from "@/lib/power-composition-artwork"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { ShoppingCart, Check, Loader2, Info } from "lucide-react"
+import { Check, Info } from "lucide-react"
 import { addToCart } from "@/app/actions/cart"
 import { toast } from "sonner"
 import QuantitySelector from "@/components/product/quantity-selector"
@@ -351,12 +352,9 @@ export default function CompositionConfigurator({ composition, onDone }: Props) 
                         onClick={handleAddToCart}
                         disabled={isAdding || needsIngredient}
                     >
-                        {isAdding ? (
-                            <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        ) : (
-                            <ShoppingCart className="h-5 w-5 mr-2" />
-                        )}
-                        {isAdding ? "Ajout en cours…" : needsIngredient ? "Choisis au moins un ingrédient" : "Ajouter au panier"}
+                        <CartButtonContent loading={isAdding}>
+                            {isAdding ? "Ajout en cours…" : needsIngredient ? "Choisis au moins un ingrédient" : "Ajouter au panier"}
+                        </CartButtonContent>
                     </Button>
                 </div>
             </div>

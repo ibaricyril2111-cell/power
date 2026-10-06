@@ -3,7 +3,6 @@ import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
 import Link from "next/link"
 import { Leaf } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import AddToCartButton from "@/components/product/add-to-cart-button"
 import ProductMascotImage from "@/components/product/product-mascot-image"
 
@@ -94,21 +93,15 @@ export default async function ProductsPage({
                                         <p className="text-white/65 text-sm line-clamp-2 min-h-[40px]">{product.description}</p>
                                     </div>
 
-                                    <div className="mt-auto flex items-center gap-2">
+                                    <div className="mt-auto">
                                         <AddToCartButton
                                             productId={product.id}
                                             name={product.name}
                                             price={product.price}
                                             outOfStock={isOutOfStock}
                                             compact
-                                            className="h-12 text-sm rounded-2xl flex-1"
+                                            className="h-12 w-full text-sm rounded-2xl"
                                         />
-                                        <Button variant="outline" size="icon" className="rounded-2xl border-white/10 hover:bg-white/5 h-12 w-12" asChild>
-                                            <Link href={`/produits/${product.id}`}>
-                                                <span className="sr-only">Voir le détail de {product.name}</span>
-                                                +
-                                            </Link>
-                                        </Button>
                                     </div>
                                 </div>
                             </div>

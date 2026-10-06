@@ -28,10 +28,10 @@ function FamilyProductRow({ product }: { product: FamilyProduct }) {
   )
 }
 
-export default function PowerFamily({ products }: { products: FamilyProduct[] }) {
+export default function PowerFamily({ products, initialCharacter = null }: { products: FamilyProduct[]; initialCharacter?: PowerAvatarKey | null }) {
   const [filter, setFilter] = useState("tout")
   const [search, setSearch] = useState("")
-  const [selected, setSelected] = useState<PowerAvatarKey | null>(null)
+  const [selected, setSelected] = useState<PowerAvatarKey | null>(initialCharacter)
   const entries = useMemo(() => POWER_AVATARS.map((avatar) => ({
     avatar, products: productsForCharacter(products, avatar.key),
   })), [products])

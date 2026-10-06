@@ -95,6 +95,7 @@ export default function Header() {
           {menuOpen && (
             <div className="mt-2 grid grid-cols-2 gap-2 rounded-2xl border border-white/10 bg-[#052e23] p-3 text-sm font-bold shadow-2xl sm:grid-cols-4">
               <Link href="/#marketplace" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Faire mes courses</Link>
+              <Link href="/personnages" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Les 100 mascottes</Link>
               <Link href="/livraison" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Livraison & retrait</Link>
               <Link href="/professionnels" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Professionnels</Link>
               <Link href="/contact" onClick={() => setMenuOpen(false)} className="rounded-xl p-3 hover:bg-white/5">Le magasin</Link>

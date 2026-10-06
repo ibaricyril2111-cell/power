@@ -79,6 +79,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
       aria-label={`Voir le détail de ${product.name}`}
       onClick={onViewDetails}
       onKeyDown={(e) => {
+        if (e.target !== e.currentTarget) return
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault()
           onViewDetails?.()

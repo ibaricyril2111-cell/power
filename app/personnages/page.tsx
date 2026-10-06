@@ -4,6 +4,7 @@ import Footer from "@/components/layout/footer"
 import MobileBottomNav from "@/components/layout/mobile-bottom-nav"
 import PowerFamily from "@/components/sections/power-family"
 import { getProducts } from "@/app/actions/products"
+import { isPowerAvatarKey } from "@/lib/power-avatars"
 
 export const dynamic = "force-dynamic"
 export const metadata: Metadata = {
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
   description: "Retrouvez les 100 mascottes POWER : fruits, légumes, aromates et exotiques. Choisissez votre produit ou composez votre smoothie.",
   alternates: { canonical: "/personnages" },
 }
-export default async function CharactersPage() {
+export default async function CharactersPage({ searchParams }: { searchParams?: Promise<{ personnage?: string }> }) {
+  const params = searchParams ? await searchParams : {}
+  const initialCharacter = isPowerAvatarKey(params.personnage) ? params.personnage : null
   const result = await getProducts()
   return (
     <div className="min-h-screen bg-[#073b2d] text-white">
@@ -20,7 +23,7 @@ export default async function CharactersPage() {
         {!result.success && <p role="alert" className="mx-auto max-w-7xl px-4 text-sm text-[#ffcd47]">
           Le catalogue ne se charge pas pour le moment. Réessaie dans un instant.
         </p>}
-        <PowerFamily products={result.data} />
+        <PowerFamily key={initialCharacter ?? "all"} products={result.data} initialCharacter={initialCharacter} />
       </main>
       <Footer /><MobileBottomNav />
     </div>
