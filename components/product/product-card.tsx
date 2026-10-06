@@ -10,6 +10,7 @@ import { addToCart, decrementFromCart } from "@/app/actions/cart"
 import { toast } from "sonner"
 import ProductMascotImage from "@/components/product/product-mascot-image"
 import CartButtonContent from "@/components/product/cart-button-content"
+import ProduceComment from "./produce-comment"
 
 interface Product {
   id: string
@@ -133,7 +134,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
         <div className="p-6 pb-4">
           <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#ffcd47]">{product.category}</p>
           <h3 className="text-lg font-black text-white mb-1 line-clamp-1">{product.name}</h3>
-          <p className="text-white/70 line-clamp-1 min-h-[22px] text-sm leading-relaxed">{product.description}</p>
+          <ProduceComment name={product.name} description={product.description} />
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-0 mt-auto">

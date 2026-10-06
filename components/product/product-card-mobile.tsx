@@ -5,10 +5,12 @@ import { Plus, Minus, Leaf, Loader2 } from "lucide-react"
 import { addToCart, decrementFromCart } from "@/app/actions/cart"
 import { toast } from "sonner"
 import ProductMascotImage from "@/components/product/product-mascot-image"
+import ProduceComment from "./produce-comment"
 
 interface Product {
   id: string
   name: string
+  description?: string
   price: number
   promoPrice?: number | null
   unit: string
@@ -104,6 +106,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
       <div className="min-w-0 p-3 pb-2">
         <p className="mb-1 truncate text-[9px] font-bold uppercase tracking-wider text-[#ffcd47]">{product.category}</p>
         <h3 className="text-sm font-black text-white truncate">{product.name}</h3>
+        <ProduceComment name={product.name} description={product.description} className="mt-1 [&>p]:text-xs" />
         <div className="flex items-center gap-1.5 mt-1">
           {product.promoPrice != null && <span className="text-white/65 line-through text-xs">{product.price.toFixed(2)}€</span>}
           <span className="text-[#ffcd47] font-black text-sm">{(product.promoPrice ?? product.price).toFixed(2)}€</span>
@@ -111,7 +114,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
         </div>
       </div>
 
-      <div className="px-3 pb-3">
+      <div className="mt-auto px-3 pb-3">
       {quantity === 0 ? (
         <button
           aria-label={`Ajouter ${product.name} au panier`}

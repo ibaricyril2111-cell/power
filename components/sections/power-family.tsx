@@ -9,6 +9,7 @@ import ProductPurchase from "@/components/product/product-purchase"
 import { POWER_AVATARS, normalizeMascotName, avatarForProductName, type PowerAvatarKey } from "@/lib/power-avatars"
 import { productsForCharacter, type FamilyProduct } from "@/lib/power-family-catalog"
 import { minQuantity, unitLabel } from "@/lib/units"
+import { POWER_PRODUCE_NOTES } from "@/lib/power-produce-notes"
 
 const FILTERS = [
   ["tout", "Tous les personnages"], ["fruits", "Fruits"], ["legumes", "Légumes"],
@@ -64,20 +65,23 @@ export default function PowerFamily({ products, initialCharacter = null }: { pro
         ))}
       </div>
       <p className="mb-4 text-xs text-white/65" role="status">{displayed.length} personnage{displayed.length > 1 ? "s" : ""}</p>
-      <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 sm:gap-3 lg:grid-cols-8 xl:grid-cols-10">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
         {displayed.map(({ avatar, products: matches }) => {
           const available = matches.some(availableProduct)
           return (
             <button key={avatar.key} type="button" onClick={() => setSelected(avatar.key)}
               aria-label={"Voir les produits " + avatar.label} data-family-character={avatar.key}
               className="group flex min-w-0 flex-col items-center gap-2 rounded-2xl border border-white/15 bg-[#0b4938] p-2 text-center transition hover:-translate-y-0.5 hover:border-[#ffcd47] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffcd47]">
-              <MascotPortrait mascotKey={avatar.key} decorative className="w-full max-w-[100px]" />
-              <span className="min-h-7 text-xs font-bold leading-tight">{avatar.label}</span>
-              <span className={"text-[10px] " + (available ? "text-[#ffcd47]" : "text-white/60")}>{available ? "En stock · Commander" : "Indisponible"}</span>
+              <MascotPortrait mascotKey={avatar.key} decorative sizes="132px" className="w-full max-w-[132px]" />
+              <span className="text-sm font-bold leading-tight">{avatar.label}</span>
+              <span className="text-xs leading-relaxed text-white/80">{POWER_PRODUCE_NOTES[avatar.key].comment}</span>
+              <span className="text-[11px] leading-relaxed text-white/65">Saison : {POWER_PRODUCE_NOTES[avatar.key].season}</span>
+              <span className={"mt-auto pt-1 text-xs " + (available ? "text-[#ffcd47]" : "text-white/60")}>{available ? "En stock · Commander" : "Indisponible"}</span>
             </button>
           )
         })}
       </div>
+      <p className="mt-5 text-xs leading-relaxed text-white/60">Saisons indicatives, variables selon les récoltes. La disponibilité du jour est indiquée sur chaque produit.</p>
       {displayed.length === 0 && <p className="py-12 text-center text-white/70">Aucun personnage ne correspond à cette recherche.</p>}
       <Dialog open={Boolean(selection)} onOpenChange={(open) => { if (!open) setSelected(null) }}>
         <DialogContent className="max-h-[90dvh] max-w-lg overflow-y-auto border-[#ffcd47]/30 bg-[#073b2d] text-white">
@@ -86,7 +90,8 @@ export default function PowerFamily({ products, initialCharacter = null }: { pro
               <MascotPortrait mascotKey={selection.avatar.key} className="w-24 shrink-0" />
               <div>
                 <DialogTitle className="text-2xl font-black">{selection.avatar.label}</DialogTitle>
-                <DialogDescription className="mt-2 text-white/70">Prix et disponibilité chez POWER.</DialogDescription>
+                <DialogDescription className="mt-2 text-white/75">{POWER_PRODUCE_NOTES[selection.avatar.key].comment}</DialogDescription>
+                <p className="mt-2 text-xs text-[#ffcd47]">Saison : {POWER_PRODUCE_NOTES[selection.avatar.key].season}</p>
               </div>
             </div>
             <div className="space-y-3">
