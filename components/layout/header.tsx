@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, Search, ShoppingCart, Apple, Carrot, CupSoda, Salad, ShoppingBasket, Tag, UserRound } from "lucide-react"
+import { Menu, Search, ShoppingCart, Apple, Carrot, CupSoda, Salad, ShoppingBasket, Tag, UserRound, Smile } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { getCartItems } from "@/app/actions/cart"
 import CartDrawer from "@/components/cart/cart-drawer"
@@ -14,6 +14,7 @@ import { openMarketplace } from "@/lib/marketplace-navigation"
 
 const shortcuts = [
   { label: "Tous", tab: "tout", icon: ShoppingBasket },
+  { label: "100 mascottes", href: "/personnages", icon: Smile },
   { label: "Fruits", tab: "fruits", icon: Apple },
   { label: "Légumes", tab: "legumes", icon: Carrot },
   { label: "Jus & Smoothies", tab: "comp-jus", icon: CupSoda },
@@ -52,7 +53,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-[#ffcd47]/15 bg-[#073b2d]/98 text-white shadow-[0_10px_30px_rgba(0,0,0,.18)] backdrop-blur">
+      <header className="sticky top-0 z-50 w-full border-b border-[#ffcd47]/15 bg-[#073b2d] text-white shadow-[0_10px_30px_rgba(0,0,0,.18)]">
         <div className="mx-auto max-w-7xl px-3 pb-3 pt-2 sm:px-6">
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
             <div className="flex items-center">
