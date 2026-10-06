@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { drinkOrderError } from "@/lib/drink-ordering"
 import { auth } from "@/auth"
 import Stripe from "stripe"
 import { prisma } from "@/lib/db"
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
             where: { cart: { userId: session.user.id } },
             include: {
                 product: true,
-                composition: true
+                composition: { include: { sizes: true, options: { where: { isActive: true } } } }
             }
         })
 
@@ -47,6 +48,8 @@ export async function POST(req: NextRequest) {
 
         // Vérification de la disponibilité du stock AVANT de créer la commande / la session de paiement
         for (const item of cartItems) {
+            const recipeError = item.composition && drinkOrderError(item.composition, item.customData)
+            if (recipeError) return NextResponse.json({ error: recipeError }, { status: 409 })
             if (item.productId && item.product) {
                 if (!item.product.inStock || item.product.currentStock < item.quantity) {
                     return NextResponse.json(

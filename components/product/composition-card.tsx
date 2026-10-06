@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Settings2 } from "lucide-react"
 import CompositionSheet from "@/components/product/composition-sheet"
 import { startingPrice } from "@/lib/composition-pricing"
+import { isDrinkRecipe, isFreeChoiceDrink } from "@/lib/drink-ordering"
 import type { ConfigurableComposition } from "@/components/product/composition-configurator"
 
 interface Props {
@@ -25,11 +26,13 @@ interface Props {
 export default function CompositionCard({ composition, badge, fallbackLabel = "À COMPOSER" }: Props) {
     const [open, setOpen] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
+    const isDrink = isDrinkRecipe(composition)
+    if (isFreeChoiceDrink(composition)) return null
 
     const from = startingPrice(composition.sizes, composition.basePrice)
     // « à partir de » ne se justifie qu'avec plusieurs formats ou des suppléments
     // susceptibles de faire monter le prix.
-    const priceVaries = composition.sizes.length > 1 || composition.options.length > 0
+    const priceVaries = composition.sizes.length > 1 || (!isDrink && composition.options.length > 0)
 
     const openSheet = () => {
         setIsMobile(window.matchMedia("(max-width: 767px)").matches)
@@ -43,7 +46,7 @@ export default function CompositionCard({ composition, badge, fallbackLabel = "�
                     type="button"
                     onClick={openSheet}
                     className="relative aspect-[4/5] w-full overflow-hidden text-left sm:aspect-square"
-                    aria-label={`Composer ${composition.name}`}
+                    aria-label={`${isDrink ? "Commander" : "Composer"} ${composition.name}`}
                 >
                     <CompositionArtwork composition={composition} sizes="(max-width: 767px) 90vw, 360px" />
                     {badge}
@@ -71,7 +74,7 @@ export default function CompositionCard({ composition, badge, fallbackLabel = "�
                             className="h-12 px-6 text-sm rounded-2xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold"
                         >
                             <Settings2 className="h-4 w-4 mr-2" />
-                            Composer
+                            {isDrink ? "Commander" : "Composer"}
                         </Button>
                     </div>
                 </div>

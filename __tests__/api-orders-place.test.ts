@@ -151,6 +151,25 @@ describe('POST /api/orders/place', () => {
     expect(res.status).toBe(400)
   })
 
+  it('refuse une ancienne formule smoothie a composer sans creer de commande', async () => {
+    mockCartItemFindMany.mockResolvedValueOnce([{ id: 'old-drink', compositionId: 'c1', quantity: 1,
+      composition: { name: 'Smoothie à composer / 2 fruits', type: 'jus', basePrice: 5, sizes: [], options: [] },
+      customData: { optionIds: [] } }])
+    const res = await POST(makeRequest())
+    expect(res.status).toBe(409)
+    expect((await res.json()).error).toMatch(/ne sont plus proposés/)
+    expect(mockOrderCreate).not.toHaveBeenCalled()
+  })
+
+  it('refuse les ingredients modifies dans une recette de jus fixe', async () => {
+    mockCartItemFindMany.mockResolvedValueOnce([{ id: 'changed-drink', compositionId: 'c1', quantity: 1,
+      composition: { name: 'Jus Mangue', type: 'jus', basePrice: 5, sizes: [], options: [{ id: 'mango', includedByDefault: true }] },
+      customData: { optionIds: [] } }])
+    const res = await POST(makeRequest())
+    expect(res.status).toBe(409)
+    expect(mockOrderCreate).not.toHaveBeenCalled()
+  })
+
   describe('informations indispensables pour honorer la commande', () => {
     it('devrait rejeter une commande sans date', async () => {
       const res = await POST(makeRequest({ deliveryDate: null }))

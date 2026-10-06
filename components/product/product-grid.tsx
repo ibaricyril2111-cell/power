@@ -8,6 +8,7 @@ import CompositionMobileItem from "./composition-mobile-item"
 import CompositionSheet from "./composition-sheet"
 import { ProductModalProvider, useProductModal } from "./product-modal-context"
 import ImageWithFallback from "./image-with-fallback"
+import { isDrinkRecipe } from "@/lib/drink-ordering"
 
 interface Product {
   id: string
@@ -180,6 +181,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
                 key={comp.id}
                 composition={{
                   id: comp.id,
+                  type: comp.type,
                   name: comp.name,
                   basePrice: comp.basePrice,
                   imageUrl: comp.image,
@@ -236,7 +238,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
                 </div>
                 <div className="p-6 pt-0 mt-auto">
                   <button className="w-full h-12 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold text-sm transition-colors">
-                    Composer
+                    {isDrinkRecipe(comp) ? "Commander" : "Composer"}
                   </button>
                 </div>
               </div>

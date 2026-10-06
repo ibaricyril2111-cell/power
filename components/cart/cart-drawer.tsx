@@ -13,6 +13,7 @@ import { getDeliveryConfig } from "@/app/actions/content"
 import { cartItemUnitPrice, deliveryFee as computeDeliveryFee } from "@/lib/pricing"
 import { compositionUnit, describeSelection } from "@/lib/composition-pricing"
 import { quantityStep, roundToStep, formatQuantity, unitLabel } from "@/lib/units"
+import { drinkOrderError } from "@/lib/drink-ordering"
 
 interface CartDrawerProps {
   open: boolean
@@ -126,6 +127,7 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
   }
 
   const processedItems = items.map(getItemData).filter(Boolean) as NonNullable<ReturnType<typeof getItemData>>[]
+  const recipeError = items.map(item => item.composition && drinkOrderError(item.composition, item.customData)).find(Boolean)
   const subtotal = processedItems.reduce((sum, item) => sum + item.total, 0)
   const deliveryFee = computeDeliveryFee(subtotal, "livraison", deliveryConfig)
   const total = subtotal + deliveryFee
@@ -259,13 +261,14 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
               <span className="text-xl font-black text-[#ffcd47]">{total.toFixed(2)}€</span>
             </div>
 
-            <Button
+            {recipeError && <p role="alert" className="rounded-xl border border-amber-400/40 bg-amber-400/10 p-3 text-sm text-amber-100">{recipeError}</p>}
+            {recipeError ? <Button disabled className="w-full min-h-12">Retirez la formule indisponible</Button> : <Button
               className="w-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold py-6 rounded-xl shadow-lg text-base"
               asChild
               onClick={() => onOpenChange(false)}
             >
               <Link href="/commande">Passer commande</Link>
-            </Button>
+            </Button>}
 
             <button
               onClick={() => onOpenChange(false)}

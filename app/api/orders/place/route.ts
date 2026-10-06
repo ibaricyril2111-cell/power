@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { drinkOrderError } from "@/lib/drink-ordering"
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
 import { sendOrderConfirmation, sendNewOrderToCompany } from "@/lib/email"
@@ -101,6 +102,8 @@ export async function POST(req: NextRequest) {
 
         // Vérification de la disponibilité du stock AVANT de créer la commande
         for (const item of cartItems) {
+            const recipeError = item.composition && drinkOrderError(item.composition, item.customData)
+            if (recipeError) return NextResponse.json({ error: recipeError }, { status: 409 })
             if (item.productId && item.product) {
                 if (!item.product.inStock || item.product.currentStock < item.quantity) {
                     return NextResponse.json(

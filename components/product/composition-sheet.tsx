@@ -3,6 +3,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer"
 import { compositionTitle } from "@/lib/composition-pricing"
+import { isDrinkRecipe } from "@/lib/drink-ordering"
 import CompositionConfigurator, {
     type ConfigurableComposition,
 } from "@/components/product/composition-configurator"
@@ -21,7 +22,7 @@ interface Props {
  * avant, où le mobile appliquait un surcoût que le serveur ignorait.
  */
 export default function CompositionSheet({ composition, isOpen, onClose, isMobile }: Props) {
-    const title = compositionTitle(composition.name)
+    const title = isDrinkRecipe(composition) ? composition.name : compositionTitle(composition.name)
 
     if (isMobile) {
         return (
