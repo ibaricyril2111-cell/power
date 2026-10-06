@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react"
 import ProductMascotImage from "@/components/product/product-mascot-image"
+import CartButtonContent from "@/components/product/cart-button-content"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { ShoppingCart, Leaf, Truck, Shield, Loader2 } from "lucide-react"
+import { Leaf, Truck, Shield } from "lucide-react"
 import { addToCart } from "@/app/actions/cart"
 import { toast } from "sonner"
 import QuantitySelector from "@/components/product/quantity-selector"
@@ -50,6 +51,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
       const result = await addToCart({ productId: product.id, quantity })
       if (result.success) {
         toast.success(`${formatQuantity(quantity, product.unit)} de ${product.name} ajouté au panier`)
+        window.dispatchEvent(new Event("cart-updated"))
         onClose()
       } else {
         // Le message serveur porte l'information utile (stock restant, produit retiré) :
@@ -161,12 +163,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
             onClick={handleAddToCart}
             disabled={!product.inStock || isAdding}
           >
-            {isAdding ? (
-              <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-            ) : (
-              <ShoppingCart className="h-5 w-5 mr-2" />
-            )}
-            {isAdding ? "Ajout en cours..." : "Ajouter au panier"}
+            <CartButtonContent loading={isAdding}>{isAdding ? "Ajout en cours..." : "Ajouter au panier"}</CartButtonContent>
           </Button>
         </div>
       </DialogContent>

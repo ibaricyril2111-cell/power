@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ShoppingCart, Loader2 } from "lucide-react"
+import CartButtonContent from "@/components/product/cart-button-content"
 import { Button } from "@/components/ui/button"
 import { addToCart } from "@/app/actions/cart"
 import { toast } from "sonner"
@@ -25,6 +25,8 @@ export default function AddToCartButton({ productId, compositionId, name, price,
 
     const handleAddToCart = async (e: React.MouseEvent) => {
         e.preventDefault()
+        e.stopPropagation()
+        if (loading || outOfStock) return
         setLoading(true)
         try {
             const result = await addToCart({
@@ -61,17 +63,12 @@ export default function AddToCartButton({ productId, compositionId, name, price,
             disabled={loading || outOfStock}
             aria-label={outOfStock ? `${name} — épuisé` : `Ajouter ${name} au panier`}
             className={cn(
-                "rounded-[24px] bg-orange-500 hover:bg-orange-600 text-white font-black h-20 text-xl gap-4 shadow-2xl shadow-orange-500/40 uppercase italic transition-all active:scale-95",
+                "min-w-0 rounded-[24px] bg-orange-500 hover:bg-orange-600 text-white font-black h-12 text-sm shadow-2xl shadow-orange-500/40 uppercase transition-all active:scale-95",
                 outOfStock && "bg-zinc-700 hover:bg-zinc-700 shadow-none cursor-not-allowed",
                 className
             )}
         >
-            {loading ? (
-                <Loader2 className="w-6 h-6 animate-spin" />
-            ) : (
-                !outOfStock && <ShoppingCart className="w-6 h-6" />
-            )}
-            {label}
+            <CartButtonContent loading={loading} hideIcon={outOfStock}>{label}</CartButtonContent>
         </Button>
     )
 }

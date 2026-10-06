@@ -1,24 +1,22 @@
 "use client"
 
+import Image from "next/image"
 import { POWER_AVATARS, powerAvatar, type PowerAvatarKey } from "@/lib/power-avatars"
 
 export function PowerAvatar({ avatarKey, size = 72, className = "" }: { avatarKey?: string | null; size?: number; className?: string }) {
   const avatar = powerAvatar(avatarKey)
   return (
     <div
-      role="img"
-      aria-label={`Mascotte ${avatar.label}`}
       data-mascot-key={avatar.key}
-      className={`shrink-0 overflow-hidden rounded-full border-2 border-[#ffcd47] bg-[#244f40] shadow-lg ${className}`}
+      className={`relative shrink-0 overflow-hidden rounded-full border-2 border-[#ffcd47] bg-[#244f40] shadow-lg ${className}`}
       style={{
         width: size,
         height: size,
-        backgroundImage: `url("${avatar.image}")`,
-        backgroundSize: "cover",
-        backgroundPosition: avatar.position,
-        backgroundRepeat: "no-repeat",
       }}
-    />
+    >
+      <Image src={avatar.image} alt={`Mascotte ${avatar.label}`} fill sizes={`${size}px`} quality={90}
+        className="object-cover" style={{ objectPosition: avatar.position }} />
+    </div>
   )
 }
 
