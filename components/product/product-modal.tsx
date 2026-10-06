@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import ProductMascotImage from "@/components/product/product-mascot-image"
 import CartButtonContent from "@/components/product/cart-button-content"
+import ProduceComment from "./produce-comment"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -107,7 +108,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
             {/* Prices, units, stock bounds and calculation functions are unchanged. */}
             <div className="min-w-0 space-y-4">
               <div>
-                <p className="mb-3 break-words text-sm leading-relaxed text-white/75">{product.description}</p>
+                <ProduceComment name={product.name} description={product.description} className="mb-3 break-words" />
                 <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                   {product.promoPrice != null && (
                     <span className="text-lg font-semibold text-white/60 line-through">{product.price.toFixed(2)}€</span>

@@ -7,6 +7,7 @@ import { Leaf, ArrowLeft, ShieldCheck, Truck, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import ProductPurchase from "@/components/product/product-purchase"
+import ProduceComment from "@/components/product/produce-comment"
 import { avatarForProductName } from "@/lib/power-avatars"
 import type { Metadata } from "next"
 import { productImage } from "@/lib/product-image"
@@ -95,9 +96,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 <span className="text-5xl font-black text-white italic">{(product.promoPrice ?? product.price).toFixed(2)}€</span>
                                 <span className="text-2xl text-white/60 font-black uppercase italic opacity-50 tracking-tighter">/ {product.unit}</span>
                             </div>
-                            <p className="text-white/70 text-xl font-medium italic leading-relaxed mb-12 max-w-xl">
-                                {product.description || "Une sélection de saison disponible chez Power Primeur à Alfortville, en retrait ou en livraison selon votre commune."}
-                            </p>
+                            <ProduceComment name={product.name} description={product.description} className="mb-12 max-w-xl" />
                         </div>
 
                         <div className="flex flex-col gap-10">

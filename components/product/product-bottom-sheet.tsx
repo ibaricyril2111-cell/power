@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import ProductMascotImage from "@/components/product/product-mascot-image"
 import CartButtonContent from "@/components/product/cart-button-content"
+import ProduceComment from "./produce-comment"
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -98,7 +99,7 @@ export default function ProductBottomSheet({ product, isOpen, onClose }: Product
 
           {/* Infos */}
           <div className="px-4 pt-4 space-y-4">
-            <p className="text-sm text-white/75">{product.description}</p>
+            <ProduceComment name={product.name} description={product.description} />
 
             <div className="flex items-center gap-3">
               {product.promoPrice != null && <span className="text-lg font-semibold text-zinc-400 line-through">{product.price.toFixed(2)}€</span>}
