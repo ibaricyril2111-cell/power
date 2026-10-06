@@ -8,8 +8,8 @@ import { isPowerAvatarKey } from "@/lib/power-avatars"
 
 export const dynamic = "force-dynamic"
 export const metadata: Metadata = {
-  title: "Les 100 personnages POWER — fruits, légumes et smoothies",
-  description: "Retrouvez les 100 mascottes POWER : fruits, légumes, aromates et exotiques. Choisissez votre produit ou composez votre smoothie.",
+  title: "Nos produits POWER — fruits, légumes et aromates",
+  description: "Retrouvez les 100 mascottes POWER et commandez les produits disponibles : fruits, légumes, aromates et exotiques.",
   alternates: { canonical: "/personnages" },
 }
 export default async function CharactersPage({ searchParams }: { searchParams?: Promise<{ personnage?: string }> }) {
@@ -19,7 +19,7 @@ export default async function CharactersPage({ searchParams }: { searchParams?: 
   return (
     <div className="min-h-screen bg-[#073b2d] text-white">
       <Header />
-      <main className="pb-20 pt-40 sm:pt-44">
+      <main className="pb-20 pt-2">
         {!result.success && <p role="alert" className="mx-auto max-w-7xl px-4 text-sm text-[#ffcd47]">
           Le catalogue ne se charge pas pour le moment. Réessaie dans un instant.
         </p>}

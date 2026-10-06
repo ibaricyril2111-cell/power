@@ -12,6 +12,8 @@ import { Check, Info } from "lucide-react"
 import { addToCart } from "@/app/actions/cart"
 import { toast } from "sonner"
 import QuantitySelector from "@/components/product/quantity-selector"
+import FixedDrinkPurchase from "./fixed-drink-purchase"
+import { isDrinkRecipe } from "@/lib/drink-ordering"
 import {
     compositionPrice,
     defaultOptionIds,
@@ -47,6 +49,11 @@ interface Props {
  * trois morceaux de mangue dans un plateau ne coûtent pas un kilo de mangues.
  */
 export default function CompositionConfigurator({ composition, onDone }: Props) {
+    if (isDrinkRecipe(composition)) return <FixedDrinkPurchase key={composition.id} composition={composition} onDone={onDone} />
+    return <NonDrinkConfigurator composition={composition} onDone={onDone} />
+}
+
+function NonDrinkConfigurator({ composition, onDone }: Props) {
     const { sizes, options } = composition
 
     const [sizeId, setSizeId] = useState<string | null>(null)

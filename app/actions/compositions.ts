@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/db"
-import { configureEmptyPowerSmoothies } from "@/lib/configure-power-smoothies"
+import { isFreeChoiceDrink } from "@/lib/drink-ordering"
 
 /** Composition prête à être configurée côté client : ses formats et ses ingrédients. */
 export type CompositionWithChoices = {
@@ -43,15 +43,8 @@ export async function getCompositionsByTypes(types: string[] = []): Promise<{
             orderBy: { name: "asc" },
             include: SELECT_CHOICES,
         } as const
-        let compositions = await prisma.composition.findMany(query)
-        try {
-            if (await configureEmptyPowerSmoothies(compositions)) {
-                compositions = await prisma.composition.findMany(query)
-            }
-        } catch (configurationError) {
-            console.error("POWER smoothie configuration will be retried:", configurationError)
-        }
-        return { success: true, data: compositions }
+        const compositions = await prisma.composition.findMany(query)
+        return { success: true, data: compositions.filter(composition => !isFreeChoiceDrink(composition)) }
     } catch (error) {
         console.error("Error fetching compositions:", error)
         return { success: false, data: [] }
@@ -67,7 +60,7 @@ export async function getComposition(id: string): Promise<{
             where: { id },
             include: SELECT_CHOICES,
         })
-        return { success: true, data: composition }
+        return { success: true, data: composition && !isFreeChoiceDrink(composition) ? composition : null }
     } catch (error) {
         console.error(`Error fetching composition ${id}:`, error)
         return { success: false, data: null }

@@ -22,37 +22,29 @@ beforeEach(() => {
   }) })
 })
 afterEach(() => { cleanup(); vi.clearAllMocks() })
-describe("smoothie composition with the approved clickable characters", () => {
-  it("adds the clicked fruit to the mixer immediately and removes it when deselected", async () => {
+describe("fixed POWER drinks without ingredient customisation", () => {
+  it("retires the free-choice mixer even when opened from an old page", () => {
     const { container } = render(<CompositionConfigurator composition={recipe} />)
     expect(container.querySelectorAll("[data-selected-ingredient]")).toHaveLength(0)
-    expect((screen.getByRole("button", { name: "Choisis au moins un ingrédient" }) as HTMLButtonElement).disabled).toBe(true)
-    fireEvent.click(screen.getByRole("button", { name: "Mangue" }))
-    expect(container.querySelector('[data-selected-ingredient="mango"]')).toBeTruthy()
-    expect(screen.getByAltText("Personnage POWER Mangue").getAttribute("src")).toBe("/brand/mascots/v4/mangue.webp")
-    fireEvent.click(screen.getByRole("button", { name: "Fraise" }))
-    expect(container.querySelectorAll("[data-selected-ingredient]")).toHaveLength(2)
-    fireEvent.click(screen.getByRole("button", { name: "Mangue" }))
-    await waitFor(() => expect(container.querySelector('[data-selected-ingredient="mango"]')).toBeNull())
-    expect(container.querySelector('[data-selected-ingredient="strawberry"]')).toBeTruthy()
-    expect(screen.getByRole("status").textContent).toBe("Fraise")
+    expect(screen.getByRole("status").textContent).toMatch(/n’est plus proposée/)
+    expect(screen.queryByRole("button", { name: "Mangue" })).toBeNull()
+    expect(screen.queryByRole("button", { name: "Ajouter au panier" })).toBeNull()
   })
-  it("keeps the quota and extra price correct and sends the same chosen IDs to the cart", async () => {
-    render(<CompositionConfigurator composition={recipe} />)
-    for (const name of ["Mangue", "Fraise", "Kiwi"]) fireEvent.click(screen.getByRole("button", { name }))
-    expect(screen.getAllByText("5.75€")).toHaveLength(2)
+  it("orders the exact fixed recipe at its merchant price without extras", async () => {
+    const fixed = { ...recipe, name: "Jus Mangue", type: "jus", sizes: [],
+      options: [{ ...recipe.options[0], includedByDefault: true }, recipe.options[1]] }
+    render(<CompositionConfigurator composition={fixed} />)
+    expect(screen.queryByRole("button", { name: "Mangue" })).toBeNull()
+    expect(screen.queryByRole("button", { name: "Fraise" })).toBeNull()
+    expect(screen.getByText("5.00 €")).toBeTruthy()
     fireEvent.click(screen.getByRole("button", { name: "Ajouter au panier" }))
     await waitFor(() => expect(add).toHaveBeenCalledWith({
-      compositionId: "real-smoothie", quantity: 1, customData: { sizeId: "two", optionIds: ["mango", "strawberry", "kiwi"] },
+      compositionId: "real-smoothie", quantity: 1, customData: { sizeId: null, optionIds: ["mango"] },
     }))
   })
-  it("retains required base ingredients and never swaps in a different fruit", () => {
-    const fixed = { ...recipe, sizes: [{ id: "fixed", name: "Classique", price: 5, includedChoices: 0, isDefault: true }],
-      options: [{ ...recipe.options[0], includedByDefault: true, isRemovable: false }, recipe.options[1]] }
-    const { container } = render(<CompositionConfigurator composition={fixed} />)
-    expect((screen.getByRole("button", { name: "Mangue" }) as HTMLButtonElement).disabled).toBe(true)
-    expect(container.querySelector('[data-selected-ingredient="mango"]')).toBeTruthy()
-    fireEvent.click(screen.getByRole("button", { name: "Fraise" }))
-    expect(screen.getByRole("status").textContent).toBe("Mangue · Fraise")
+  it("keeps the recipe orderable without displaying internal configuration warnings", () => {
+    render(<CompositionConfigurator composition={{ ...recipe, name: "Jus Fraise", sizes: [], options: [] }} />)
+    expect(screen.queryByText(/Aucun format ni ingrédient/)).toBeNull()
+    expect((screen.getByRole("button", { name: "Ajouter au panier" }) as HTMLButtonElement).disabled).toBe(false)
   })
 })

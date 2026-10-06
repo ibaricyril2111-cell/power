@@ -4,6 +4,8 @@ import { prisma } from "@/lib/db"
 import { cookies } from "next/headers"
 import { auth } from "@/auth"
 import { roundToStep, minQuantity, formatQuantity } from "@/lib/units"
+import { drinkOrderError, isDrinkRecipe } from "@/lib/drink-ordering"
+import { resolveSize } from "@/lib/composition-pricing"
 
 // Helper : Obtenir l'ID du panier actif (via User ou SessionId anonyme)
 export async function getCartId() {
@@ -73,6 +75,20 @@ export async function addToCart({ productId, compositionId, quantity = 1, custom
         }
 
         const cartId = await getCartId()
+
+        if (compositionId) {
+            const composition = await prisma.composition.findUnique({
+                where: { id: compositionId },
+                include: { sizes: true, options: { where: { isActive: true } } },
+            })
+            if (!composition) return { success: false, error: "Cette recette n’est plus disponible" }
+            if (isDrinkRecipe(composition) && customData == null) {
+                customData = { sizeId: resolveSize(composition.sizes, null)?.id ?? null,
+                    optionIds: composition.options.filter(option => option.includedByDefault).map(option => option.id) }
+            }
+            const error = drinkOrderError(composition, customData)
+            if (error) return { success: false, error }
+        }
 
         // Contrôle de stock dès l'ajout : sans lui, le client ne découvre la rupture qu'au
         // moment de valider sa commande, après avoir saisi adresse et créneau.

@@ -51,6 +51,16 @@ describe("the 100 POWER mascots lead to shopping", () => {
     expect(within(dialog).queryByRole("button", { name: /^Ajouter/ })).toBeNull()
   })
 
+  it("keeps all 100 mascots, puts stocked products first and removes mixer links", () => {
+    render(<PowerFamily products={[{ ...product, name: "Carotte", id: "carrot" }]} />)
+    const cards = screen.getAllByRole("button", { name: /^Voir les produits / })
+    expect(cards).toHaveLength(100)
+    expect(cards[0].getAttribute("data-family-character")).toBe("carotte")
+    expect(screen.getByText("En stock · Commander")).toBeTruthy()
+    expect(screen.getAllByText("Indisponible")).toHaveLength(99)
+    expect(screen.queryByRole("link", { name: /smoothie/i })).toBeNull()
+  })
+
   it("links each home-page mascot directly to its shop without an account gate", () => {
     render(<AvatarChoicePromo />)
     for (const key of ["mangue", "fraise", "avocat", "carotte", "tomate"]) {

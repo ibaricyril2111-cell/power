@@ -3,15 +3,14 @@ import Footer from "@/components/layout/footer"
 import { Soup } from "lucide-react"
 import CompositionCard from "@/components/product/composition-card"
 import { getCompositionsByTypes } from "@/app/actions/compositions"
-import FruitShowcase from "@/components/sections/fruit-showcase"
+import { isDrinkRecipe } from "@/lib/drink-ordering"
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-    title: 'Jus, smoothies et soupes à composer — Power Primeur',
+    title: 'Nos recettes de jus, smoothies et soupes — Power Primeur',
     description:
-        "Composez votre jus, smoothie ou soupe : choisissez le format, la recette de base " +
-        "et vos suppléments. Pressé du jour, retrait à Alfortville ou livraison.",
+        "Choisissez une recette POWER et commandez en retrait à Alfortville ou en livraison. Nos boissons sont proposées sans personnalisation des ingrédients.",
     alternates: { canonical: '/jus-soupes' },
 }
 
@@ -21,15 +20,14 @@ export default async function JusSoupesPage() {
     return (
         <div className="min-h-screen bg-[#073b2d] text-white">
             <Header />
-            <div className="pt-24"><FruitShowcase linkToCatalog /></div>
-            <main id="jus-disponibles" className="max-w-7xl mx-auto scroll-mt-28 px-4 pt-12 pb-20">
+            <main id="jus-disponibles" className="max-w-7xl mx-auto scroll-mt-28 px-4 pt-8 pb-20">
                 <div className="flex flex-col gap-8">
                     <div>
                         <h1 className="text-4xl font-black tracking-tight sm:text-5xl border-b border-white/15 pb-6">
                             Jus, smoothies & <span className="text-[#ffcd47]">soupes POWER</span>
                         </h1>
                         <p className="mt-4 text-white/75 max-w-2xl text-lg">
-                            Choisis ta formule, clique sur tes fruits préférés et regarde les personnages apparaître dans ton mixeur.
+                            Choisis une recette POWER, indique la quantité et ajoute-la au panier. Les jus et smoothies sont proposés sans choix d’ingrédients.
                         </p>
                     </div>
 
@@ -41,7 +39,7 @@ export default async function JusSoupesPage() {
                                 fallbackLabel="ÉNERGIE"
                                 badge={
                                     <div className="absolute top-6 left-6 bg-black/60 backdrop-blur-xl border border-white/10 text-white px-4 py-2 rounded-full flex items-center gap-2 font-bold text-xs uppercase tracking-widest">
-                                        <Soup className="w-4 h-4 text-[#ffcd47]" /> À composer
+                                        <Soup className="w-4 h-4 text-[#ffcd47]" /> {isDrinkRecipe(comp) ? "Recette POWER" : "À composer"}
                                     </div>
                                 }
                             />
