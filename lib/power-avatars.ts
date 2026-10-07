@@ -44,7 +44,7 @@ const ALIASES: Partial<Record<PowerAvatarKey, string[]>> = {
   fraise: ["gariguette"], passion: ["passion", "fruit de passion"],
   pamplemousse: ["pomelo", "pomelos"], pitaya: ["pitahaya", "fruit du dragon"],
   "noix-de-coco": ["coco"], cherimole: ["cherimoya"], jacquier: ["jacquier", "jackfruit"],
-  salade: ["salade", "batavia"], potiron: ["potiron", "potimarron"],
+  salade: ["salade", "batavia", "romaine", "sucrine"], potiron: ["potiron", "potimarron"],
   poivron: ["poivron"], echalote: ["echalotte"], "celeri-branche": ["celeri"],
 }
 function phrasePattern(value: string) {
@@ -64,6 +64,6 @@ const RULES = POWER_AVATARS.flatMap((avatar) =>
 export function avatarForProductName(name: string) {
   const normalized = normalizeMascotName(name)
   if (/\b(jus|smoothies?|soupes?|compotes?|confitures?|coulis|purees?|paniers?|box|bowls?)\b/.test(normalized)
-      || /\bsalade (de fruits|composee|cesar)\b/.test(normalized)) return null
+      || /\bsalades? (de fruits|composees?|cesar|poulet|veggie|burrata)\b/.test(normalized)) return null
   return RULES.find(({ pattern }) => pattern.test(normalized))?.avatar ?? null
 }
