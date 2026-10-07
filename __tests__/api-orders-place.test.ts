@@ -146,6 +146,29 @@ describe('POST /api/orders/place', () => {
     expect(res.status).toBe(401)
   })
 
+  it.each([
+    null,
+    { isActive: false },
+    { isActive: true, expiresAt: new Date('2020-01-01') },
+    { isActive: true, maxUses: 1, currentUses: 1 },
+    { isActive: true, maxUses: 0, minOrder: 100 },
+  ])('ne confirme jamais une commande en supprimant silencieusement sa remise', async (promo) => {
+    mockPromoFindUnique.mockResolvedValueOnce(promo)
+    const res = await POST(makeRequest({ promoCode: 'PROMO10' }))
+    expect(res.status).toBe(400)
+    expect((await res.json()).error).toContain('code promo')
+    expect(mockOrderCreate).not.toHaveBeenCalled()
+    expect(mockPromoUpdate).not.toHaveBeenCalled()
+    expect(mockCartItemDelete).not.toHaveBeenCalled()
+  })
+
+  it('applique une remise valide de 10 % sur les produits, hors frais de livraison', async () => {
+    mockPromoFindUnique.mockResolvedValueOnce({ id: 'promo1', code: 'PROMO10', isActive: true, maxUses: 0, minOrder: 0, type: 'percentage', value: 10 })
+    const res = await POST(makeRequest({ promoCode: 'promo10' }))
+    expect(res.status).toBe(200)
+    expect(mockOrderCreate).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ discount: 2, total: 22.9, promoCode: 'PROMO10' }) }))
+  })
+
   it('devrait rejeter un mode de paiement en ligne', async () => {
     const res = await POST(makeRequest({ paymentMethod: 'stripe' }))
     expect(res.status).toBe(400)

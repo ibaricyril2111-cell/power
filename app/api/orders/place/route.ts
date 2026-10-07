@@ -204,6 +204,8 @@ export async function POST(req: NextRequest) {
                     where: { id: promo.id },
                     data: { currentUses: { increment: 1 } },
                 })
+            } else {
+                return NextResponse.json({ error: "Ce code promo ne peut plus être appliqué à votre panier. Vérifiez-le ou retirez-le avant de confirmer la commande." }, { status: 400 })
             }
         }
 
