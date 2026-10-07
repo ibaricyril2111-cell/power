@@ -232,6 +232,30 @@ describe('POST /api/orders/place', () => {
   })
 
   describe('stock', () => {
+    it.each([0, -1, NaN, Infinity])('refuse une quantité invalide %s sans écriture', async quantity => {
+      mockCartItemFindMany.mockResolvedValueOnce(cartWith(10, quantity))
+      expect((await POST(makeRequest())).status).toBe(400)
+      expect(mockOrderCreate).not.toHaveBeenCalled()
+      expect(mockProductUpdate).not.toHaveBeenCalled()
+    })
+
+    it('refuse un article supprimé qui subsiste dans un ancien panier', async () => {
+      mockCartItemFindMany.mockResolvedValueOnce([{ id: 'orphan', quantity: 1, productId: null, product: null, compositionId: null, composition: null }])
+      expect((await POST(makeRequest())).status).toBe(409)
+      expect(mockOrderCreate).not.toHaveBeenCalled()
+    })
+
+    it('refuse une ligne liée à la fois à un produit et une préparation', async () => {
+      mockCartItemFindMany.mockResolvedValueOnce([{ ...cartWith(10, 1)[0], compositionId: 'c1', composition: { name: 'Panier', basePrice: 20 } }])
+      expect((await POST(makeRequest())).status).toBe(400)
+      expect(mockOrderCreate).not.toHaveBeenCalled()
+    })
+
+    it('conserve les quantités fractionnaires pour les produits au poids', async () => {
+      mockCartItemFindMany.mockResolvedValueOnce(cartWith(10, 0.5))
+      expect((await POST(makeRequest())).status).toBe(200)
+      expect(mockOrderItemCreate).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ quantity: 0.5 }) }))
+    })
     it('devrait refuser si le stock est insuffisant', async () => {
       mockCartItemFindMany.mockResolvedValue(cartWith(10, 5, 2))
       const res = await POST(makeRequest())
@@ -333,6 +357,14 @@ describe('POST /api/orders/place', () => {
   })
 
   describe('notifications', () => {
+    it('arrête la commande avant sa création si la lecture du client échoue', async () => {
+      mockUserFindUnique.mockRejectedValueOnce(new Error('Database temporarily unavailable'))
+      expect((await POST(makeRequest())).status).toBe(500)
+      expect(mockOrderCreate).not.toHaveBeenCalled()
+      expect(mockPromoUpdate).not.toHaveBeenCalled()
+      expect(mockProductUpdate).not.toHaveBeenCalled()
+    })
+
     it('devrait notifier le commercant de la nouvelle commande', async () => {
       await POST(makeRequest())
       expect(mockSendNewOrderToCompany).toHaveBeenCalledWith(
