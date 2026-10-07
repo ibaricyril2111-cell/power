@@ -31,11 +31,15 @@ const expectedPairs = [
   ["Citrons verts", "citron-vert"],
   ["Citron jaune", "citron"],
   ["Poire conférence", "poire"],
+  ["Sachet Romaine", "salade"],
+  ["Sachet Sucrine", "salade"],
+  ["Sucrines", "salade"],
 ] as const
 
 const missingArtwork = [
    "Piment", "Gombo",
   "Jus de mangue", "Salade de fruits", "Produit inconnu",
+  "Salade Poulet aubergine", "Salade Veggie", "Salade Burrata", "Salades composées",
 ]
 
 describe("POWER product/character identity", () => {
