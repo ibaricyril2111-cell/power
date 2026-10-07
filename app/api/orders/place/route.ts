@@ -102,6 +102,15 @@ export async function POST(req: NextRequest) {
 
         // Vérification de la disponibilité du stock AVANT de créer la commande
         for (const item of cartItems) {
+            if (!Number.isFinite(item.quantity) || item.quantity <= 0) {
+                return NextResponse.json({ error: "Une quantité du panier est invalide. Corrigez votre panier avant de commander." }, { status: 400 })
+            }
+            if ((!item.productId || !item.product) && (!item.compositionId || !item.composition)) {
+                return NextResponse.json({ error: "Un article de votre panier n'est plus disponible. Retirez-le avant de commander." }, { status: 409 })
+            }
+            if (item.productId && item.compositionId) {
+                return NextResponse.json({ error: "Un article du panier est invalide. Retirez-le puis ajoutez-le à nouveau." }, { status: 400 })
+            }
             const recipeError = item.composition && drinkOrderError(item.composition, item.customData)
             if (recipeError) return NextResponse.json({ error: recipeError }, { status: 409 })
             if (item.productId && item.product) {
@@ -175,6 +184,10 @@ export async function POST(req: NextRequest) {
             }
         })
 
+        // Lire les coordonnées AVANT toute écriture de commande : une panne de lecture
+        // après création ne doit pas faire croire au client qu'il faut recommander.
+        const user = await prisma.user.findUnique({ where: { id: session.user.id } })
+
         // Validation et application du code promo
         let promoDiscount = 0
         let validPromoCode: string | null = null
@@ -223,7 +236,6 @@ export async function POST(req: NextRequest) {
         let finalPostalCode = deliveryPostalCode
 
         if (isDelivery && !finalAddress) {
-            const user = await prisma.user.findUnique({ where: { id: session.user.id } })
             if (user) {
                 finalAddress = user.address
                 finalCity = user.city
@@ -326,7 +338,6 @@ export async function POST(req: NextRequest) {
         // Non bloquant : la commande est déjà en base et le stock décrémenté. Laisser une
         // panne Resend remonter en 500 ferait croire au client que sa commande a échoué,
         // et le pousserait à la repasser.
-        const user = await prisma.user.findUnique({ where: { id: session.user.id } })
         if (user?.email) {
             try {
                 await sendOrderConfirmation(
