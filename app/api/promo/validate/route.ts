@@ -5,8 +5,12 @@ export async function POST(req: NextRequest) {
     try {
         const { code, subtotal } = await req.json()
 
-        if (!code) {
+        if (typeof code !== "string" || !code.trim()) {
             return NextResponse.json({ error: "Code requis" }, { status: 400 })
+        }
+
+        if (typeof subtotal !== "number" || !Number.isFinite(subtotal) || subtotal <= 0) {
+            return NextResponse.json({ error: "Ajoutez des produits au panier avant d'appliquer un code promo" }, { status: 400 })
         }
 
         const promo = await prisma.promoCode.findUnique({

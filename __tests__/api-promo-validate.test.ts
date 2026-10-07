@@ -36,6 +36,18 @@ describe('POST /api/promo/validate', () => {
     expect(res.status).toBe(400)
   })
 
+  it.each([0, -10, '50', null])('refuse un sous-total invalide : %s', async (subtotal) => {
+    const res = await POST(makeRequest({ code: 'PROMO10', subtotal }))
+    expect(res.status).toBe(400)
+    expect(mockFindUnique).not.toHaveBeenCalled()
+  })
+
+  it.each([42, {}, '   '])('refuse un code mal formé', async (code) => {
+    const res = await POST(makeRequest({ code, subtotal: 50 }))
+    expect(res.status).toBe(400)
+    expect(mockFindUnique).not.toHaveBeenCalled()
+  })
+
   it('devrait retourner 404 pour un code inexistant', async () => {
     mockFindUnique.mockResolvedValueOnce(null)
     const res = await POST(makeRequest({ code: 'INVALID', subtotal: 50 }))

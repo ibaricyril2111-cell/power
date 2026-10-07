@@ -42,6 +42,8 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
   const [selectedTime, setSelectedTime] = useState<string>("")
   const [slots, setSlots] = useState<DeliverySlot[]>([])
   const [loadingSlots, setLoadingSlots] = useState(false)
+  const [slotsError, setSlotsError] = useState(false)
+  const [retry, setRetry] = useState(0)
 
   const initialSlot = useRef(initialSlotId)
   const notify = useRef(onSelectDelivery)
@@ -51,12 +53,19 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
     let cancelled = false
     setSlots([])
     setSelectedTime("")
+    setSlotsError(false)
+    // Une sélection précédente n'est valable qu'après vérification du mode et de la date.
+    if (selectedDelivery) notify.current(null)
     if (!selectedDate) { setLoadingSlots(false); return }
     setLoadingSlots(true)
     const dateStr = formatLocalDate(selectedDate)
     getAvailableDeliverySlots(dateStr, dateStr, mode)
       .then(res => {
         if (cancelled) return
+        if (!res.success) {
+          setSlotsError(true)
+          return
+        }
         setSlots(res.success ? res.data : [])
         const slot = res.data.find(s => s.id === initialSlot.current && s.remainingSlots > 0)
         initialSlot.current = undefined
@@ -66,10 +75,10 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
           notify.current({ date: selectedDate.toLocaleDateString("fr-FR"), dateISO: dateStr, time, slotId: slot.id })
         }
       })
-      .catch(() => { if (!cancelled) setSlots([]) })
+      .catch(() => { if (!cancelled) { setSlots([]); setSlotsError(true) } })
       .finally(() => { if (!cancelled) setLoadingSlots(false) })
     return () => { cancelled = true }
-  }, [selectedDate, mode])
+  }, [selectedDate, mode, retry])
 
   const handleDateSelect = (date: Date | undefined) => {
     initialSlot.current = undefined
@@ -142,6 +151,13 @@ export default function DeliveryCalendar({ onSelectDelivery, selectedDelivery, m
               <div role="status" className="flex min-h-24 flex-1 items-center justify-center gap-2 text-[#ffcd47]">
                 <Loader2 aria-hidden="true" className="h-5 w-5 animate-spin" />
                 <span className="text-sm">Chargement des créneaux…</span>
+              </div>
+            ) : slotsError ? (
+              <div role="alert" className="space-y-3 rounded-2xl border border-[#ffcd47]/30 bg-[#073b2d] px-4 py-6 text-center text-sm text-emerald-50">
+                <p>Impossible de charger les créneaux pour le moment. Réessayez pour connaître les horaires disponibles.</p>
+                <Button type="button" variant="outline" onClick={() => setRetry(value => value + 1)} className="border-[#ffcd47] bg-[#073b2d] text-[#ffcd47] hover:bg-[#115741] hover:text-white">
+                  Réessayer
+                </Button>
               </div>
             ) : selectedDate ? (
               displaySlots.length === 0 ? (

@@ -11,6 +11,32 @@ vi.mock('@/components/ui/calendar', () => ({ Calendar: ({ onSelect, disabled }: 
 afterEach(() => { cleanup(); vi.clearAllMocks() })
 const result = (id: string) => ({ success: true, data: [{ id, date: '2099-08-10', startTime: '10:00', endTime: '12:00', remainingSlots: 1 }] })
 describe('créneaux de commande', () => {
+  it.each(['server', 'network'])('distingue une panne %s d’une journée vide et permet de réessayer', async (failure) => {
+    if (failure === 'server') slots.mockResolvedValueOnce({ success: false, data: [] })
+    else slots.mockRejectedValueOnce(new Error('network'))
+    slots.mockResolvedValueOnce(result('recovered'))
+    render(<DeliveryCalendar initialDate="2099-08-10" onSelectDelivery={vi.fn()} selectedDelivery={null} />)
+    expect((await screen.findByRole('alert')).textContent).toContain('Impossible de charger')
+    expect(screen.queryByText(/Aucun créneau/)).toBeNull()
+    const retry = screen.getByRole('button', { name: 'Réessayer' })
+    expect(retry.getAttribute('type')).toBe('button')
+    fireEvent.click(retry)
+    await screen.findByRole('button', { name: /10:00/ })
+    expect(screen.queryByRole('alert')).toBeNull()
+    expect(slots).toHaveBeenLastCalledWith('2099-08-10', '2099-08-10', 'livraison')
+  })
+
+  it('invalide une sélection de livraison lors du passage au retrait', async () => {
+    slots.mockResolvedValue(result('s1'))
+    const select = vi.fn()
+    const { rerender } = render(<DeliveryCalendar initialDate="2099-08-10" onSelectDelivery={select} selectedDelivery={null} />)
+    fireEvent.click(await screen.findByRole('button', { name: /10:00/ }))
+    slots.mockResolvedValueOnce({ success: true, data: [] })
+    rerender(<DeliveryCalendar mode="retrait" initialDate="2099-08-10" onSelectDelivery={select} selectedDelivery={{ date: '10/08/2099', time: '10:00 - 12:00' }} />)
+    await screen.findByText(/Aucun créneau de retrait/)
+    expect(select).toHaveBeenLastCalledWith(null)
+  })
+
   it('invalide le créneau lorsque la date change', async () => {
     slots.mockResolvedValue(result('s1'))
     const select = vi.fn()
