@@ -24,4 +24,12 @@ describe("POWER approved storefront integrity", () => {
     expect(source).toContain('grid-cols-4')
     expect(source).toContain('Faire mes courses')
   })
+  it("makes the offer visible with one primary shopping action", () => {
+    expect(source).toContain('aria-labelledby="power-welcome-title"')
+    expect(source).toContain('<h1 id="power-welcome-title"')
+    expect(source).not.toContain('sr-only')
+    expect(source.match(/href="#marketplace"/g)).toHaveLength(1)
+    expect(source).toContain('focus-visible:outline')
+    expect(source).toContain('grid-cols-2')
+  })
 })
