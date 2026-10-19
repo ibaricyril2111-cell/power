@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import styles from "./hero-section.module.css"
 import { Leaf, Truck, MapPin, Heart, ArrowRight } from "lucide-react"
 
 const benefits = [
@@ -13,8 +14,9 @@ interface HeroSectionProps { title?: string; subtitle?: string }
 
 export default function HeroSection({ title, subtitle }: HeroSectionProps) {
   return (
-    <section aria-labelledby="power-welcome-title" data-power-facade="approved-reference" className="w-full bg-[#073b2d] text-white">
-      <div className="mx-auto max-w-7xl px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-12">
+    <section aria-labelledby="power-welcome-title" data-power-facade="approved-reference" className={`${styles.hero} w-full text-white`}>
+      <div aria-hidden="true" className={styles.orbit} />
+      <div className="relative mx-auto max-w-7xl px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-12">
         <div className="grid items-center gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-12">
           <div className="max-w-xl">
             <p className="mb-4 text-xs font-bold uppercase tracking-[.16em] text-[#ffcd47]">POWER · Primeur & bar à jus</p>
@@ -26,6 +28,8 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
           </div>
         {/* The complete storefront and all five approved characters remain visible.
             This is the exact reference crop, not a reconstructed or generated scene. */}
+        <div className={styles.scene}>
+        <div className={styles.frame}>
         <Image
           src="/brand/facade-power-validee.webp"
           alt="La devanture POWER validée, avec les personnages mangue, fraise, ananas, banane et tomate devant le panneau Bienvenue chez POWER"
@@ -36,6 +40,21 @@ export default function HeroSection({ title, subtitle }: HeroSectionProps) {
           sizes="(min-width: 1280px) 660px, (min-width: 1024px) 55vw, 100vw"
           className="block h-auto w-full rounded-2xl"
         />
+        </div>
+        <nav aria-label="Découvrir les univers POWER" className={styles.cards}>
+          {[
+            { href: "/produits", label: "Fruits & légumes", mascot: "carotte" },
+            { href: "/jus-soupes", label: "Jus & soupes", mascot: "orange" },
+            { href: "/personnages", label: "La famille POWER", mascot: "fraise" },
+          ].map(({ href, label, mascot }) => (
+            <Link key={href} href={href} className={styles.card}>
+              <Image src={`/brand/mascots/v4/${mascot}.webp`} alt="" width={72} height={72} sizes="72px" className={styles.mascot} />
+              <span>{label}</span>
+              <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" />
+            </Link>
+          ))}
+        </nav>
+        </div>
         </div>
         <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-white/15 pt-6 sm:grid-cols-4 sm:gap-6">
           {benefits.map(({ icon: Icon, title: benefitTitle }) => (
