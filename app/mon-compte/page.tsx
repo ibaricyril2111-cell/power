@@ -11,7 +11,7 @@ export default async function MonComptePage() {
   }
 
   return (
-    <div className="min-h-screen bg-black font-sans selection:bg-orange-500/30">
+    <div className="power-page min-h-screen bg-black font-sans selection:bg-orange-500/30">
       <Header />
       <main className="container mx-auto max-w-6xl px-4 pt-28 pb-12">
         <AccountPage />

@@ -44,7 +44,7 @@ export default async function ProductSection() {
   const categories = [...new Set(products.map(p => p.category.name))]
 
   return (
-    <section id="fruits" className="w-full bg-[#073b2d] px-3 py-12 sm:px-6 md:py-16">
+    <section id="fruits" className="power-section w-full bg-[#073b2d] px-3 py-12 sm:px-6 md:py-16">
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-8 max-w-2xl">
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#ffcd47]">Tous les produits · personnages POWER</p>

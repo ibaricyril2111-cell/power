@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic"
 
 export default async function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#073b2d] font-sans selection:bg-[#ffcd47]/25">
+    <div className="power-page min-h-screen bg-[#073b2d] font-sans selection:bg-[#ffcd47]/25">
       <Header />
       <main className="flex flex-col items-center overflow-hidden pb-16 md:pb-0">
         <HeroSection />
@@ -22,7 +22,7 @@ export default async function LandingPage() {
         <AvatarChoicePromo />
         <SeasonalStars />
         <BasketShowcase />
-        <div id="marketplace" className="w-full bg-[#073b2d]">
+        <div id="marketplace" className="power-section w-full bg-[#073b2d]">
           <ProductSection />
         </div>
       </main>

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db"
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import Link from "next/link"
 import { Leaf } from "lucide-react"
@@ -39,9 +40,10 @@ export default async function ProductsPage({
     })
 
     return (
-        <div className="min-h-screen bg-[#102e25] text-white">
+        <div className="power-page min-h-screen bg-[#102e25] text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
+        <PowerPageVisual mood="market" />
                 <div className="flex flex-col gap-8">
                     <div>
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl border-b border-white/10 pb-6">
@@ -57,7 +59,7 @@ export default async function ProductsPage({
                             const isOutOfStock = product.currentStock <= 0
                             const isLowStock = !isOutOfStock && product.currentStock <= 5
                             return (
-                            <div key={product.id} className="group glassmorphism bg-[#173f32]/85 rounded-3xl overflow-hidden border border-white/5 hover:border-[#ffcd47]/50 transition-all duration-500 flex flex-col">
+                            <div key={product.id} className="power-tile group glassmorphism bg-[#173f32]/85 rounded-3xl overflow-hidden border border-white/5 hover:border-[#ffcd47]/50 transition-all duration-500 flex flex-col">
                                 <Link href={"/produits/" + encodeURIComponent(product.id)} aria-label={"Voir le détail de " + product.name} className="relative block aspect-square overflow-hidden bg-[#244f40]">
                                     <ProductMascotImage
                                         name={product.name}

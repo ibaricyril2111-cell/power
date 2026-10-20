@@ -38,7 +38,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     }
 
     return (
-        <div className="min-h-screen bg-[#102e25] text-white">
+        <div className="power-page min-h-screen bg-[#102e25] text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
                 <div className="flex flex-col gap-12">
@@ -60,7 +60,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                             const isOutOfStock = product.currentStock <= 0
                             const isLowStock = !isOutOfStock && product.currentStock <= 5
                             return (
-                            <div key={product.id} className="group glassmorphism bg-zinc-900/40 rounded-[40px] overflow-hidden border border-white/5 hover:border-orange-500/50 transition-all duration-500 flex flex-col h-full">
+                            <div key={product.id} className="power-tile group glassmorphism bg-zinc-900/40 rounded-[40px] overflow-hidden border border-white/5 hover:border-orange-500/50 transition-all duration-500 flex flex-col h-full">
                                 <div className="relative aspect-square overflow-hidden bg-zinc-800">
                                     <Image
                                         src={product.image || "/placeholder-product.jpg"}

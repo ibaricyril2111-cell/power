@@ -87,7 +87,7 @@ function SuccessContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#102e25] text-white">
+      <div className="power-page min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 flex flex-col items-center justify-center gap-6">
           <Loader2 className="h-12 w-12 animate-spin text-[#ffcd47]" />
@@ -100,7 +100,7 @@ function SuccessContent() {
 
   if (error || !order) {
     return (
-      <div className="min-h-screen bg-[#102e25] text-white">
+      <div className="power-page min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 max-w-2xl mx-auto text-center">
           <div className="w-20 h-20 bg-[#ffcd47]/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -127,7 +127,7 @@ function SuccessContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#102e25] text-white">
+    <div className="power-page min-h-screen bg-[#102e25] text-white">
       <Header />
       <div className="pt-32 pb-16 px-4">
         <div className="max-w-3xl mx-auto">
@@ -303,7 +303,7 @@ function SuccessContent() {
 export default function CheckoutSuccessPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#102e25] text-white flex items-center justify-center">
+      <div className="power-page min-h-screen bg-[#102e25] text-white flex items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-[#ffcd47]" />
       </div>
     }>

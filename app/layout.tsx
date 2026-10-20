@@ -4,6 +4,7 @@ import { SessionProvider } from '@/components/providers/session-provider'
 import GoogleAnalytics from '@/components/providers/google-analytics'
 import CookieConsent from '@/components/cookie-consent'
 import PwaRegister from '@/components/pwa-register'
+import PowerUniverse from '@/components/layout/power-universe'
 import { Toaster } from "sonner"
 
 const SITE_URL = 'https://powerprimeur.com'
@@ -67,7 +68,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <PwaRegister />
           <GoogleAnalytics />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-          {children}
+          <PowerUniverse>{children}</PowerUniverse>
           <CookieConsent />
           <Toaster position="bottom-right" richColors closeButton expand duration={4000} toastOptions={{ classNames: { toast: "rounded-xl border shadow-xl", success: "!bg-[#0b4938] !text-white !border-[#ffcd47]/40", error: "!bg-red-600 !text-white !border-red-700", info: "!bg-[#0b4938] !text-white !border-white/15", warning: "!bg-amber-500 !text-white !border-amber-600", closeButton: "!bg-black/20 !text-white !border-transparent" } }} />
         </SessionProvider>

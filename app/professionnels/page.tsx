@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Header from '@/components/layout/header'
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from '@/components/layout/footer'
 
 export const metadata: Metadata = {
@@ -30,10 +31,11 @@ export default function ProfessionnelsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f4ed] text-[#173f32]">
+    <div className="power-page min-h-screen bg-[#173f32] text-white">
       <Header />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
       <main className="mx-auto max-w-7xl px-5 pb-20 pt-36 sm:px-8">
+        <PowerPageVisual mood="market" />
         <section className="rounded-[40px] bg-[#173f32] px-6 py-14 text-white sm:px-12 lg:px-16">
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-orange-400">Power pour les professionnels</p>
           <h1 className="mt-5 max-w-5xl text-4xl font-black tracking-tight sm:text-6xl">Livraison de fruits et légumes pour professionnels en Île-de-France</h1>
@@ -44,20 +46,20 @@ export default function ProfessionnelsPage() {
         <section className="py-16">
           <h2 className="text-3xl font-black sm:text-4xl">Une offre adaptée à votre activité</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-2">
-            {publics.map(([title, copy]) => <article key={title} className="rounded-3xl border border-[#173f32]/10 bg-white p-7 shadow-sm"><h3 className="text-xl font-black">{title}</h3><p className="mt-3 leading-relaxed text-[#173f32]/70">{copy}</p></article>)}
+            {publics.map(([title, copy]) => <article key={title} className="rounded-3xl border border-white/15 bg-[#122d24]/90 p-7 shadow-sm"><h3 className="text-xl font-black">{title}</h3><p className="mt-3 leading-relaxed text-white/75">{copy}</p></article>)}
           </div>
         </section>
 
-        <section className="grid gap-8 rounded-[36px] bg-white p-8 shadow-sm lg:grid-cols-2 lg:p-12">
+        <section className="grid gap-8 rounded-[36px] bg-[#122d24]/90 p-8 shadow-sm lg:grid-cols-2 lg:p-12">
           <div>
             <h2 className="text-3xl font-black">Zones de livraison</h2>
-            <p className="mt-4 leading-relaxed text-[#173f32]/70">POWER organise les livraisons dans les départements suivants. Les Yvelines (78) et le Val-d’Oise (95) ne font pas partie de la zone annoncée.</p>
-            <ul className="mt-6 grid gap-2 sm:grid-cols-2">{zones.map((zone) => <li key={zone} className="rounded-xl bg-[#f7f4ed] px-4 py-3 font-semibold">{zone}</li>)}</ul>
+            <p className="mt-4 leading-relaxed text-white/75">POWER organise les livraisons dans les départements suivants. Les Yvelines (78) et le Val-d’Oise (95) ne font pas partie de la zone annoncée.</p>
+            <ul className="mt-6 grid gap-2 sm:grid-cols-2">{zones.map((zone) => <li key={zone} className="rounded-xl bg-[#173f32] px-4 py-3 font-semibold">{zone}</li>)}</ul>
           </div>
           <div>
             <h2 className="text-3xl font-black">Votre devis</h2>
-            <p className="mt-4 leading-relaxed text-[#173f32]/70">Indiquez les produits, les volumes, la fréquence, le lieu, le créneau et les besoins de préparation. Pour les recherches liées à Rungis, précisez vos contraintes d’approvisionnement et de livraison afin que nous vérifiions la solution disponible.</p>
-            <Link href="/contact" className="mt-6 inline-flex font-bold text-orange-600 underline underline-offset-4">Contacter POWER</Link>
+            <p className="mt-4 leading-relaxed text-white/75">Indiquez les produits, les volumes, la fréquence, le lieu, le créneau et les besoins de préparation. Pour les recherches liées à Rungis, précisez vos contraintes d’approvisionnement et de livraison afin que nous vérifiions la solution disponible.</p>
+            <Link href="/contact" className="mt-6 inline-flex font-bold text-[#ffcd47] underline underline-offset-4">Contacter POWER</Link>
           </div>
         </section>
       </main>

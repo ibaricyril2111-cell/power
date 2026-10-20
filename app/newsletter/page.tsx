@@ -1,13 +1,15 @@
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import { Mail } from "lucide-react"
 import NewsletterForm from "@/components/newsletter-form"
 
 export default function NewsletterPage() {
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="power-page min-h-screen bg-black text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-44 pb-20 text-center">
+        <PowerPageVisual mood="store" />
                 <div className="relative inline-block mb-12">
                     <div className="absolute inset-0 bg-orange-500 blur-[100px] opacity-20"></div>
                     <div className="relative z-10 w-24 h-24 rounded-[32px] bg-orange-500 flex items-center justify-center mx-auto shadow-2xl shadow-orange-500/40">

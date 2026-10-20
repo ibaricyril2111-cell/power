@@ -1,11 +1,12 @@
 "use client"
 
 import { ArrowRight, Check } from "lucide-react"
+import Image from "next/image"
 
 const baskets = [
-  { name: "Solo", price: 20, detail: "L’essentiel pour la semaine", tone: "bg-[#244f40]" },
-  { name: "Duo", price: 30, detail: "Le bon format pour deux", tone: "bg-[#2f654f]" },
-  { name: "Familial", price: 40, detail: "Généreux et varié", tone: "bg-[#244f40]" },
+  { name: "Solo", price: 20, detail: "L’essentiel pour la semaine", tone: "solo", mascot: "carotte" },
+  { name: "Duo", price: 30, detail: "Le bon format pour deux", tone: "duo", mascot: "orange" },
+  { name: "Familial", price: 40, detail: "Généreux et varié", tone: "family", mascot: "fraise" },
 ]
 
 export default function BasketShowcase() {
@@ -15,7 +16,7 @@ export default function BasketShowcase() {
   }
 
   return (
-    <section id="paniers" className="w-full bg-[#073b2d] px-5 py-20 sm:px-8 md:py-28">
+    <section id="paniers" className="power-section w-full bg-[#073b2d] px-5 py-20 sm:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.7fr] lg:items-end">
           <div>
@@ -25,12 +26,17 @@ export default function BasketShowcase() {
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {baskets.map((basket) => (
-              <button key={basket.name} onClick={openBaskets} className={`${basket.tone} group rounded-[28px] p-6 text-left transition duration-300 hover:-translate-y-1 hover:shadow-xl`}>
+              <button type="button" key={basket.name} data-tone={basket.tone} onClick={openBaskets} className="power-basket-card group rounded-[28px] p-6 text-left transition duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <div className="flex items-start justify-between">
                   <span className="rounded-full bg-[#ffcd47] px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#073b2d]">Panier</span>
                   <span className="text-3xl font-black text-white">{basket.price}€</span>
                 </div>
-                <h3 className="mt-12 text-3xl font-black tracking-tight text-white">{basket.name}</h3>
+                <div className="power-basket-photo">
+                  <Image src="/products/panier-saison.webp" alt="" fill sizes="(max-width: 639px) 85vw, 280px" />
+                  <div className="power-basket-mascot"><Image src={`/brand/mascots/v4/${basket.mascot}.webp`} alt="" width={72} height={72} /></div>
+                </div>
+                <span className="power-basket-note">Visuel d’ambiance · contenu selon arrivages</span>
+                <h3 className="mt-3 text-3xl font-black tracking-tight text-white">{basket.name}</h3>
                 <p className="mt-1 text-sm text-white/70">{basket.detail}</p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-white">Composer <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
               </button>

@@ -1,12 +1,14 @@
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import Image from "next/image"
 
 export default function AboutPage() {
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="power-page min-h-screen bg-black text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
+        <PowerPageVisual mood="store" />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                     <div>
                         <span className="text-orange-500 font-black uppercase tracking-[0.4em] text-sm mb-6 block">Notre Manifeste</span>

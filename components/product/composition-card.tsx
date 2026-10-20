@@ -41,7 +41,7 @@ export default function CompositionCard({ composition, badge, fallbackLabel = "Ã
 
     return (
         <>
-            <div className="group bg-[#0b4938] rounded-[24px] overflow-hidden border border-white/15 hover:border-[#ffcd47]/60 transition-all flex flex-col">
+            <div className="power-tile group bg-[#0b4938] rounded-[24px] overflow-hidden border border-white/15 hover:border-[#ffcd47]/60 transition-all flex flex-col">
                 <button
                     type="button"
                     onClick={openSheet}

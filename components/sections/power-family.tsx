@@ -43,7 +43,7 @@ export default function PowerFamily({ products, initialCharacter = null }: { pro
   const selection = entries.find(({ avatar }) => avatar.key === selected)
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6" aria-label="Les 100 personnages POWER">
+    <section className="power-section mx-auto w-full max-w-7xl px-4 py-8 sm:px-6" aria-label="Les 100 personnages POWER">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-black uppercase tracking-widest text-[#ffcd47]">La famille POWER · 100 personnages</p>

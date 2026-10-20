@@ -129,7 +129,7 @@ export default function ConnexionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#102e25] flex items-center justify-center px-4 py-10">
+    <div className="power-page min-h-screen bg-[#102e25] flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         {/* Retour */}
         <Link

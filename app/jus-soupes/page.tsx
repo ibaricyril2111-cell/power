@@ -1,4 +1,5 @@
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import { Soup } from "lucide-react"
 import CompositionCard from "@/components/product/composition-card"
@@ -18,9 +19,10 @@ export default async function JusSoupesPage() {
     const { data: compositions } = await getCompositionsByTypes(['jus', 'smoothie', 'soupe'])
 
     return (
-        <div className="min-h-screen bg-[#073b2d] text-white">
+        <div className="power-page min-h-screen bg-[#073b2d] text-white">
             <Header />
             <main id="jus-disponibles" className="max-w-7xl mx-auto scroll-mt-28 px-4 pt-8 pb-20">
+        <PowerPageVisual mood="kitchen" />
                 <div className="flex flex-col gap-8">
                     <div>
                         <h1 className="text-4xl font-black tracking-tight sm:text-5xl border-b border-white/15 pb-6">

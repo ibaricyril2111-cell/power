@@ -1,4 +1,5 @@
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import { Scissors } from "lucide-react"
 import CompositionCard from "@/components/product/composition-card"
@@ -18,9 +19,10 @@ export default async function DecoupesPage() {
     const { data: compositions } = await getCompositionsByTypes(['legumes-decoupes', 'fruits-decoupes'])
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="power-page min-h-screen bg-black text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
+        <PowerPageVisual mood="kitchen" />
                 <div className="flex flex-col gap-8">
                     <div>
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl border-b border-white/10 pb-6 uppercase italic">

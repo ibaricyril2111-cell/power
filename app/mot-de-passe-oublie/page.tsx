@@ -87,7 +87,7 @@ function ResetContent() {
 
   if (success && !isResetMode) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
+      <div className="power-page min-h-screen bg-black flex items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
           <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-8 h-8 text-green-500" />
@@ -106,7 +106,7 @@ function ResetContent() {
 
   if (success && isResetMode) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
+      <div className="power-page min-h-screen bg-black flex items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
           <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-8 h-8 text-green-500" />
@@ -124,7 +124,7 @@ function ResetContent() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="power-page min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <Link href="/connexion" className="inline-flex items-center gap-2 text-zinc-400 hover:text-white mb-8 transition-colors text-sm">
           <ArrowLeft className="h-4 w-4" /> Retour à la connexion
@@ -230,7 +230,7 @@ function ResetContent() {
 export default function MotDePasseOubliePage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="power-page min-h-screen bg-black flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
       </div>
     }>

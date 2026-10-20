@@ -56,7 +56,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     }
 
     return (
-        <div className="min-h-screen bg-[#073b2d] text-white">
+        <div className="power-page min-h-screen bg-[#073b2d] text-white">
             <Header />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
             <main className="max-w-7xl mx-auto px-4 pt-44 pb-32">

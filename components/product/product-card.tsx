@@ -89,7 +89,7 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
   }
 
   return (
-    <Card className="group bg-[#0b4938] border-white/15 rounded-[20px] overflow-hidden hover:-translate-y-1 hover:border-[#ffcd47]/70 hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+    <Card className="power-tile group bg-[#0b4938] border-white/15 rounded-[20px] overflow-hidden hover:-translate-y-1 hover:border-[#ffcd47]/70 hover:shadow-xl transition-all duration-300 h-full flex flex-col">
       {/* Le détail reste séparé des boutons du panier. */}
       <CardContent
         className="p-0 relative cursor-pointer"

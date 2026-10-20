@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import MobileBottomNav from "@/components/layout/mobile-bottom-nav"
 import PowerFamily from "@/components/sections/power-family"
@@ -17,9 +18,10 @@ export default async function CharactersPage({ searchParams }: { searchParams?: 
   const initialCharacter = isPowerAvatarKey(params.personnage) ? params.personnage : null
   const result = await getProducts()
   return (
-    <div className="min-h-screen bg-[#073b2d] text-white">
+    <div className="power-page min-h-screen bg-[#073b2d] text-white">
       <Header />
       <main className="pb-20 pt-2">
+        <PowerPageVisual mood="store" />
         {!result.success && <p role="alert" className="mx-auto max-w-7xl px-4 text-sm text-[#ffcd47]">
           Le catalogue ne se charge pas pour le moment. Réessaie dans un instant.
         </p>}

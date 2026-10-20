@@ -1,4 +1,5 @@
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { getFaqs } from "@/app/actions/content"
@@ -9,9 +10,10 @@ export default async function FAQPage() {
     const { data: faqs } = await getFaqs()
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="power-page min-h-screen bg-black text-white">
             <Header />
             <main className="max-w-4xl mx-auto px-4 pt-32 pb-20">
+        <PowerPageVisual mood="store" />
                 <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-center mb-16">
                     FAQ<span className="text-orange-500">.</span>
                 </h1>
