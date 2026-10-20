@@ -1,4 +1,5 @@
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import Image from "next/image"
 import Link from "next/link"
@@ -10,9 +11,10 @@ export default async function BlogPage() {
     const { data: posts } = await getBlogPosts()
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="power-page min-h-screen bg-black text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
+        <PowerPageVisual mood="kitchen" />
                 <h1 className="text-7xl md:text-9xl font-black uppercase italic tracking-tighter mb-20 text-center leading-none">
                     Journal<span className="text-zinc-800">.</span>
                 </h1>

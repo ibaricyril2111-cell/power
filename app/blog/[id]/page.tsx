@@ -17,7 +17,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
     }
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="power-page min-h-screen bg-black text-white">
             <Header />
             <main className="max-w-4xl mx-auto px-4 pt-44 pb-32">
                 <Link href="/blog" className="inline-flex items-center gap-2 text-zinc-500 hover:text-orange-500 font-black uppercase italic tracking-widest text-xs mb-12 group transition-all">

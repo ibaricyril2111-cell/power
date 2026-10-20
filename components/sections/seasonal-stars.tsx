@@ -55,7 +55,7 @@ export default async function SeasonalStars() {
   if (ranked.length === 0) return null
 
   return (
-    <section id="saison" className="w-full bg-[#0b4938] px-5 py-16 text-white sm:px-8 md:py-24">
+    <section id="saison" className="power-section w-full bg-[#0b4938] px-5 py-16 text-white sm:px-8 md:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="overflow-hidden rounded-[36px] border border-white/10 bg-[#073b2d] shadow-2xl">
           <div className="relative border-b border-white/10 px-6 py-8 sm:px-9">

@@ -83,7 +83,7 @@ export default function OrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#102e25] text-white">
+      <div className="power-page min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 flex items-center justify-center">
           <Loader2 className="h-10 w-10 animate-spin text-[#ffcd47]" />
@@ -95,7 +95,7 @@ export default function OrderDetailPage() {
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-[#102e25] text-white">
+      <div className="power-page min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 max-w-2xl mx-auto text-center">
           <h1 className="text-3xl font-black mb-4">Commande introuvable</h1>
@@ -114,7 +114,7 @@ export default function OrderDetailPage() {
   const itemsSubtotal = order.items.reduce((sum, i) => sum + i.price * i.quantity, 0)
 
   return (
-    <div className="min-h-screen bg-[#102e25] text-white">
+    <div className="power-page min-h-screen bg-[#102e25] text-white">
       <Header />
       <div className="pt-32 pb-16 px-4">
         <div className="max-w-4xl mx-auto">

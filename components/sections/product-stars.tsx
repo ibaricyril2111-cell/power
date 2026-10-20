@@ -19,7 +19,7 @@ export default async function ProductStars() {
   if (!stars.length) return null
 
   return (
-    <section className="w-full bg-[#073b2d] px-3 py-8 text-white sm:px-6">
+    <section className="power-section w-full bg-[#073b2d] px-3 py-8 text-white sm:px-6">
       <div className="mx-auto max-w-7xl">
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>

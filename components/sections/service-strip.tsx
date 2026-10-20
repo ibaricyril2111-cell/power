@@ -9,7 +9,7 @@ const services = [
 
 export default function ServiceStrip() {
   return (
-    <section aria-label="Les services Power" className="relative z-20 w-full bg-[#173f32] text-white">
+    <section aria-label="Les services Power" className="power-section relative z-20 w-full bg-[#173f32] text-white">
       <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y divide-white/10 md:grid-cols-4 md:divide-y-0">
         {services.map(({ icon: Icon, title, copy }) => (
           <div key={title} className="flex gap-3 px-4 py-5 sm:px-6">

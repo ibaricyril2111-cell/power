@@ -1,6 +1,7 @@
 "use client"
 
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -49,9 +50,10 @@ export default function ContactPage() {
     }
 
     return (
-        <div className="min-h-screen bg-black text-white font-sans">
+        <div className="power-page min-h-screen bg-black text-white font-sans">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
+        <PowerPageVisual mood="store" />
                 <div className="mb-20 text-center">
                     <h1 className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter leading-none mb-8">
                         Contact<span className="text-orange-500">.</span>

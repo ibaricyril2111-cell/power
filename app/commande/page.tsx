@@ -225,7 +225,7 @@ export default function CommandePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#102e25] text-white">
+      <div className="power-page min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-[#ffcd47]" />
@@ -235,12 +235,12 @@ export default function CommandePage() {
   }
 
   if (loadError) {
-    return <div className="min-h-screen bg-[#102e25] text-white"><Header /><div className="pt-32 px-4 text-center"><p role="alert">Impossible de charger votre panier. Veuillez réessayer.</p><Button className="mt-4" onClick={() => window.location.reload()}>Réessayer</Button></div></div>
+    return <div className="power-page min-h-screen bg-[#102e25] text-white"><Header /><div className="pt-32 px-4 text-center"><p role="alert">Impossible de charger votre panier. Veuillez réessayer.</p><Button className="mt-4" onClick={() => window.location.reload()}>Réessayer</Button></div></div>
   }
 
   if (processedItems.length === 0) {
     return (
-      <div className="min-h-screen bg-[#102e25] text-white">
+      <div className="power-page min-h-screen bg-[#102e25] text-white">
         <Header />
         <div className="pt-32 pb-16 px-4 max-w-4xl mx-auto text-center">
           <h1 className="text-3xl font-black mb-4">Votre panier est vide</h1>
@@ -254,7 +254,7 @@ export default function CommandePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#102e25] text-white">
+    <div className="power-page min-h-screen bg-[#102e25] text-white">
       <Header />
       <div className="pt-32 pb-16 px-4">
         <div className="max-w-5xl mx-auto">

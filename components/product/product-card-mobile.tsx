@@ -75,7 +75,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
 
   return (
     <div
-      className="flex min-w-0 flex-col overflow-hidden bg-[#0b4938] border border-white/15 rounded-[18px] shadow-sm active:scale-[0.99] transition cursor-pointer"
+      className="power-tile flex min-w-0 flex-col overflow-hidden bg-[#0b4938] border border-white/15 rounded-[18px] shadow-sm active:scale-[0.99] transition cursor-pointer"
       role="button"
       tabIndex={0}
       aria-label={`Voir le détail de ${product.name}`}

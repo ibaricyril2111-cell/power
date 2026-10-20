@@ -1,4 +1,5 @@
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import { Clock, ChefHat, Timer, Utensils } from "lucide-react"
 import { getRecipes } from "@/app/actions/content"
@@ -11,9 +12,10 @@ export default async function RecettesPage() {
     const { data: recipes } = await getRecipes()
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="power-page min-h-screen bg-black text-white">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20">
+        <PowerPageVisual mood="kitchen" />
                 <div className="flex flex-col items-center mb-20 text-center">
                     <div className="w-16 h-1 w-12 bg-orange-500 mb-8 rounded-full"></div>
                     <h1 className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter leading-none mb-8">

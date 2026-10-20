@@ -6,7 +6,7 @@ const picks: PowerAvatarKey[] = ["mangue", "fraise", "avocat", "carotte", "tomat
 
 export default function AvatarChoicePromo() {
   return (
-    <section className="w-full bg-[#073b2d] px-3 pb-10 sm:px-6">
+    <section className="power-section w-full bg-[#073b2d] px-3 pb-10 sm:px-6">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-2xl border border-white/15 bg-[#0b4938] p-5 text-white sm:p-7">
         <div className="grid items-center gap-5 sm:grid-cols-[1fr_auto]">
           <div>

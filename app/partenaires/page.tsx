@@ -1,4 +1,5 @@
 import Header from "@/components/layout/header"
+import PowerPageVisual from "@/components/layout/power-page-visual"
 import Footer from "@/components/layout/footer"
 import { Handshake } from "lucide-react"
 import { getPartners } from "@/app/actions/content"
@@ -10,9 +11,10 @@ export default async function PartenairesPage() {
     const { data: partners } = await getPartners()
 
     return (
-        <div className="min-h-screen bg-black text-white font-sans tracking-tight">
+        <div className="power-page min-h-screen bg-black text-white font-sans tracking-tight">
             <Header />
             <main className="max-w-7xl mx-auto px-4 pt-32 pb-20 text-center">
+        <PowerPageVisual mood="store" />
                 <Handshake className="w-20 h-20 text-orange-500 mx-auto mb-10 opacity-20" />
                 <h1 className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter leading-none mb-12">
                     Nos<br /><span className="text-zinc-800">Producteurs.</span>

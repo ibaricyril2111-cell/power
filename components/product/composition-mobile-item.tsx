@@ -19,7 +19,7 @@ interface Composition {
 export default function CompositionMobileItem({ composition, onCompose }: { composition: Composition; onCompose?: () => void }) {
   return (
     <div
-      className="flex min-w-0 flex-col overflow-hidden bg-[#0b4938] border border-white/15 rounded-[22px] shadow-sm active:scale-[0.99] transition"
+      className="power-tile flex min-w-0 flex-col overflow-hidden bg-[#0b4938] border border-white/15 rounded-[22px] shadow-sm active:scale-[0.99] transition"
       onClick={onCompose}
     >
       <div className="relative w-full aspect-square overflow-hidden bg-[#0b4938]">

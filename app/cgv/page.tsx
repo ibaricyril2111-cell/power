@@ -3,7 +3,7 @@ import Footer from "@/components/layout/footer"
 
 export default function CGVPage() {
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="power-page min-h-screen bg-black text-white">
             <Header />
             <main className="max-w-4xl mx-auto px-4 pt-32 pb-20">
                 <h1 className="text-5xl font-black uppercase italic tracking-tighter mb-16">

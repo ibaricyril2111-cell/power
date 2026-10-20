@@ -10,7 +10,7 @@ const creations = [
 export default function FruitShowcase({ linkToCatalog = false }: { linkToCatalog?: boolean }) {
   const href = linkToCatalog ? "#jus-disponibles" : "/jus-soupes"
   return (
-    <section aria-labelledby="power-fruits-title" className="w-full bg-[#102e25] px-5 py-14 text-white sm:px-8 sm:py-20">
+    <section aria-labelledby="power-fruits-title" className="power-section w-full bg-[#102e25] px-5 py-14 text-white sm:px-8 sm:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
