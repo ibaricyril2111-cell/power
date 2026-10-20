@@ -232,6 +232,36 @@ describe('POST /api/orders/place', () => {
   })
 
   describe('stock', () => {
+    it('refuse le cumul de lignes du même produit qui dépasse le stock', async () => {
+      mockCartItemFindMany.mockResolvedValueOnce([
+        ...cartWith(10, 3, 5),
+        { ...cartWith(10, 3, 5)[0], id: 'ci_2' },
+      ])
+      const res = await POST(makeRequest())
+      expect(res.status).toBe(409)
+      expect(mockOrderCreate).not.toHaveBeenCalled()
+      expect(mockProductUpdate).not.toHaveBeenCalled()
+      expect(mockPromoUpdate).not.toHaveBeenCalled()
+    })
+
+    it('déduit une seule fois le cumul des lignes fractionnaires du même produit', async () => {
+      mockCartItemFindMany.mockResolvedValueOnce([
+        ...cartWith(10, 0.5, 2),
+        { ...cartWith(10, 1.5, 2)[0], id: 'ci_2' },
+      ])
+      mockOrderItemFindMany.mockResolvedValueOnce([
+        { productId: 'p1', quantity: 0.5, product: { name: 'Tomates', currentStock: 2 } },
+        { productId: 'p1', quantity: 1.5, product: { name: 'Tomates', currentStock: 2 } },
+      ])
+      const res = await POST(makeRequest())
+      expect(res.status).toBe(200)
+      expect(mockOrderItemCreate).toHaveBeenCalledTimes(2)
+      expect(mockProductUpdate).toHaveBeenCalledTimes(1)
+      expect(mockProductUpdate).toHaveBeenCalledWith({
+        where: { id: 'p1' }, data: { currentStock: 0, inStock: false },
+      })
+    })
+
     it.each([0, -1, NaN, Infinity])('refuse une quantité invalide %s sans écriture', async quantity => {
       mockCartItemFindMany.mockResolvedValueOnce(cartWith(10, quantity))
       expect((await POST(makeRequest())).status).toBe(400)

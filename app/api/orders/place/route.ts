@@ -101,6 +101,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Vérification de la disponibilité du stock AVANT de créer la commande
+        const requestedQuantities = new Map<string, number>()
         for (const item of cartItems) {
             if (!Number.isFinite(item.quantity) || item.quantity <= 0) {
                 return NextResponse.json({ error: "Une quantité du panier est invalide. Corrigez votre panier avant de commander." }, { status: 400 })
@@ -114,7 +115,9 @@ export async function POST(req: NextRequest) {
             const recipeError = item.composition && drinkOrderError(item.composition, item.customData)
             if (recipeError) return NextResponse.json({ error: recipeError }, { status: 409 })
             if (item.productId && item.product) {
-                if (!item.product.inStock || item.product.currentStock < item.quantity) {
+                const requestedQuantity = (requestedQuantities.get(item.productId) ?? 0) + item.quantity
+                requestedQuantities.set(item.productId, requestedQuantity)
+                if (!Number.isFinite(requestedQuantity) || !item.product.inStock || item.product.currentStock < requestedQuantity) {
                     return NextResponse.json(
                         {
                             error: `Stock insuffisant pour « ${item.product.name} » (${Math.max(0, item.product.currentStock)} restant${item.product.currentStock > 1 ? "s" : ""}).`,
@@ -304,17 +307,27 @@ export async function POST(req: NextRequest) {
                 },
             },
         })
+        // Plusieurs lignes peuvent référencer le même produit. Les lectures ci-dessus
+        // partagent le même stock initial : écrire une fois par ligne perdrait une déduction.
+        const stockDeductions = new Map<string, { quantity: number; currentStock: number }>()
         for (const item of orderItems) {
             if (item.productId && item.product) {
-                const newStock = Math.max(0, item.product.currentStock - item.quantity)
-                await prisma.product.update({
-                    where: { id: item.productId },
-                    data: {
-                        currentStock: newStock,
-                        inStock: newStock > 0,
-                    },
+                const existing = stockDeductions.get(item.productId)
+                stockDeductions.set(item.productId, {
+                    quantity: (existing?.quantity ?? 0) + item.quantity,
+                    currentStock: item.product.currentStock,
                 })
             }
+        }
+        for (const [productId, deduction] of stockDeductions) {
+            const newStock = Math.max(0, deduction.currentStock - deduction.quantity)
+            await prisma.product.update({
+                where: { id: productId },
+                data: {
+                    currentStock: newStock,
+                    inStock: newStock > 0,
+                },
+            })
         }
 
         // Réserver le créneau : uniquement en LIVRAISON (le retrait ne consomme pas de capacité).
