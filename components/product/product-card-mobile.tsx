@@ -6,6 +6,7 @@ import { addToCart, decrementFromCart } from "@/app/actions/cart"
 import { toast } from "sonner"
 import ProductMascotImage from "@/components/product/product-mascot-image"
 import ProduceComment from "./produce-comment"
+import ProductPrice from "./product-price"
 
 interface Product {
   id: string
@@ -107,11 +108,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
         <p className="mb-1 truncate text-[9px] font-bold uppercase tracking-wider text-[#ffcd47]">{product.category}</p>
         <h3 className="text-sm font-black text-white truncate">{product.name}</h3>
         <ProduceComment name={product.name} description={product.description} className="mt-1 [&>p]:text-xs" />
-        <div className="flex items-center gap-1.5 mt-1">
-          {product.promoPrice != null && <span className="text-white/65 line-through text-xs">{product.price.toFixed(2)}€</span>}
-          <span className="text-[#ffcd47] font-black text-sm">{(product.promoPrice ?? product.price).toFixed(2)}€</span>
-          <span className="text-white/70 text-[10px] uppercase">/ {product.unit}</span>
-        </div>
+        <ProductPrice price={product.price} promoPrice={product.promoPrice} unit={product.unit} />
       </div>
 
       <div className="mt-auto px-3 pb-3">
@@ -120,7 +117,7 @@ export default function ProductCardMobile({ product, onViewDetails }: { product:
           aria-label={`Ajouter ${product.name} au panier`}
           onClick={handleAdd}
           disabled={loading || !product.inStock}
-          className="w-full h-10 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-black transition-all active:scale-95 flex items-center justify-center disabled:opacity-50"
+          className="min-w-0 w-full min-h-11 h-auto flex-wrap gap-1 whitespace-normal px-2 py-3 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-black transition-all active:scale-95 flex items-center justify-center disabled:opacity-50"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Plus className="mr-1 h-4 w-4" /> Ajouter</>}
         </button>

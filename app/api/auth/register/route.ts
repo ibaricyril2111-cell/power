@@ -18,6 +18,9 @@ const registerSchema = z.object({
     firstName: z.string().trim().min(1, "Le prénom est requis"),
     lastName: z.string().trim().min(1, "Le nom est requis"),
     avatarKey: z.string().optional(),
+    phone: z.string().trim().max(30).transform(v => v.replace(/[\s.()\-]/g, ""))
+        .refine(v => /^\+?[0-9]{10,15}$/.test(v), "Numéro de téléphone invalide").optional(),
+    clientType: z.enum(["particulier", "professionnel"]).default("particulier"),
 })
 
 export async function POST(req: Request) {
@@ -32,7 +35,7 @@ export async function POST(req: Request) {
             )
         }
 
-        const { email, password, firstName, lastName } = parsed.data
+        const { email, password, firstName, lastName, phone, clientType } = parsed.data
         const avatarKey = isPowerAvatarKey(parsed.data.avatarKey) ? parsed.data.avatarKey : DEFAULT_POWER_AVATAR
 
         // Anti-abus : borne les créations de comptes par IP (chaque inscription déclenche
@@ -67,6 +70,9 @@ export async function POST(req: Request) {
                     firstName,
                     lastName,
                     role: "user",
+                    phone,
+                    clientType,
+                    billingType: clientType,
                 }
             })
         } catch (createError) {

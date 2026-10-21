@@ -11,6 +11,7 @@ import { toast } from "sonner"
 import ProductMascotImage from "@/components/product/product-mascot-image"
 import CartButtonContent from "@/components/product/cart-button-content"
 import ProduceComment from "./produce-comment"
+import ProductPrice from "./product-price"
 
 interface Product {
   id: string
@@ -125,21 +126,17 @@ export default function ProductCard({ product, onViewDetails }: ProductCardProps
           <div aria-hidden="true" className="absolute top-5 right-5 h-10 w-10 rounded-full bg-[#102e25]/90 backdrop-blur-xl text-[#ffcd47] opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center shadow-md">
             <Eye className="h-5 w-5" />
           </div>
-          <div className="absolute bottom-4 left-4">
-            <div className="bg-[#102e25]/95 backdrop-blur-xl rounded-full px-4 py-2 shadow-lg">
-              <span className="text-lg font-black text-[#ffcd47] leading-none">{product.promoPrice != null && <span className="text-sm font-bold text-zinc-400 line-through mr-2">{product.price.toFixed(2)}€</span>}{(product.promoPrice ?? product.price).toFixed(2)}€ <span className="text-[10px] uppercase tracking-widest text-white/65">/ {product.unit}</span></span>
-            </div>
-          </div>
         </div>
-        <div className="p-6 pb-4">
+        <div className="min-w-0 p-3 pb-4 sm:p-5">
           <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#ffcd47]">{product.category}</p>
           <h3 className="text-lg font-black text-white mb-1 line-clamp-1">{product.name}</h3>
           <ProduceComment name={product.name} description={product.description} />
+          <ProductPrice price={product.price} promoPrice={product.promoPrice} unit={product.unit} />
         </div>
       </CardContent>
-      <CardFooter className="p-6 pt-0 mt-auto">
+      <CardFooter className="min-w-0 p-3 pt-0 mt-auto sm:p-5 sm:pt-0">
         {quantity === 0 ? (
-          <Button onClick={handleAdd} disabled={loading || !product.inStock} className="w-full h-12 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-black text-sm transition-all">
+          <Button aria-label={`Ajouter ${product.name} au panier`} onClick={handleAdd} disabled={loading || !product.inStock} className="flex min-w-0 w-full min-h-12 h-auto flex-wrap whitespace-normal px-2 py-3 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-black text-sm transition-all">
             <CartButtonContent loading={loading}>{loading ? "Ajout…" : "Ajouter au panier"}</CartButtonContent>
           </Button>
         ) : (

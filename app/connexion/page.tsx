@@ -11,7 +11,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { User, Mail, Lock, Eye, EyeOff, Loader2, ArrowLeft } from "lucide-react"
 import { safeCallbackPath } from "@/lib/auth-redirect"
 import { signIn } from "next-auth/react"
-import { PowerAvatarPicker } from "@/components/account/power-avatar"
+import RegistrationDetails from "@/components/auth/registration-details"
 import { DEFAULT_POWER_AVATAR, type PowerAvatarKey } from "@/lib/power-avatars"
 
 export default function ConnexionPage() {
@@ -27,6 +27,8 @@ export default function ConnexionPage() {
     firstName: "",
     lastName: "",
     confirmPassword: "",
+    phone: "",
+    clientType: "particulier",
   })
 
   const handleInputChange = (field: string, value: string) => {
@@ -85,6 +87,8 @@ export default function ConnexionPage() {
           firstName: formData.firstName,
           lastName: formData.lastName,
           avatarKey,
+          phone: formData.phone,
+          clientType: formData.clientType,
         }),
       })
 
@@ -124,7 +128,7 @@ export default function ConnexionPage() {
 
   const switchMode = (newMode: "login" | "register") => {
     setMode(newMode)
-    setFormData({ email: "", password: "", firstName: "", lastName: "", confirmPassword: "" })
+    setFormData({ email: "", password: "", firstName: "", lastName: "", confirmPassword: "", phone: "", clientType: "particulier" })
     setError(null)
   }
 
@@ -148,7 +152,7 @@ export default function ConnexionPage() {
             width={800}
             height={160}
             priority
-            className="mx-auto h-16 w-auto"
+            className="mx-auto h-auto max-h-16 w-full max-w-[320px] object-contain mix-blend-screen"
           />
           <p className="text-zinc-400 mt-2">
             {mode === "login" ? "Connectez-vous à votre compte" : "Créez votre compte"}
@@ -204,9 +208,8 @@ export default function ConnexionPage() {
               )}
 
               {mode === "register" && (
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
-                  <PowerAvatarPicker value={avatarKey} onChange={setAvatarKey} />
-                </div>
+                <RegistrationDetails phone={formData.phone} clientType={formData.clientType} avatarKey={avatarKey}
+                  onChange={handleInputChange} onAvatarChange={setAvatarKey} disabled={loading} />
               )}
 
               <div>

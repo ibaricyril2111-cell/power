@@ -12,7 +12,7 @@ const updateProfileSchema = z.object({
     address: z.string().trim().max(240).optional(),
     city: z.string().trim().max(100).optional(),
     postalCode: z.string().trim().max(20).optional(),
-    clientType: z.string().optional(),
+    clientType: z.string().refine(value => ["particulier", "professionnel"].includes(value)).optional(),
     billingType: z.string().optional(),
     country: z.string().trim().max(80).optional(),
     companyName: z.string().trim().max(160).optional(),
@@ -81,7 +81,8 @@ export async function updateUserProfile(data: z.infer<typeof updateProfileSchema
                 city: parsed.data.city || undefined,
                 postalCode: parsed.data.postalCode || undefined,
                 clientType: ACCOUNT_TYPES.includes(parsed.data.clientType || "") ? parsed.data.clientType : undefined,
-                billingType: ACCOUNT_TYPES.includes(parsed.data.billingType || "") ? parsed.data.billingType : undefined,
+                // Le navigateur ne décide pas d'un type de facturation indépendant.
+                billingType: parsed.data.clientType,
                 country: parsed.data.country || undefined,
                 companyName: parsed.data.companyName || undefined,
                 siret: parsed.data.siret || undefined,

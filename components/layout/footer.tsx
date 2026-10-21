@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bg-[#102e25] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
-          <Image src="/logo-power.webp" alt="POWER — Primeur Alfortville" width={800} height={160} className="h-12 w-auto" />
+          <Image src="/logo-power.webp" alt="POWER — Primeur Alfortville" width={800} height={160} className="h-auto max-h-12 w-full max-w-[240px] object-contain mix-blend-screen" />
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/65">Primeur, frais & local. Livraison à domicile et click & collect à Alfortville.</p>
           <p className="mt-4 text-sm text-white/80">114 rue Paul Vaillant-Couturier, 94140 Alfortville</p>
         </div>

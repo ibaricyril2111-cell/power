@@ -135,15 +135,15 @@ export default function DeliverySlotsPage() {
     setShowForm(true)
   }
 
-  // Auto-génération des créneaux Mardi→Samedi, 9h-17h
+  // Auto-génération des créneaux tous les jours (livraison et retrait), 9h-17h
   const handleAutoGenerate = async () => {
-    if (!confirm("Générer automatiquement les créneaux Mardi→Samedi, 9h-17h pour les 4 prochaines semaines ?")) return
+    if (!confirm("Générer automatiquement les créneaux tous les jours (livraison et retrait), 9h-17h pour les 4 prochaines semaines ?")) return
     try {
       setAutoGenerating(true)
       const res = await fetch("/api/admin/delivery-slots/auto-generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ weeksAhead: 4 }),
+        body: JSON.stringify({ weeksAhead: 4, type: "both" }),
       })
       const data = await res.json()
       if (res.ok) {
@@ -187,7 +187,7 @@ export default function DeliverySlotsPage() {
               <h1 className="text-2xl font-bold flex items-center gap-2">
                 <CalendarDays className="h-6 w-6" /> Créneaux de Livraison
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">{slots.length} créneau(x) configuré(s) — Mardi → Samedi, 9h-17h</p>
+              <p className="text-sm text-muted-foreground mt-1">{slots.length} créneau(x) configuré(s) — Tous les jours, 9h-17h</p>
             </div>
             <div className="flex gap-2 flex-wrap">
               <Button

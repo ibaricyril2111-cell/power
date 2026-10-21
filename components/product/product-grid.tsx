@@ -9,6 +9,8 @@ import CompositionSheet from "./composition-sheet"
 import { ProductModalProvider, useProductModal } from "./product-modal-context"
 import ImageWithFallback from "./image-with-fallback"
 import { isDrinkRecipe } from "@/lib/drink-ordering"
+import ProductPrice from "./product-price"
+import { readMarketplaceTab } from "@/lib/marketplace-navigation"
 
 interface Product {
   id: string
@@ -44,9 +46,10 @@ interface ProductGridProps {
   products: Product[]
   compositions?: Composition[]
   categories?: string[]
+  featuredIds?: string[]
 }
 
-function ProductGridInner({ products, compositions = [], categories = [] }: ProductGridProps) {
+function ProductGridInner({ products, compositions = [], categories = [], featuredIds = [] }: ProductGridProps) {
   const { openProductModal } = useProductModal()
   const [activeTab, setActiveTab] = useState("tout")
   const [search, setSearch] = useState("")
@@ -62,6 +65,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
   }, [])
 
   useEffect(() => {
+    setActiveTab(readMarketplaceTab(window.location.search))
     const handler = (e: Event) => {
       const tab = (e as CustomEvent).detail as string
       if (tab) setActiveTab(tab)
@@ -128,6 +132,16 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
   }, [products, compositions, activeTab, search])
 
   const totalItems = filtered.products.length + filtered.compositions.length
+  const groups: { key: string; label: string; products: Product[]; compositions: Composition[] }[] = []
+  const featured = activeTab === "tout" && !search.trim()
+    ? featuredIds.flatMap(id => filtered.products.filter(p => p.id === id && p.inStock)) : []
+  if (featured.length) groups.push({ key: "featured", label: "À la une", products: featured, compositions: [] })
+  for (const category of new Set(filtered.products.filter(p => !featured.includes(p)).map(p => p.category))) {
+    groups.push({ key: "product-" + category, label: category, products: filtered.products.filter(p => p.category === category && !featured.includes(p)), compositions: [] })
+  }
+  for (const type of new Set(filtered.compositions.map(c => c.type))) {
+    groups.push({ key: "composition-" + type, label: type.replace(/-/g, " "), products: [], compositions: filtered.compositions.filter(c => c.type === type) })
+  }
 
   return (
     <>
@@ -137,6 +151,7 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
           <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
           <input
             type="text"
+            aria-label="Rechercher dans les produits"
             placeholder="Rechercher un produit..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -144,14 +159,16 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
           />
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide md:flex-wrap">
+        <div className="flex flex-wrap gap-2 pb-2" aria-label="Filtrer les produits par catégorie">
           {visibleTabs.map((tab) => (
             <button
               key={tab.id}
+              type="button"
+              aria-pressed={activeTab === tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${
                 activeTab === tab.id
-                  ? "bg-[#173f32] text-white shadow-md"
+                  ? "bg-[#ffcd47] text-[#073b2d] shadow-md"
                   : "bg-[#173f32] text-white border border-white/15 hover:border-[#173f32]/40"
               }`}
             >
@@ -166,17 +183,19 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
           <p className="text-white/65 italic font-medium">Aucun produit trouvé.</p>
         </div>
       ) : (
-        <>
+        <div className="space-y-10">
+          {groups.map(group => <section key={group.key} aria-label={group.label}>
+          <h3 className="mb-4 text-2xl font-black capitalize text-white">{group.label}</h3>
           {/* Mobile */}
           <div className="sm:hidden grid grid-cols-2 gap-3">
-            {filtered.products.map((product) => (
+            {group.products.map((product) => (
               <ProductCardMobile
                 key={product.id}
                 product={product}
                 onViewDetails={() => openProductModal(product)}
               />
             ))}
-            {filtered.compositions.map((comp) => (
+            {group.compositions.map((comp) => (
               <CompositionMobileItem
                 key={comp.id}
                 composition={{
@@ -194,14 +213,14 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
 
           {/* Desktop */}
           <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {filtered.products.map((product) => (
+            {group.products.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
                 onViewDetails={() => openProductModal(product)}
               />
             ))}
-            {filtered.compositions.map((comp) => (
+            {group.compositions.map((comp) => (
               <div
                 key={comp.id}
                 className="group bg-[#0b4938] border border-white/15 rounded-[28px] overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer"
@@ -220,13 +239,6 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
                       {comp.type.charAt(0).toUpperCase() + comp.type.slice(1).replace(/-/g, " ")}
                     </span>
                   </div>
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="inline-flex bg-[#102e25]/95 backdrop-blur-xl rounded-full px-4 py-2 shadow-lg">
-                      <span className="text-xl font-black text-[#ffcd47] leading-none">
-                        {comp.basePrice.toFixed(2)}€
-                      </span>
-                    </div>
-                  </div>
                 </div>
                 <div className="p-6 pb-4 flex-1">
                   <h3 className="text-xl font-black text-[#ffcd47] mb-2 line-clamp-1 group-hover:text-[#ffcd47] transition-colors">
@@ -235,16 +247,18 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
                   <p className="text-white/65 line-clamp-2 min-h-[42px] text-sm leading-relaxed">
                     {comp.description}
                   </p>
+                  <ProductPrice price={comp.basePrice} from />
                 </div>
                 <div className="p-6 pt-0 mt-auto">
-                  <button className="w-full h-12 rounded-full bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold text-sm transition-colors">
+                  <button className="flex min-w-0 w-full min-h-12 h-auto flex-wrap items-center justify-center whitespace-normal px-2 py-3 rounded-xl bg-[#ffcd47] hover:bg-[#ffe18a] text-[#073b2d] font-bold text-sm transition-colors">
                     {isDrinkRecipe(comp) ? "Commander" : "Composer"}
                   </button>
                 </div>
               </div>
             ))}
           </div>
-        </>
+          </section>)}
+        </div>
       )}
 
       {selectedComposition && (
@@ -265,10 +279,10 @@ function ProductGridInner({ products, compositions = [], categories = [] }: Prod
   )
 }
 
-export default function ProductGrid({ products, compositions = [], categories = [] }: ProductGridProps) {
+export default function ProductGrid({ products, compositions = [], categories = [], featuredIds = [] }: ProductGridProps) {
   return (
     <ProductModalProvider>
-      <ProductGridInner products={products} compositions={compositions} categories={categories} />
+      <ProductGridInner products={products} compositions={compositions} categories={categories} featuredIds={featuredIds} />
     </ProductModalProvider>
   )
 }

@@ -2,15 +2,17 @@ import { prisma } from "@/lib/db"
 import ProductGrid from "@/components/product/product-grid"
 import { productImage } from "@/lib/product-image"
 import { getCompositionsByTypes } from "@/app/actions/compositions"
+import { FEATURED_PRODUCTS_KEY, parseFeaturedIds } from "@/lib/featured-products"
 
 export default async function ProductSection() {
-  const [products, compositionResult] = await Promise.all([
+  const [products, compositionResult, featuredSetting] = await Promise.all([
     prisma.product.findMany({
       where: { inStock: true },
       orderBy: [{ category: { name: 'asc' } }, { name: 'asc' }],
       include: { category: true }
     }),
-    getCompositionsByTypes()
+    getCompositionsByTypes(),
+    prisma.siteSetting.findUnique({ where: { key: FEATURED_PRODUCTS_KEY }, select: { value: true } }),
   ])
   const compositions = compositionResult.data
 
@@ -42,6 +44,11 @@ export default async function ProductSection() {
   }))
 
   const categories = [...new Set(products.map(p => p.category.name))]
+  const featuredIds = featuredSetting ? parseFeaturedIds(featuredSetting.value)
+    : ["mangue", "fraise", "ananas", "tomate"].flatMap(term => {
+        const product = products.find(p => p.name.toLowerCase().includes(term))
+        return product ? [product.id] : []
+      })
 
   return (
     <section id="fruits" className="power-section w-full bg-[#073b2d] px-3 py-12 sm:px-6 md:py-16">
@@ -59,6 +66,7 @@ export default async function ProductSection() {
           products={formattedProducts}
           compositions={formattedCompositions}
           categories={categories}
+          featuredIds={featuredIds}
         />
       </div>
     </section>

@@ -1,80 +1,38 @@
-name: Deploy Production
-
-# Déploiement continu, conditionné aux tests.
-#
-# Ne se déclenche QUE si le workflow CI (typecheck + tests) s'est terminé avec succès
-# sur `main`. Une CI rouge → aucun déploiement.
-#
-# Tant que les secrets Vercel ne sont pas configurés, le job se termine proprement (vert)
-# en signalant qu'il a été ignoré — il ne vire pas au rouge. Dès que les secrets sont là,
-# il déploie automatiquement.
-#
-# CONFIGURATION (une seule fois, côté GitHub) :
-#   Settings → Secrets and variables → Actions → New repository secret
-#     VERCEL_TOKEN      → jeton personnel Vercel (vercel.com/account/tokens)
-#     VERCEL_ORG_ID     → team_wgo3HLSSL6v9splnZ6SDsuPp
-#     VERCEL_PROJECT_ID → prj_6KW8xtp0Nwi2YHZIYY0jCGVwO5cn
-#
-# ET : désactiver l'auto-déploiement Git de Vercel (Project → Settings → Git) pour
-# éviter un déploiement en double qui n'attendrait pas les tests.
-
+name: Verify Production Deployment
 on:
   workflow_run:
     workflows: ["CI"]
     types: [completed]
     branches: [main]
-
+permissions:
+  contents: read
+concurrency:
+  group: power-production-verification
+  cancel-in-progress: true
 jobs:
-  deploy:
+  verify-production:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_repository.full_name == github.repository }}
     runs-on: ubuntu-latest
-    # Ne rien faire si la CI a échoué.
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
+    timeout-minutes: 15
     steps:
-      - name: Vérifier la configuration Vercel
-        id: check
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          if [ -n "$VERCEL_TOKEN" ]; then
-            echo "configured=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Secrets Vercel absents — déploiement ignoré. Ajoutez VERCEL_TOKEN pour activer la CD."
-          fi
-
       - uses: actions/checkout@v4
-        if: steps.check.outputs.configured == 'true'
-
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
       - uses: actions/setup-node@v4
-        if: steps.check.outputs.configured == 'true'
         with:
           node-version: 22
-
-      - name: Installer Vercel CLI
-        if: steps.check.outputs.configured == 'true'
-        run: npm install --global vercel@latest
-
-      - name: Récupérer la configuration Vercel
-        if: steps.check.outputs.configured == 'true'
-        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+      # Vercel Git integration builds using scripts/verify-release.mjs.
+      # No Vercel access token or production credential is required in GitHub.
+      - name: Vérifier le commit publié sur POWER
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: Build de production
-        if: steps.check.outputs.configured == 'true'
-        run: vercel build --prod --token="$VERCEL_TOKEN"
+          EXPECTED_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: node scripts/check-deployed-release.mjs "$EXPECTED_SHA"
+      - name: Installer le moteur E2E isolé
+        run: npm install --prefix "$RUNNER_TEMP/power-e2e" --no-save @playwright/test@1.64.1
+      - name: Installer Chromium
+        run: node "$RUNNER_TEMP/power-e2e/node_modules/@playwright/test/cli.js" install --with-deps chromium
+      - name: Tests frontend déployé — 320, 390, 768 et 1440 pixels
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: Déployer
-        if: steps.check.outputs.configured == 'true'
-        run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          NODE_PATH: ${{ runner.temp }}/power-e2e/node_modules
+        run: node "$RUNNER_TEMP/power-e2e/node_modules/@playwright/test/cli.js" test --config e2e/playwright.config.cjs

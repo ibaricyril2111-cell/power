@@ -36,6 +36,20 @@ function makeRequest(body: any) {
 }
 
 describe('POST /api/auth/register', () => {
+  it('normalise le téléphone et dérive la facturation du compte sans accepter de rôle privilégié', async () => {
+    mockFindUnique.mockResolvedValueOnce(null)
+    mockCreate.mockResolvedValueOnce({ id: 'test', email: 'test@example.com' })
+    const res = await POST(makeRequest({ email: 'test@example.com', password: 'password123', firstName: 'Test', lastName: 'User',
+      phone: '+33 6 12 34 56 78', clientType: 'professionnel', billingType: 'particulier', role: 'admin' }))
+    expect(res.status).toBe(201)
+    expect(mockCreate).toHaveBeenCalledWith({ data: expect.objectContaining({ phone: '+33612345678', clientType: 'professionnel', billingType: 'professionnel', role: 'user' }) })
+  })
+
+  it.each([{ phone: 'abc' }, { phone: '0612' }, { clientType: 'admin' }])('rejette les nouveaux champs invalides %j', async extra => {
+    const res = await POST(makeRequest({ email: 'test@example.com', password: 'password123', firstName: 'Test', lastName: 'User', ...extra }))
+    expect(res.status).toBe(400)
+    expect(mockCreate).not.toHaveBeenCalled()
+  })
   beforeEach(() => {
     vi.clearAllMocks()
   })

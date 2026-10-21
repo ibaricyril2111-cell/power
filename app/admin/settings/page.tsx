@@ -10,6 +10,7 @@ import { Input } from "@/components/admin/ui/input"
 import { Label } from "@/components/admin/ui/label"
 import { Settings } from "lucide-react"
 import { getSiteSettings, setSiteSetting } from "@/app/actions/content"
+import FeaturedProductsPanel from "@/components/admin/featured-products-panel"
 
 const SETTING_KEYS = [
   "shop_name",
@@ -95,6 +96,7 @@ export default function SettingsPage() {
               <p className="text-muted-foreground">Configuration de la boutique</p>
             </div>
 
+            <FeaturedProductsPanel />
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">

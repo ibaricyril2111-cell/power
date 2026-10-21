@@ -30,12 +30,12 @@ describe("Calendar (components/ui/calendar)", () => {
     const boutonJour = container.querySelector("td button")
     expect(boutonJour).not.toBeNull()
     expect(boutonJour!.className).toContain("h-9")
-    expect(boutonJour!.className).toContain("w-9")
+    expect(boutonJour!.className).toContain("w-full")
 
-    // La rangée des jours de la semaine doit être en flex pour rester alignée
+    // La rangée des jours de la semaine doit utiliser sept colonnes pour rester alignée
     // avec la grille des jours (sinon la mise en page part en désordre).
     const rangeeEnTetes = container.querySelector("thead tr")
     expect(rangeeEnTetes).not.toBeNull()
-    expect(rangeeEnTetes!.className).toContain("flex")
+    expect(rangeeEnTetes!.className).toContain("grid-cols-7")
   })
 })

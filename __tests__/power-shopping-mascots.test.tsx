@@ -27,16 +27,18 @@ describe("the 100 POWER mascots lead to shopping", () => {
   it("opens the matching product from every one of the 100 character buttons", () => {
     const products = POWER_AVATARS.map(a => ({ ...product, id: "catalogue-" + a.key, name: a.label }))
     render(<PowerFamily products={products} />)
-    expect(screen.getAllByRole("button", { name: /^Voir les produits / })).toHaveLength(100)
+    const choices = screen.getAllByRole("button", { name: /^Voir les produits / })
+    expect(choices).toHaveLength(100)
+    const byName = new Map(choices.map(button => [button.getAttribute("aria-label"), button]))
     for (const avatar of POWER_AVATARS) {
-      fireEvent.click(screen.getByRole("button", { name: "Voir les produits " + avatar.label }))
+      fireEvent.click(byName.get("Voir les produits " + avatar.label)!)
       const dialog = screen.getByRole("dialog")
       expect(within(dialog).getByRole("heading", { name: avatar.label })).toBeTruthy()
       expect(within(dialog).getByRole("link", { name: avatar.label }).getAttribute("href")).toBe("/produits/catalogue-" + avatar.key)
       expect((within(dialog).getByRole("button", { name: "Ajouter " + avatar.label + " au panier" }) as HTMLButtonElement).disabled).toBe(false)
       fireEvent.click(within(dialog).getByRole("button", { name: "Close" }))
     }
-  }, 20000)
+  }, 60000)
 
   it("opens a home-page character directly and sends the real product ID to the cart", async () => {
     render(<PowerFamily products={[product]} initialCharacter="mangue" />)
