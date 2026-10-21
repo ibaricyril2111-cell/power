@@ -137,3 +137,12 @@ test('les vrais créneaux de livraison et retrait se sélectionnent', async ({ p
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
 })
+
+test('une confirmation absente ne présente jamais une commande comme réussie', async ({ page }) => {
+  await page.goto('/checkout/success')
+  await dismissCookies(page)
+  await expect(page.getByRole('heading', {name:'Confirmation indisponible',exact:true})).toBeVisible()
+  await expect(page.getByRole('alert').filter({hasText:'éviter un doublon'})).toBeVisible()
+  await expect(page.getByText(/Votre paiement a été traité avec succès/)).toHaveCount(0)
+  await expect(page.getByRole('link',{name:'Voir mes commandes',exact:true})).toBeVisible()
+})

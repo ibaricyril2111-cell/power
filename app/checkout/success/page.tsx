@@ -7,7 +7,7 @@ import Footer from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { CheckCircle2, Package, Truck, Clock, ArrowRight, Loader2, ShoppingBag, MapPin } from "lucide-react"
+import { CheckCircle2, AlertCircle, Package, Truck, Clock, ArrowRight, Loader2, ShoppingBag, MapPin } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
 import { getUserProfile } from "@/app/actions/account"
@@ -69,7 +69,12 @@ function SuccessContent() {
         const res = await fetch(url)
         if (res.ok) {
           const data = await res.json()
-          setOrder(data)
+          if (typeof data?.id !== "string" || typeof data?.orderNumber !== "string"
+            || typeof data?.total !== "number" || !Number.isFinite(data.total) || !Array.isArray(data?.items)) {
+            setError(true)
+          } else {
+            setOrder(data)
+          }
         } else {
           setError(true)
         }
@@ -91,7 +96,7 @@ function SuccessContent() {
         <Header />
         <div className="pt-32 pb-16 px-4 flex flex-col items-center justify-center gap-6">
           <Loader2 className="h-12 w-12 animate-spin text-[#ffcd47]" />
-          <p className="text-zinc-400 text-lg">Confirmation de votre paiement en cours...</p>
+          <p className="text-zinc-400 text-lg">Chargement de votre commande...</p>
         </div>
         <Footer />
       </div>
@@ -104,13 +109,13 @@ function SuccessContent() {
         <Header />
         <div className="pt-32 pb-16 px-4 max-w-2xl mx-auto text-center">
           <div className="w-20 h-20 bg-[#ffcd47]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="h-10 w-10 text-[#ffcd47]" />
+            <AlertCircle className="h-10 w-10 text-[#ffcd47]" />
           </div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight mb-4">
-            Merci pour votre <span className="text-[#ffcd47]">commande !</span>
+            Confirmation <span className="text-[#ffcd47]">indisponible</span>
           </h1>
-          <p className="text-zinc-400 mb-8">
-            Votre paiement a été traité avec succès. Vous recevrez un email de confirmation sous peu.
+          <p role="alert" className="text-zinc-400 mb-8">
+            Nous ne pouvons pas retrouver la confirmation de votre commande. Consultez vos commandes dans votre compte avant de réessayer, pour éviter un doublon.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild className="bg-[#ffcd47] hover:bg-[#ffe18a] text-white rounded-full px-8 py-6 font-bold">
@@ -143,7 +148,7 @@ function SuccessContent() {
               Commande <span className="text-[#ffcd47]">confirmée !</span>
             </h1>
             <p className="text-zinc-400 text-lg">
-              Merci pour votre confiance. Un email de confirmation vous a été envoyé.
+              Merci pour votre confiance. Retrouvez les détails et le suivi de cette commande dans votre compte.
             </p>
           </div>
 
@@ -157,7 +162,7 @@ function SuccessContent() {
                   <p className="text-xl font-black text-[#ffcd47]">{order.orderNumber}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-1">Total payé</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-1">Total de la commande</p>
                   <p className="text-2xl font-black text-white">{order.total.toFixed(2)}€</p>
                 </div>
               </div>
