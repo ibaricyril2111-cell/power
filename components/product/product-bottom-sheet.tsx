@@ -8,7 +8,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from "
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Leaf, Truck, Shield } from "lucide-react"
+import { Leaf, Truck, Shield, X } from "lucide-react"
 import { addToCart } from "@/app/actions/cart"
 import { toast } from "sonner"
 import QuantitySelector from "@/components/product/quantity-selector"
@@ -67,9 +67,12 @@ export default function ProductBottomSheet({ product, isOpen, onClose }: Product
 
   return (
     <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DrawerContent className="bg-[#073b2d] text-white border-[#ffcd47]/25 max-h-[85dvh]">
+      <DrawerContent className="bg-[#073b2d] text-white border-[#ffcd47]/25 max-h-[85dvh]" onEscapeKeyDown={onClose}>
+        <button type="button" onClick={onClose} aria-label="Fermer la fiche produit" className="absolute right-2 top-1 flex h-11 w-11 items-center justify-center rounded-full text-white/80 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ffcd47]">
+          <X className="h-5 w-5" aria-hidden="true" />
+        </button>
         <div className="min-h-0 overflow-y-auto flex-1">
-          <DrawerHeader className="pb-0">
+          <DrawerHeader className="pb-0 pr-14">
             <DrawerTitle className="text-xl font-bold text-white text-left">
               {product.name}
             </DrawerTitle>

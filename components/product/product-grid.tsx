@@ -1,6 +1,6 @@
 "use client"
 
-import { Fragment, useState, useMemo, useEffect } from "react"
+import { Fragment, useState, useMemo, useEffect, useRef } from "react"
 import { Search } from "lucide-react"
 import ProductCard from "./product-card"
 import ProductCardMobile from "./product-card-mobile"
@@ -64,6 +64,7 @@ function ProductGridInner({ products, compositions = [], categories = [], featur
   const [search, setSearch] = useState("")
   const [selectedComposition, setSelectedComposition] = useState<Composition | null>(null)
   const [selectedFamily, setSelectedFamily] = useState<ProductFamilyKey | null>(null)
+  const pendingFamilyProduct = useRef<Product | null>(null)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -282,13 +283,21 @@ function ProductGridInner({ products, compositions = [], categories = [], featur
       )}
 
       <Dialog open={!!family} onOpenChange={open => { if (!open) setSelectedFamily(null) }}>
-        <DialogContent className="max-w-5xl rounded-3xl border-white/20 bg-[#073b2d] p-4 text-white sm:p-6">
+        <DialogContent className="max-w-5xl rounded-3xl border-white/20 bg-[#073b2d] p-4 text-white sm:p-6"
+          onCloseAutoFocus={event => {
+            const product = pendingFamilyProduct.current
+            if (product) {
+              event.preventDefault()
+              pendingFamilyProduct.current = null
+              openProductModal(product)
+            }
+          }}>
           <DialogHeader className="pr-7">
             <DialogTitle className="text-2xl font-black">{family?.title}</DialogTitle>
             <DialogDescription className="text-emerald-50/80">Choisissez vos produits et ajoutez-les directement au panier. Prix et disponibilités selon les arrivages.</DialogDescription>
           </DialogHeader>
           <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {family?.products.map(product => <ProductCard key={product.id} product={product} onViewDetails={() => { setSelectedFamily(null); openProductModal(product) }} />)}
+            {family?.products.map(product => <ProductCard key={product.id} product={product} onViewDetails={() => { pendingFamilyProduct.current = product; setSelectedFamily(null) }} />)}
           </div>
         </DialogContent>
       </Dialog>

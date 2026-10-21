@@ -92,4 +92,11 @@ describe("the 100 POWER mascots lead to shopping", () => {
     expect(close).toHaveBeenCalledOnce()
     window.removeEventListener("cart-updated", updated)
   })
+
+  it("offers an explicit close control on the mobile product sheet", () => {
+    const close = vi.fn()
+    render(<ProductBottomSheet product={product} isOpen onClose={close} />)
+    fireEvent.click(screen.getByRole("button", {name:"Fermer la fiche produit"}))
+    expect(close).toHaveBeenCalledOnce()
+  })
 })
