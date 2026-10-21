@@ -73,6 +73,8 @@ vi.mock('@/app/actions/content', () => ({
 
 import { POST } from '@/app/api/orders/place/route'
 import { NextRequest } from 'next/server'
+import { getDeliveryConfig } from '@/app/actions/content'
+import { nextInvoiceNumber } from '@/lib/invoice'
 
 /** Commande de livraison valide — chaque test n'en modifie que ce qu'il éprouve. */
 const VALID_BODY = {
@@ -167,6 +169,30 @@ describe('POST /api/orders/place', () => {
     const res = await POST(makeRequest({ promoCode: 'promo10' }))
     expect(res.status).toBe(200)
     expect(mockOrderCreate).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ discount: 2, total: 22.9, promoCode: 'PROMO10' }) }))
+    expect(mockPromoUpdate).toHaveBeenCalledExactlyOnceWith({ where: { id: 'promo1' }, data: { currentUses: { increment: 1 } } })
+  })
+
+  it.each(['deliveryAddress', 'deliveryCity', 'deliveryPostalCode'])('ne consomme pas de remise si %s est incomplet', async (field) => {
+    mockPromoFindUnique.mockResolvedValueOnce({ id: 'promo1', code: 'PROMO10', isActive: true, maxUses: 0, minOrder: 0, type: 'percentage', value: 10 })
+    const res = await POST(makeRequest({ promoCode: 'PROMO10', [field]: '   ' }))
+    expect(res.status).toBe(400)
+    expect(mockPromoUpdate).not.toHaveBeenCalled()
+    expect(nextInvoiceNumber).not.toHaveBeenCalled()
+    expect(mockOrderCreate).not.toHaveBeenCalled()
+    expect(mockProductUpdate).not.toHaveBeenCalled()
+    expect(mockSlotUpdateMany).not.toHaveBeenCalled()
+    expect(mockCartItemDelete).not.toHaveBeenCalled()
+  })
+
+  it('ne consomme pas de remise si la lecture des frais de livraison échoue', async () => {
+    mockPromoFindUnique.mockResolvedValueOnce({ id: 'promo1', code: 'PROMO10', isActive: true, maxUses: 0, minOrder: 0, type: 'percentage', value: 10 })
+    vi.mocked(getDeliveryConfig).mockRejectedValueOnce(new Error('configuration indisponible'))
+    const res = await POST(makeRequest({ promoCode: 'PROMO10' }))
+    expect(res.status).toBe(500)
+    expect(mockPromoUpdate).not.toHaveBeenCalled()
+    expect(nextInvoiceNumber).not.toHaveBeenCalled()
+    expect(mockOrderCreate).not.toHaveBeenCalled()
+    expect(mockCartItemDelete).not.toHaveBeenCalled()
   })
 
   it('devrait rejeter un mode de paiement en ligne', async () => {

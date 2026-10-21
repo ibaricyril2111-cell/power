@@ -194,6 +194,7 @@ export async function POST(req: NextRequest) {
         // Validation et application du code promo
         let promoDiscount = 0
         let validPromoCode: string | null = null
+        let validPromoId: string | null = null
 
         if (promoCode) {
             const promo = await prisma.promoCode.findUnique({
@@ -215,11 +216,7 @@ export async function POST(req: NextRequest) {
                 promoDiscount = Math.min(promoDiscount, subtotal)
                 promoDiscount = Math.round(promoDiscount * 100) / 100
                 validPromoCode = promo.code
-
-                await prisma.promoCode.update({
-                    where: { id: promo.id },
-                    data: { currentUses: { increment: 1 } },
-                })
+                validPromoId = promo.id
             } else {
                 return NextResponse.json({ error: "Ce code promo ne peut plus être appliqué à votre panier. Vérifiez-le ou retirez-le avant de confirmer la commande." }, { status: 400 })
             }
@@ -251,6 +248,16 @@ export async function POST(req: NextRequest) {
                 { error: "Adresse de livraison incomplète (rue, code postal et ville sont requis)" },
                 { status: 400 },
             )
+        }
+
+        // Ne consommer la remise qu'après les lectures et validations préalables :
+        // une adresse incomplète ou des frais indisponibles ne doivent pas utiliser le code.
+        // Cela ne rend pas les écritures suivantes atomiques avec Neon HTTP.
+        if (validPromoId) {
+            await prisma.promoCode.update({
+                where: { id: validPromoId },
+                data: { currentUses: { increment: 1 } },
+            })
         }
 
         // Numéro de facture séquentiel (obligation de numérotation continue, cf. lib/invoice)
