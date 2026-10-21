@@ -25,7 +25,11 @@ export function inspectPublicBundle(source) {
     /postgres(?:ql)?:\/\/[^\s"']+:[^\s"']+@/,
     /POWER_PRIVATE_ENV_CANARY_[A-Za-z0-9]+/,
   ]
-  return patterns.some(pattern => pattern.test(source))
+  if (patterns.some(pattern => pattern.test(source))) return true
+  // Match actual private values available to this build without logging them.
+  return Object.entries(process.env).some(([key, value]) =>
+    !key.startsWith('NEXT_PUBLIC_') && /SECRET|TOKEN|PASSWORD|DATABASE_URL|RESEND_API_KEY/.test(key)
+    && typeof value === 'string' && value.length >= 12 && source.includes(value))
 }
 
 function walk(directory) {
@@ -48,7 +52,7 @@ export function checkRepository(root = process.cwd(), bundle = false) {
   if (bundle) {
     const directory = path.join(root, '.next/static')
     if (!fs.existsSync(directory)) failures.push('Bundle absent : lancer le build avant ce contrôle')
-    else for (const file of walk(directory)) {
+    else for (const file of [...walk(directory), ...(fs.existsSync(path.join(root, '.next/server/app')) ? walk(path.join(root, '.next/server/app')).filter(file => file.endsWith('.html')) : [])]) {
       if (/\.(?:js|json|map|html)$/.test(file) && inspectPublicBundle(fs.readFileSync(file, 'utf8'))) {
         failures.push(`${path.relative(root, file)}: motif sensible détecté (valeur masquée)`)
       }

@@ -5,5 +5,6 @@
       "schedule": "0 4 * * *"
     }
   ],
-  "installCommand": "yarn install --no-immutable"
+  "installCommand": "yarn install --immutable",
+  "buildCommand": "node scripts/verify-release.mjs"
 }

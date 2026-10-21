@@ -44,6 +44,11 @@ export default async function ProductSection() {
   }))
 
   const categories = [...new Set(products.map(p => p.category.name))]
+  const featuredIds = featuredSetting ? parseFeaturedIds(featuredSetting.value)
+    : ["mangue", "fraise", "ananas", "tomate"].flatMap(term => {
+        const product = products.find(p => p.name.toLowerCase().includes(term))
+        return product ? [product.id] : []
+      })
 
   return (
     <section id="fruits" className="power-section w-full bg-[#073b2d] px-3 py-12 sm:px-6 md:py-16">
@@ -61,7 +66,7 @@ export default async function ProductSection() {
           products={formattedProducts}
           compositions={formattedCompositions}
           categories={categories}
-          featuredIds={parseFeaturedIds(featuredSetting?.value)}
+          featuredIds={featuredIds}
         />
       </div>
     </section>

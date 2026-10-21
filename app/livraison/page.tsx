@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Header from '@/components/layout/header'
 import PowerPageVisual from "@/components/layout/power-page-visual"
+import AvailabilityPicker from "@/components/delivery/availability-picker"
 import Footer from '@/components/layout/footer'
 
 export const metadata: Metadata = {
@@ -31,6 +32,8 @@ export default function LivraisonPage() {
           <p className="mt-6 max-w-3xl text-lg leading-relaxed text-white/80">Commandez vos fruits, légumes, paniers de saison, jus, smoothies et soupes chez votre primeur d’Alfortville. Retrait au 114 rue Paul-Vaillant-Couturier ou livraison selon votre commune et le créneau disponible.</p>
           <div className="mt-8 flex flex-wrap gap-3"><Link href="/#marketplace" className="rounded-full bg-orange-500 px-7 py-4 font-bold text-white hover:bg-orange-600">Voir les produits</Link><Link href="/contact" className="rounded-full border border-white/30 px-7 py-4 font-bold text-white hover:bg-[#122d24]/90/10">Vérifier ma zone</Link></div>
         </section>
+
+        <AvailabilityPicker />
 
         <section className="py-16">
           <h2 className="text-3xl font-black sm:text-4xl">Départements desservis</h2>

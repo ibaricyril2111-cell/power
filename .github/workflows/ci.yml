@@ -1,7 +1,7 @@
 name: CI
 
-# Vérifie chaque push et chaque PR. Le déploiement (deploy.yml) attend que ce workflow
-# soit vert avant de partir : rien ne va en production sans typecheck + tests au vert.
+# Vérifie chaque push/PR. Vercel applique les mêmes contrôles dans verify-release.mjs
+# avant de construire et publier ; deploy.yml vérifie ensuite le site réellement déployé.
 on:
   push:
     branches: [main]

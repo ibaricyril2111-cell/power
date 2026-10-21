@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
+import { generateDeliveryPlanning } from "@/lib/delivery-planning"
 
 /**
  * Nettoyage périodique (cron Vercel, voir vercel.json).
@@ -47,5 +48,11 @@ export async function GET(req: NextRequest) {
         console.error("Cleanup jetons reset échoué:", error)
     }
 
-    return NextResponse.json({ ok: true, rateLimitDeleted, resetTokensDeleted })
+    try {
+        const planning = await generateDeliveryPlanning()
+        return NextResponse.json({ ok: true, rateLimitDeleted, resetTokensDeleted, planning })
+    } catch {
+        console.error("Renouvellement des créneaux indisponible")
+        return NextResponse.json({ error: "Renouvellement des créneaux indisponible" }, { status: 503 })
+    }
 }

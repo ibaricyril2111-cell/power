@@ -2,11 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/auth"
 import { z } from "zod"
-import { parisDateParts } from "@/lib/pickup-policy"
+import { generateDeliveryPlanning } from "@/lib/delivery-planning"
 
-const START_HOUR = 9
-const END_HOUR = 17
-const MAX_ORDERS_PER_SLOT = 10
 const WEEKS_AHEAD = 4 // Générer 4 semaines à l'avance
 
 /**
@@ -29,34 +26,14 @@ export async function POST(req: NextRequest) {
         const { weeksAhead } = parsed.data
         const slotTypes = parsed.data.type === "both" ? ["livraison", "retrait"] : [parsed.data.type]
 
-        // Aujourd'hui à minuit UTC — les créneaux sont stockés à minuit UTC, de façon
-        // indépendante du fuseau du serveur (cohérent avec la requête côté client).
-        const now = parisDateParts()
-        const startUTCms = Date.UTC(now.year, now.month - 1, now.day)
-
-        // One bounded, idempotent insert preserves existing closures and capacity.
-        const candidates = []
-        for (const slotType of slotTypes) {
-            for (let offset = 1; offset <= weeksAhead * 7; offset++) {
-                const date = new Date(startUTCms + offset * 86_400_000)
-                for (let hour = START_HOUR; hour < END_HOUR; hour++) {
-                    candidates.push({ date, type: slotType,
-                        startTime: `${String(hour).padStart(2, "0")}:00`,
-                        endTime: `${String(hour + 1).padStart(2, "0")}:00`,
-                        maxOrders: MAX_ORDERS_PER_SLOT, isActive: true })
-                }
-            }
-        }
-        const result = await prisma.deliverySlot.createMany({ data: candidates, skipDuplicates: true })
-        const created = result.count
-        const skipped = candidates.length - created
+        const { created, skipped } = await generateDeliveryPlanning(weeksAhead, slotTypes)
 
         return NextResponse.json({
             success: true,
             message: `${created} créneaux créés, ${skipped} déjà existants`,
             created,
             skipped,
-            planning: `Tous les jours, ${START_HOUR}h-${END_HOUR}h`,
+            planning: "Tous les jours, 9h-17h",
             semaines: weeksAhead,
         })
     } catch (error) {

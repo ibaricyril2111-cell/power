@@ -41,12 +41,12 @@ export default function CommandePage() {
   const router = useRouter()
   const [initialDelivery] = useState(() => {
     const params = typeof window === "undefined" ? new URLSearchParams() : new URLSearchParams(window.location.search)
-    return { date: params.get("date") || undefined, slot: params.get("slot") || undefined }
+    return { date: params.get("date") || undefined, slot: params.get("slot") || undefined, mode: params.get("mode") === "retrait" ? "retrait" as const : "livraison" as const }
   })
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
-  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("livraison")
+  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>(initialDelivery.mode)
   const [selectedDelivery, setSelectedDelivery] = useState<DeliveryInfo | null>(null)
   const [isCheckingOut, setIsCheckingOut] = useState(false)
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "card_on_delivery">("cash")
