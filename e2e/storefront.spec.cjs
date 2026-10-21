@@ -1,8 +1,13 @@
 const { test, expect } = require('@playwright/test')
+async function dismissCookies(page) {
+  const cookies = page.getByRole('button', { name: 'Essentiels uniquement', exact: true })
+  await cookies.waitFor({state:'visible',timeout:10000})
+  await cookies.click()
+  await expect(cookies).toHaveCount(0)
+}
 async function home(page) {
   await page.goto('/')
-  const cookies = page.getByRole('button', { name: 'Essentiels uniquement', exact: true })
-  if (await cookies.isVisible()) await cookies.click()
+  await dismissCookies(page)
   await expect(page.getByRole('heading', { name: 'Tout le marché POWER', exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: /^Ajouter .+ au panier$/ }).first()).toBeEnabled()
 }
@@ -44,6 +49,7 @@ test('fiche produit et panier fonctionnent depuis le frontend', async ({ page })
 })
 test('inscription compacte : avatar en modale, téléphone, compte et validation', async ({ page }) => {
   await page.goto('/connexion')
+  await dismissCookies(page)
   await page.getByRole('button', { name: 'Créer un compte', exact: true }).click()
   await expect(page.getByLabel('Téléphone', { exact: true })).toBeVisible()
   await expect(page.getByLabel('Type de compte', { exact: true })).toBeVisible()
@@ -61,6 +67,7 @@ test('inscription compacte : avatar en modale, téléphone, compte et validation
 })
 test('les vrais créneaux de livraison et retrait se sélectionnent', async ({ page }) => {
   await page.goto('/livraison')
+  await dismissCookies(page)
   const planner = page.getByRole('region', { name: 'Créneaux disponibles', exact: true })
   await expect(planner).toBeVisible()
   for (const mode of ['Livraison', 'Retrait en magasin']) {
