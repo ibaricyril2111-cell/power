@@ -1,16 +1,19 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { Fragment, useState, useMemo, useEffect } from "react"
 import { Search } from "lucide-react"
 import ProductCard from "./product-card"
 import ProductCardMobile from "./product-card-mobile"
 import CompositionMobileItem from "./composition-mobile-item"
 import CompositionSheet from "./composition-sheet"
 import { ProductModalProvider, useProductModal } from "./product-modal-context"
-import ImageWithFallback from "./image-with-fallback"
+import CompositionArtwork from "./composition-artwork"
 import { isDrinkRecipe } from "@/lib/drink-ordering"
 import ProductPrice from "./product-price"
 import { readMarketplaceTab } from "@/lib/marketplace-navigation"
+import ProductFamilyCard from "./product-family-card"
+import { PRODUCT_FAMILIES, productFamilyKey, type ProductFamilyKey } from "@/lib/product-families"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 interface Product {
   id: string
@@ -49,11 +52,18 @@ interface ProductGridProps {
   featuredIds?: string[]
 }
 
+const COMPOSITION_LABELS: Record<string, string> = {
+  soupe: "Soupes", "legumes decoupes": "Légumes découpés", jus: "Jus", panier: "Paniers",
+  "power bowl": "Power bowls", "fruits decoupes": "Fruits découpés", smoothie: "Smoothies", salade: "Salades",
+}
+const compositionLabel = (type: string) => COMPOSITION_LABELS[type.toLowerCase().replace(/-/g, " ")] ?? type.replace(/-/g, " ")
+
 function ProductGridInner({ products, compositions = [], categories = [], featuredIds = [] }: ProductGridProps) {
   const { openProductModal } = useProductModal()
   const [activeTab, setActiveTab] = useState("tout")
   const [search, setSearch] = useState("")
   const [selectedComposition, setSelectedComposition] = useState<Composition | null>(null)
+  const [selectedFamily, setSelectedFamily] = useState<ProductFamilyKey | null>(null)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -94,7 +104,7 @@ function ProductGridInner({ products, compositions = [], categories = [], featur
     compositionTypes.forEach(type => {
       const id = "comp-" + type.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-")
       // Capitaliser le label
-      const label = type.charAt(0).toUpperCase() + type.slice(1).replace(/-/g, " ")
+      const label = compositionLabel(type)
       tabs.push({ id, label })
     })
 
@@ -132,16 +142,35 @@ function ProductGridInner({ products, compositions = [], categories = [], featur
   }, [products, compositions, activeTab, search])
 
   const totalItems = filtered.products.length + filtered.compositions.length
+  const compactFamilies = activeTab === "tout" && !search.trim()
+  const families = useMemo(() => {
+    const buckets = new Map<ProductFamilyKey, Product[]>()
+    for (const product of filtered.products) {
+      const key = productFamilyKey(product)
+      if (key) { const entries = buckets.get(key) ?? []; entries.push(product); buckets.set(key, entries) }
+    }
+    return PRODUCT_FAMILIES.map(family => ({ ...family, products: buckets.get(family.key) ?? [] })).filter(family => family.products.length > 1)
+  }, [filtered.products])
+  const groupedIds = new Set(compactFamilies ? families.flatMap(family => family.products.map(product => product.id)) : [])
+  const family = families.find(family => family.key === selectedFamily)
+  const standalone = filtered.products.filter(product => !groupedIds.has(product.id))
   const groups: { key: string; label: string; products: Product[]; compositions: Composition[] }[] = []
   const featured = activeTab === "tout" && !search.trim()
     ? featuredIds.flatMap(id => filtered.products.filter(p => p.id === id && p.inStock)) : []
   if (featured.length) groups.push({ key: "featured", label: "À la une", products: featured, compositions: [] })
-  for (const category of new Set(filtered.products.filter(p => !featured.includes(p)).map(p => p.category))) {
-    groups.push({ key: "product-" + category, label: category, products: filtered.products.filter(p => p.category === category && !featured.includes(p)), compositions: [] })
+  for (const category of new Set(standalone.filter(p => !featured.includes(p)).map(p => p.category))) {
+    groups.push({ key: "product-" + category, label: category, products: standalone.filter(p => p.category === category && !featured.includes(p)), compositions: [] })
   }
   for (const type of new Set(filtered.compositions.map(c => c.type))) {
-    groups.push({ key: "composition-" + type, label: type.replace(/-/g, " "), products: [], compositions: filtered.compositions.filter(c => c.type === type) })
+    groups.push({ key: "composition-" + type, label: compositionLabel(type), products: [], compositions: filtered.compositions.filter(c => c.type === type) })
   }
+
+  const familyGrid = compactFamilies && families.length > 0 ? <section aria-label="Les familles POWER">
+    <h3 className="mb-4 text-2xl font-black text-white">À découvrir par famille</h3>
+    <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+      {families.map(family => <ProductFamilyCard key={family.key} family={family} count={family.products.length} onOpen={() => setSelectedFamily(family.key)} />)}
+    </div>
+  </section> : null
 
   return (
     <>
@@ -184,7 +213,8 @@ function ProductGridInner({ products, compositions = [], categories = [], featur
         </div>
       ) : (
         <div className="space-y-10">
-          {groups.map(group => <section key={group.key} aria-label={group.label}>
+          {!featured.length && familyGrid}
+          {groups.map(group => <Fragment key={group.key}><section aria-label={group.label}>
           <h3 className="mb-4 text-2xl font-black capitalize text-white">{group.label}</h3>
           {/* Mobile */}
           <div className="sm:hidden grid grid-cols-2 gap-3">
@@ -205,6 +235,7 @@ function ProductGridInner({ products, compositions = [], categories = [], featur
                   basePrice: comp.basePrice,
                   imageUrl: comp.image,
                   description: comp.description,
+                  options: comp.options,
                 }}
                 onCompose={() => setSelectedComposition(comp)}
               />
@@ -227,18 +258,7 @@ function ProductGridInner({ products, compositions = [], categories = [], featur
                 onClick={() => setSelectedComposition(comp)}
               >
                 <div className="relative aspect-square overflow-hidden bg-zinc-800">
-                  <ImageWithFallback
-                    src={comp.image || "/placeholder.svg"}
-                    alt={comp.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 300px"
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute top-6 left-6">
-                    <span className="bg-[#102e25]/90 backdrop-blur-xl border border-black/5 text-[#ffcd47] px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">
-                      {comp.type.charAt(0).toUpperCase() + comp.type.slice(1).replace(/-/g, " ")}
-                    </span>
-                  </div>
+                  <CompositionArtwork composition={{...comp, imageUrl:comp.imageUrl ?? comp.image}} sizes="(max-width: 768px) 100vw, 300px" />
                 </div>
                 <div className="p-6 pb-4 flex-1">
                   <h3 className="text-xl font-black text-[#ffcd47] mb-2 line-clamp-1 group-hover:text-[#ffcd47] transition-colors">
@@ -257,9 +277,21 @@ function ProductGridInner({ products, compositions = [], categories = [], featur
               </div>
             ))}
           </div>
-          </section>)}
+          </section>{group.key === "featured" && familyGrid}</Fragment>)}
         </div>
       )}
+
+      <Dialog open={!!family} onOpenChange={open => { if (!open) setSelectedFamily(null) }}>
+        <DialogContent className="max-w-5xl rounded-3xl border-white/20 bg-[#073b2d] p-4 text-white sm:p-6">
+          <DialogHeader className="pr-7">
+            <DialogTitle className="text-2xl font-black">{family?.title}</DialogTitle>
+            <DialogDescription className="text-emerald-50/80">Choisissez vos produits et ajoutez-les directement au panier. Prix et disponibilités selon les arrivages.</DialogDescription>
+          </DialogHeader>
+          <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {family?.products.map(product => <ProductCard key={product.id} product={product} onViewDetails={() => { setSelectedFamily(null); openProductModal(product) }} />)}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {selectedComposition && (
         <CompositionSheet

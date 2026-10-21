@@ -8,6 +8,13 @@
 .power-aura-one { left: -30vw; top: -25vh; }
 .power-aura-two { right: -30vw; bottom: -20vh; background: radial-gradient(ellipse, var(--power-glow-alt), transparent 68%); animation-delay: -11s; }
 .power-orbital { position: absolute; width: 90vw; height: 90vw; right: -40vw; top: 8vh; border: 1px solid #c6efac15; border-radius: 50%; box-shadow: 0 0 0 65px #c6efac04, 0 0 0 150px #c6efac03; }
+.power-orbital { animation: power-orbit-spin 84s linear infinite; }
+.power-orbital::before, .power-orbital::after { content: ""; position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #baffb3; box-shadow: 0 0 22px 7px #91ffb44d; opacity: .35; }
+.power-orbital::before { left: calc(50% - 6px); top: -6px; }
+.power-orbital::after { right: calc(50% - 6px); bottom: -6px; background: #d5bcff; }
+.power-scan-grid { position: absolute; inset: -35%; opacity: .07; background-image: linear-gradient(#9ee7bd66 1px, transparent 1px), linear-gradient(90deg, #9ee7bd66 1px, transparent 1px); background-size: 64px 64px; transform: perspective(800px) rotateX(54deg); animation: power-grid-drift 28s linear infinite; }
+.power-family-card { position: relative; isolation: isolate; box-shadow: 0 14px 34px #0005, inset 0 1px 0 #ffffff20; }
+.power-family-card::after { content: ""; pointer-events: none; position: absolute; inset: 0; opacity: 0; background: linear-gradient(110deg, transparent 30%, #ffffff1c 48%, transparent 65%); transform: translateX(-110%); }
 .power-floating-fruit { position: absolute; width: 144px; opacity: .14; animation: power-fruit-orbit 24s ease-in-out infinite alternate; }
 .power-floating-fruit img { width: 100%; height: auto; }
 .power-floating-fruit-0 { left: -30px; top: 18%; }
@@ -48,12 +55,18 @@
 .power-scene-character img { width: 100%; height: auto; }
 .power-universe [data-mascot-key] { background: radial-gradient(ellipse at 50% 90%, #ffdc4728, transparent 65%), linear-gradient(145deg, #164535, #0a251c); }
 @media (hover: hover) {
+  .power-universe .power-tile.power-family-card:hover { transform: perspective(900px) translateY(-6px) rotateX(2deg); box-shadow: 0 24px 45px #0006, 0 0 24px #81dda617; }
+  .power-family-card:hover::after { opacity: 1; animation: power-card-reflection .8s ease-out; }
   .power-universe .power-tile:hover { transform: translateY(-4px); border-color: #ffcd4790; box-shadow: 0 20px 40px #0005; }
   .power-basket-card:hover .power-basket-photo > img { transform: scale(1.04); }
 }
 @keyframes power-aura-drift { to { transform: translate(8vw, 8vh) scale(1.08); } }
+@keyframes power-orbit-spin { to { transform: rotate(360deg); } }
+@keyframes power-grid-drift { to { transform: perspective(800px) rotateX(54deg) translateY(64px); } }
+@keyframes power-card-reflection { to { transform: translateX(110%); } }
 @keyframes power-fruit-orbit { from { transform: translate3d(0, -12px, 0) rotate(-8deg); } to { transform: translate3d(20px, 28px, 0) rotate(12deg); } }
-.power-universe[data-motion="paused"] :is(.power-aura, .power-floating-fruit) { animation-play-state: paused; }
+.power-universe[data-motion="paused"] :is(.power-aura, .power-floating-fruit, .power-orbital, .power-scan-grid) { animation-play-state: paused; }
+.power-universe[data-motion="paused"] .power-family-card::after { animation: none; }
 @media (min-width: 768px) { .power-motion-toggle { bottom: 20px; } }
 @media (max-width: 767px) {
   .power-page-visual { padding: 18px; gap: 10px; }
@@ -68,4 +81,5 @@
   .power-universe *, .power-universe *::before, .power-universe *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .power-motion-toggle { display: none; }
   .power-universe .power-tile:hover, .power-basket-card:hover .power-basket-photo > img { transform: none; }
+  .power-universe .power-tile.power-family-card:hover { transform: none; }
 }

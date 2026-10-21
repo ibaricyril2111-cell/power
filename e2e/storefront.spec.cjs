@@ -47,6 +47,59 @@ test('fiche produit et panier fonctionnent depuis le frontend', async ({ page })
   await expect(cart.getByText('Total TTC', { exact: true })).toBeVisible()
   // No checkout submission: these checks never create an order or consume stock.
 })
+test('la famille des herbes regroupe les produits et ouvre leurs détails', async ({ page }) => {
+  await home(page)
+  await expect(page.getByRole('heading', {name:'Basilic Frais',exact:true})).toHaveCount(0)
+  const family = page.getByRole('button', {name:'Découvrir nos herbes',exact:true})
+  await family.click()
+  const herbs = page.getByRole('dialog',{name:'Nos herbes',exact:true})
+  await expect(herbs.getByRole('heading',{name:'Basilic Frais',exact:true})).toBeVisible()
+  await expect(herbs.getByRole('heading',{name:'Persil Plat',exact:true})).toHaveCount(1)
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
+  await herbs.getByRole('button',{name:'Voir le détail de Basilic Frais',exact:true}).click()
+  await expect(herbs).toHaveCount(0)
+  await expect(page.getByRole('dialog').getByRole('heading',{name:'Basilic Frais',exact:true})).toBeVisible()
+  await page.keyboard.press('Escape')
+  await family.click()
+  await herbs.getByRole('button',{name:'Ajouter Basilic Frais au panier',exact:true}).click()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('banner').getByRole('button',{name:'Panier',exact:true})).toContainText('1',{timeout:20000})
+})
+test('pommes, fruits rouges et agrumes ouvrent les articles avec leurs tarifs',async({page})=>{
+  await home(page)
+  for(const [title,names] of [
+    ['Nos pommes',['Pomme Golden','Pomme Pink Lady','Pommes Gala']],
+    ['Fruits rouges',['Fraises 500g','Framboise','Myrtille']],
+    ['Nos agrumes',['Oranges de table','Citrons Jaune']],
+  ]){
+    await page.getByRole('button',{name:'Découvrir '+title.toLowerCase(),exact:true}).click()
+    const dialog=page.getByRole('dialog',{name:title,exact:true})
+    for(const name of names) await expect(dialog.getByRole('heading',{name,exact:true})).toHaveCount(1)
+    expect(await dialog.locator('[data-product-price]').count()).toBeGreaterThanOrEqual(names.length)
+    expect(await dialog.evaluate(el=>el.scrollWidth <= el.clientWidth + 1)).toBe(true)
+    await page.keyboard.press('Escape')
+    await expect(dialog).toHaveCount(0)
+  }
+})
+test('les portraits du catalogue respectent les variétés et sont chargés',async({page})=>{
+  await home(page)
+  await expect(page.locator('[data-mascot-missing]')).toHaveCount(0)
+  for(const [query,key] of [['Pink Lady','pomme-pink-lady'],['Golden','pomme'],['Gala','pomme-gala'],['Mirabelle','mirabelle'],['Choux blanc','chou-blanc'],['Piment vert','piment-vert']]){
+    await page.getByRole('textbox',{name:'Rechercher dans les produits'}).fill(query)
+    const portrait=page.locator(`[data-mascot-key="${key}"] img`).filter({visible:true}).first()
+    await expect(portrait).toBeVisible()
+    await expect.poll(()=>portrait.evaluate(el=>el.complete && el.naturalWidth>0)).toBe(true)
+  }
+})
+test('le décor futuriste s’anime et sa pause fonctionne',async({page})=>{
+  await home(page)
+  await expect(page.locator('.power-universe')).toHaveAttribute('data-motion','running')
+  await page.getByRole('button',{name:'Mettre les animations du décor en pause',exact:true}).click()
+  await expect(page.locator('.power-universe')).toHaveAttribute('data-motion','paused')
+  expect(await page.locator('.power-orbital').evaluate(el=>getComputedStyle(el).animationPlayState)).toBe('paused')
+  await page.getByRole('button',{name:'Activer les animations du décor',exact:true}).click()
+  await expect(page.locator('.power-universe')).toHaveAttribute('data-motion','running')
+})
 test('inscription compacte : avatar en modale, téléphone, compte et validation', async ({ page }) => {
   await page.goto('/connexion')
   await dismissCookies(page)

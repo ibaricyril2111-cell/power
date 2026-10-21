@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import ProductPurchase from "@/components/product/product-purchase"
 import ProduceComment from "@/components/product/produce-comment"
-import { avatarForProductName } from "@/lib/power-avatars"
+import { productMascotForName } from "@/lib/product-mascots"
 import type { Metadata } from "next"
 import { productImage } from "@/lib/product-image"
 
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         title: `${product.name} frais`,
         description,
         alternates: { canonical: `/produits/${id}` },
-        openGraph: { title: `${product.name} — Power Primeur`, description, url: `/produits/${id}`, images: [avatarForProductName(product.name)?.image ?? productImage(product.name, product.image)] },
+        openGraph: { title: `${product.name} — Power Primeur`, description, url: `/produits/${id}`, images: [productMascotForName(product.name)?.image ?? productImage(product.name, product.image)] },
     }
 }
 
@@ -43,7 +43,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         '@type': 'Product',
         name: product.name,
         description: product.description || `${product.name} frais chez Power Primeur Alfortville`,
-        image: [new URL(avatarForProductName(product.name)?.image ?? productImage(product.name, product.image), 'https://powerprimeur.com').toString()],
+        image: [new URL(productMascotForName(product.name)?.image ?? productImage(product.name, product.image), 'https://powerprimeur.com').toString()],
         category: product.category.name,
         offers: {
             '@type': 'Offer',

@@ -27,6 +27,7 @@ export default function PowerUniverse({ children }: { children: ReactNode }) {
       <div className="power-atmosphere" aria-hidden="true">
         <div className="power-aura power-aura-one" /><div className="power-aura power-aura-two" />
         <div className="power-orbital" />
+        <div className="power-scan-grid" />
         {["orange", "fraise", "carotte", "citron", "ananas", "courgette"].map((key, i) => (
           <div className={`power-floating-fruit power-floating-fruit-${i}`} key={key}>
             <Image src={`/brand/mascots/v4/${key}.webp`} alt="" width={144} height={144} sizes="(max-width: 767px) 76px, 144px" />

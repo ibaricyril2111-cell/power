@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { avatarForProductName } from "@/lib/power-avatars"
+import { productMascotForName } from "@/lib/product-mascots"
 
 export default function ProductMascotImage({
   name,
@@ -13,7 +13,7 @@ export default function ProductMascotImage({
   sizes?: string
   className?: string
 }) {
-  const mascot = avatarForProductName(name)
+  const mascot = productMascotForName(name)
 
   // An unillustrated product is explicit in Preview. Never silently substitute
   // another species, an emoji, or an old product photograph.
