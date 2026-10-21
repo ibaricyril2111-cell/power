@@ -101,6 +101,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Vérification de la disponibilité du stock AVANT de créer la commande
+        const requestedQuantities = new Map<string, number>()
         for (const item of cartItems) {
             if (!Number.isFinite(item.quantity) || item.quantity <= 0) {
                 return NextResponse.json({ error: "Une quantité du panier est invalide. Corrigez votre panier avant de commander." }, { status: 400 })
@@ -114,7 +115,9 @@ export async function POST(req: NextRequest) {
             const recipeError = item.composition && drinkOrderError(item.composition, item.customData)
             if (recipeError) return NextResponse.json({ error: recipeError }, { status: 409 })
             if (item.productId && item.product) {
-                if (!item.product.inStock || item.product.currentStock < item.quantity) {
+                const requestedQuantity = (requestedQuantities.get(item.productId) ?? 0) + item.quantity
+                requestedQuantities.set(item.productId, requestedQuantity)
+                if (!Number.isFinite(requestedQuantity) || !item.product.inStock || item.product.currentStock < requestedQuantity) {
                     return NextResponse.json(
                         {
                             error: `Stock insuffisant pour « ${item.product.name} » (${Math.max(0, item.product.currentStock)} restant${item.product.currentStock > 1 ? "s" : ""}).`,
@@ -191,6 +194,7 @@ export async function POST(req: NextRequest) {
         // Validation et application du code promo
         let promoDiscount = 0
         let validPromoCode: string | null = null
+        let validPromoId: string | null = null
 
         if (promoCode) {
             const promo = await prisma.promoCode.findUnique({
@@ -212,11 +216,7 @@ export async function POST(req: NextRequest) {
                 promoDiscount = Math.min(promoDiscount, subtotal)
                 promoDiscount = Math.round(promoDiscount * 100) / 100
                 validPromoCode = promo.code
-
-                await prisma.promoCode.update({
-                    where: { id: promo.id },
-                    data: { currentUses: { increment: 1 } },
-                })
+                validPromoId = promo.id
             } else {
                 return NextResponse.json({ error: "Ce code promo ne peut plus être appliqué à votre panier. Vérifiez-le ou retirez-le avant de confirmer la commande." }, { status: 400 })
             }
@@ -248,6 +248,16 @@ export async function POST(req: NextRequest) {
                 { error: "Adresse de livraison incomplète (rue, code postal et ville sont requis)" },
                 { status: 400 },
             )
+        }
+
+        // Ne consommer la remise qu'après les lectures et validations préalables :
+        // une adresse incomplète ou des frais indisponibles ne doivent pas utiliser le code.
+        // Cela ne rend pas les écritures suivantes atomiques avec Neon HTTP.
+        if (validPromoId) {
+            await prisma.promoCode.update({
+                where: { id: validPromoId },
+                data: { currentUses: { increment: 1 } },
+            })
         }
 
         // Numéro de facture séquentiel (obligation de numérotation continue, cf. lib/invoice)
@@ -304,17 +314,27 @@ export async function POST(req: NextRequest) {
                 },
             },
         })
+        // Plusieurs lignes peuvent référencer le même produit. Les lectures ci-dessus
+        // partagent le même stock initial : écrire une fois par ligne perdrait une déduction.
+        const stockDeductions = new Map<string, { quantity: number; currentStock: number }>()
         for (const item of orderItems) {
             if (item.productId && item.product) {
-                const newStock = Math.max(0, item.product.currentStock - item.quantity)
-                await prisma.product.update({
-                    where: { id: item.productId },
-                    data: {
-                        currentStock: newStock,
-                        inStock: newStock > 0,
-                    },
+                const existing = stockDeductions.get(item.productId)
+                stockDeductions.set(item.productId, {
+                    quantity: (existing?.quantity ?? 0) + item.quantity,
+                    currentStock: item.product.currentStock,
                 })
             }
+        }
+        for (const [productId, deduction] of stockDeductions) {
+            const newStock = Math.max(0, deduction.currentStock - deduction.quantity)
+            await prisma.product.update({
+                where: { id: productId },
+                data: {
+                    currentStock: newStock,
+                    inStock: newStock > 0,
+                },
+            })
         }
 
         // Réserver le créneau : uniquement en LIVRAISON (le retrait ne consomme pas de capacité).

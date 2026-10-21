@@ -27,9 +27,16 @@ describe("the 100 POWER mascots lead to shopping", () => {
   it("opens the matching product from every one of the 100 character buttons", () => {
     const products = POWER_AVATARS.map(a => ({ ...product, id: "catalogue-" + a.key, name: a.label }))
     render(<PowerFamily products={products} />)
-    expect(screen.getAllByRole("button", { name: /^Voir les produits / })).toHaveLength(100)
+    // Les cartes restent montées pendant les ouvertures : résoudre leurs rôles une
+    // seule fois évite 100 parcours d'accessibilité complets du même catalogue.
+    const cards = screen.getAllByRole("button", { name: /^Voir les produits / })
+    expect(cards).toHaveLength(100)
+    const cardsByName = new Map(cards.map(card => [card.getAttribute("aria-label"), card]))
+    expect(cardsByName.size).toBe(100)
     for (const avatar of POWER_AVATARS) {
-      fireEvent.click(screen.getByRole("button", { name: "Voir les produits " + avatar.label }))
+      const card = cardsByName.get("Voir les produits " + avatar.label)
+      expect(card).toBeDefined()
+      fireEvent.click(card!)
       const dialog = screen.getByRole("dialog")
       expect(within(dialog).getByRole("heading", { name: avatar.label })).toBeTruthy()
       expect(within(dialog).getByRole("link", { name: avatar.label }).getAttribute("href")).toBe("/produits/catalogue-" + avatar.key)
