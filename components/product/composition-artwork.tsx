@@ -29,12 +29,13 @@ export default function CompositionArtwork({
   const heading = mode === "choices" ? "Les ingrédients au choix"
     : mode === "selected" ? "Votre sélection"
     : mode === "included" ? "Les ingrédients de base"
+    : mode === "described" ? "Les personnages de la recette"
     : "Votre création POWER"
   const characters = ingredients.map((ingredient) => ({ ingredient, avatar: avatarForProductName(ingredient.name) }))
     .filter((item) => item.avatar !== null)
     .filter((item, index, all) => all.findIndex((other) => other.avatar?.key === item.avatar?.key) === index)
     .slice(0, 4)
-  const cols = characters.length > 3 ? "grid-cols-4" : characters.length === 3 ? "grid-cols-3" : "grid-cols-2"
+  const cols = characters.length > 3 ? "grid-cols-4" : characters.length === 3 ? "grid-cols-3" : characters.length === 1 ? "grid-cols-1" : "grid-cols-2"
 
   return (
     <div

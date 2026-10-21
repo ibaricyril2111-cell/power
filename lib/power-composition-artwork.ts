@@ -10,6 +10,7 @@ export type CompositionArtworkSource = {
   name: string
   type?: string | null
   imageUrl?: string | null
+  description?: string | null
   options?: readonly ArtworkIngredient[]
 }
 
@@ -35,16 +36,27 @@ export function compositionArtworkKind(source: CompositionArtworkSource) {
   return "other" as const
 }
 
+// Some fixed preparations have no configurable options. Their published opening
+// ingredient list can still illustrate the card, without creating any choices.
+function describedIngredients(description?: string | null): ArtworkIngredient[] {
+  const opening = description?.split(/[.!?]/, 1)[0] ?? ""
+  if (/\b(sans|sauf|option|facultatif|supplement|choix)\b/.test(normalize(opening))) return []
+  const names = opening.split(/\s*[,;]\s*|\s+et\s+/i).map(name => name.trim()).filter(Boolean)
+  if (names.length < 2 || !names.some(name => avatarForProductName(name))) return []
+  return names.map((name, index) => ({ id: `artwork-description-${index}`, name }))
+}
+
 export function resolveCompositionArtwork(source: CompositionArtworkSource, selectedOptionIds?: readonly string[]) {
   const options = source.options ?? []
+  const described = options.length === 0 && selectedOptionIds === undefined ? describedIngredients(source.description) : []
   const kind = compositionArtworkKind(source)
   const selected = selectedOptionIds === undefined
     ? options.filter((option) => option.includedByDefault)
     : options.filter((option) => selectedOptionIds.includes(option.id))
   const mode = selected.length > 0
     ? (selectedOptionIds === undefined ? "included" : "selected")
-    : options.length > 0 ? "choices" : "missing"
-  const ingredients = selected.length > 0 ? selected : options
+    : options.length > 0 ? "choices" : described.length > 0 ? "described" : "missing"
+  const ingredients = selected.length > 0 ? selected : options.length > 0 ? options : described
   const cleanName = normalize(source.name).replace(/^(?:jus|smoothie) (?:de |aux? )?/, "")
   let recipe: (typeof POWER_RECIPE_ARTWORK)[number] | undefined
 

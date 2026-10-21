@@ -84,6 +84,7 @@ test('pommes, fruits rouges et agrumes ouvrent les articles avec leurs tarifs',a
 test('les portraits du catalogue respectent les variétés et sont chargés',async({page})=>{
   await home(page)
   await expect(page.locator('[data-mascot-missing]')).toHaveCount(0)
+  await expect(page.getByText('L’illustration de cette recette est en préparation.', {exact:true})).toHaveCount(0)
   for(const [query,key] of [['Pink Lady','pomme-pink-lady'],['Golden','pomme'],['Gala','pomme-gala'],['Mirabelle','mirabelle'],['Choux blanc','chou-blanc'],['Piment vert','piment-vert']]){
     await page.getByRole('textbox',{name:'Rechercher dans les produits'}).fill(query)
     const portrait=page.locator(`[data-mascot-key="${key}"] img`).filter({visible:true}).first()

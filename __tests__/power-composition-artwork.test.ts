@@ -61,6 +61,26 @@ describe("POWER prepared recipe artwork", () => {
     expect(resolveCompositionArtwork({name: "Salade Burrata", type: "salade", imageUrl: "/brand/tropic-rose.webp"}).recipe).toBeNull()
   })
 
+  it("illustrates a fixed preparation from its published ingredient list", () => {
+    const source = {name: "Velouté de Potimarron", type: "soupe", description: "Potimarron, crème, muscade. Doux et réconfortant.", basePrice: 5.5}
+    const before = JSON.stringify(source)
+    const visual = resolveCompositionArtwork(source)
+    expect(visual.mode).toBe("described")
+    expect(visual.ingredients.map(o => o.name)).toEqual(["Potimarron", "crème", "muscade"])
+    expect(visual.recipe).toBeNull()
+    expect(JSON.stringify(source)).toBe(before)
+  })
+
+  it("keeps configured choices and explicit selections authoritative", () => {
+    const source = {...smoothie, description: "Tomate, basilic, ail."}
+    expect(resolveCompositionArtwork(source).recipe?.key).toBe("mangue-ananas-passion")
+    expect(resolveCompositionArtwork({...source, options: []}, []).ingredients).toEqual([])
+  })
+
+  it.each(["Sans pomme, avec citron.", "Mangue ou ananas au choix.", "Une préparation faite maison."])("does not turn ambiguous copy into a recipe: %s", description => {
+    expect(resolveCompositionArtwork({name:"Création",description}).ingredients).toEqual([])
+  })
+
   it("does not mutate choices or commercial data", () => {
     const data = {...smoothie, basePrice: 6.27, stock: 13}
     const before = JSON.stringify(data)
