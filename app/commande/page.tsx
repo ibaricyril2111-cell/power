@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { Suspense, useState, useEffect } from "react"
 import Link from "next/link"
 import CartArtwork from "@/components/cart/cart-artwork"
 import SelectionSummary from "@/components/cart/selection-summary"
@@ -17,7 +17,7 @@ import { getDeliveryConfig } from "@/app/actions/content"
 import { cartItemUnitPrice, deliveryFee as computeDeliveryFee } from "@/lib/pricing"
 import { compositionUnit, describeSelection } from "@/lib/composition-pricing"
 import { Truck, Store, ArrowLeft, Loader2, MapPin, Clock, User, Tag, X, Banknote, CreditCard } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 
 interface DeliveryInfo {
@@ -38,9 +38,13 @@ interface PromoResult {
 type DeliveryMethod = "livraison" | "retrait"
 
 export default function CommandePage() {
+  return <Suspense fallback={<div role="status" className="p-8 text-center">Chargement de la commande…</div>}><CommandeContent /></Suspense>
+}
+
+function CommandeContent() {
   const router = useRouter()
+  const params = useSearchParams()
   const [initialDelivery] = useState(() => {
-    const params = typeof window === "undefined" ? new URLSearchParams() : new URLSearchParams(window.location.search)
     return { date: params.get("date") || undefined, slot: params.get("slot") || undefined, mode: params.get("mode") === "retrait" ? "retrait" as const : "livraison" as const }
   })
   const [items, setItems] = useState<any[]>([])
