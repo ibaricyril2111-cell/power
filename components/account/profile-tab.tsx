@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2, Save } from "lucide-react"
-import { PowerAvatar, PowerAvatarPicker } from "@/components/account/power-avatar"
+import { PowerAvatar } from "@/components/account/power-avatar"
+import AvatarDialog from "@/components/account/avatar-dialog"
 import { DEFAULT_POWER_AVATAR, type PowerAvatarKey } from "@/lib/power-avatars"
 import { getUserProfile, updateUserProfile } from "@/app/actions/account"
 import { toast } from "sonner"
@@ -126,10 +127,10 @@ export default function ProfileTab() {
         <CardContent className="p-8">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
-              <PowerAvatarPicker
+              <AvatarDialog
                 value={formData.avatarKey}
                 onChange={(avatarKey) => setFormData((prev) => ({ ...prev, avatarKey }))}
-                compact
+                disabled={saving}
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -227,19 +228,7 @@ export default function ProfileTab() {
                   <option value="professionnel">Professionnel</option>
                 </select>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="billingType" className="text-zinc-400 uppercase text-[10px] font-black tracking-widest ml-1">Facturation</Label>
-                <select
-                  id="billingType"
-                  value={formData.billingType}
-                  onChange={(e) => handleInputChange("billingType", e.target.value)}
-                  disabled={saving}
-                  className="bg-[#102e25]/60 border border-white/10 rounded-2xl h-14 px-4 w-full focus:border-[#ffcd47]/50 transition-all font-bold text-white"
-                >
-                  <option value="particulier">Particulier</option>
-                  <option value="professionnel">Professionnel</option>
-                </select>
-              </div>
+              <p className="self-center text-sm text-zinc-400">La facturation suit automatiquement votre type de compte.</p>
             </div>
 
             {formData.clientType === "professionnel" && (

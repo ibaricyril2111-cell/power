@@ -7,6 +7,13 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: power-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -22,11 +29,14 @@ jobs:
         run: corepack enable
 
       - name: Installer les dépendances
-        run: yarn install --no-immutable
+        run: yarn install --immutable
         env:
           # `postinstall` lance `prisma generate`, qui n'a pas besoin d'une vraie base
           # mais exige que la variable existe.
           DATABASE_URL: postgresql://user:pass@localhost:5432/db
+
+      - name: Contrôle des variables publiques
+        run: node scripts/check-public-env.mjs
 
       - name: Typecheck
         run: yarn typecheck
@@ -36,3 +46,9 @@ jobs:
 
       - name: Build de production
         run: yarn build
+        env:
+          AUTH_SECRET: POWER_PRIVATE_ENV_CANARY_auth
+          RESEND_API_KEY: POWER_PRIVATE_ENV_CANARY_email
+
+      - name: Contrôle du bundle public
+        run: node scripts/check-public-env.mjs --bundle

@@ -54,21 +54,21 @@ export default function Header() {
     <>
       <header className="sticky top-0 z-50 w-full border-b border-[#ffcd47]/15 bg-[#073b2d] text-white shadow-[0_10px_30px_rgba(0,0,0,.18)]">
         <div className="mx-auto max-w-7xl px-3 pb-3 pt-2 sm:px-6">
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+          <div className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 sm:gap-3">
             <div className="flex items-center">
               <button type="button" onClick={() => setMenuOpen(v => !v)} className="flex min-h-11 items-center gap-2 rounded-xl px-2 text-sm font-bold hover:bg-white/5" aria-label="Menu" aria-expanded={menuOpen}>
                 <Menu className="h-6 w-6" /><span className="hidden sm:inline">Menu</span>
               </button>
             </div>
-            <Link href="/" aria-label="POWER — Accueil" className="justify-self-center">
-              <Image src="/logo-power.webp" alt="POWER Primeur & Bar à jus" width={800} height={160} priority className="h-11 w-auto sm:h-14" />
+            <Link href="/" aria-label="POWER — Accueil" className="min-w-0 w-full max-w-[280px] justify-self-center">
+              <Image src="/logo-power.webp" alt="POWER Primeur & Bar à jus" width={800} height={160} priority className="h-auto max-h-14 w-full object-contain mix-blend-screen" />
             </Link>
             <div className="flex items-center justify-end gap-1 sm:gap-3">
-              <Link href={isLoggedIn ? "/mon-compte" : "/connexion"} className="flex min-w-12 flex-col items-center justify-center text-[10px] font-bold sm:min-w-16">
+              <Link href={isLoggedIn ? "/mon-compte" : "/connexion"} className="flex min-h-11 min-w-11 flex-col items-center justify-center text-[10px] font-bold sm:min-w-16">
                 {isLoggedIn ? <PowerAvatar avatarKey={avatarKey} size={32} className="border-2 border-[#ffcd47]" /> : <UserRound className="h-6 w-6" />}
                 <span className="mt-0.5 hidden sm:block">{isLoggedIn ? "Mon compte" : "Connexion"}</span>
               </Link>
-              <button type="button" onClick={() => setCartOpen(true)} className="relative flex min-w-12 flex-col items-center justify-center text-[10px] font-bold sm:min-w-16" aria-label="Panier">
+              <button type="button" onClick={() => setCartOpen(true)} className="relative flex min-h-11 min-w-11 flex-col items-center justify-center text-[10px] font-bold sm:min-w-16" aria-label="Panier">
                 <ShoppingCart className="h-7 w-7" />
                 {cartCount > 0 && <span className="absolute right-1 top-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#ffcd47] px-1 text-[10px] font-black text-[#073b2d]">{cartCount}</span>}
                 <span className="mt-0.5 hidden sm:block">Panier</span>

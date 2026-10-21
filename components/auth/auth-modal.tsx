@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator"
 import { Card, CardContent } from "@/components/ui/card"
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react"
 import { signIn } from "next-auth/react"
+import RegistrationDetails from "./registration-details"
+import { DEFAULT_POWER_AVATAR, type PowerAvatarKey } from "@/lib/power-avatars"
 
 interface UserData {
   firstName: string
@@ -26,6 +28,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
   const [mode, setMode] = useState<"login" | "register">("login")
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [avatarKey, setAvatarKey] = useState<PowerAvatarKey>(DEFAULT_POWER_AVATAR)
   const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     email: "",
@@ -33,6 +36,8 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
     firstName: "",
     lastName: "",
     confirmPassword: "",
+    phone: "",
+    clientType: "particulier",
   })
 
 
@@ -94,6 +99,9 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
           password: formData.password,
           firstName: formData.firstName,
           lastName: formData.lastName,
+          phone: formData.phone,
+          clientType: formData.clientType,
+          avatarKey,
         }),
       })
 
@@ -149,6 +157,8 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
       firstName: "",
       lastName: "",
       confirmPassword: "",
+      phone: "",
+      clientType: "particulier",
     })
     setError(null)
   }
@@ -160,7 +170,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-h-[90dvh] overflow-y-auto max-w-md">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl font-bold">
             {mode === "login" ? "Connexion" : "Créer un compte"}
@@ -211,6 +221,8 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                 </div>
               )}
 
+              {mode === "register" && <RegistrationDetails phone={formData.phone} clientType={formData.clientType}
+                avatarKey={avatarKey} onChange={handleInputChange} onAvatarChange={setAvatarKey} disabled={loading} />}
               <div>
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">

@@ -1,91 +1,62 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/auth"
+import { z } from "zod"
+import { parisDateParts } from "@/lib/pickup-policy"
 
-// Jours de livraison : Mardi(2) → Samedi(6)
-const DELIVERY_DAYS = [2, 3, 4, 5, 6] // 0=Dim, 1=Lun, 2=Mar, 3=Mer, 4=Jeu, 5=Ven, 6=Sam
 const START_HOUR = 9
 const END_HOUR = 17
 const MAX_ORDERS_PER_SLOT = 10
 const WEEKS_AHEAD = 4 // Générer 4 semaines à l'avance
 
-function getDayName(day: number): string {
-    const names = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
-    return names[day]
-}
-
 /**
  * POST — Génération automatique des créneaux de livraison
- * Mardi → Samedi, 9h → 17h, créneaux d'1h
+ * Lundi → Dimanche, 9h → 17h, créneaux d'1h
  */
 export async function POST(req: NextRequest) {
     try {
         const session = await auth()
-        if (session?.user?.role !== "admin") {
+        if (session?.user?.role !== "admin" || session.user.disabled) {
             return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
         }
 
         const body = await req.json().catch(() => ({}))
-        const weeksAhead = body.weeksAhead || WEEKS_AHEAD
-        const slotType = body.type === "retrait" ? "retrait" : "livraison"
+        const parsed = z.object({
+            weeksAhead: z.number().int().min(1).max(8).default(WEEKS_AHEAD),
+            type: z.enum(["retrait", "livraison", "both"]).default("both"),
+        }).safeParse(body)
+        if (!parsed.success) return NextResponse.json({ error: "Planning invalide" }, { status: 400 })
+        const { weeksAhead } = parsed.data
+        const slotTypes = parsed.data.type === "both" ? ["livraison", "retrait"] : [parsed.data.type]
 
         // Aujourd'hui à minuit UTC — les créneaux sont stockés à minuit UTC, de façon
         // indépendante du fuseau du serveur (cohérent avec la requête côté client).
-        const now = new Date()
-        const startUTCms = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
+        const now = parisDateParts()
+        const startUTCms = Date.UTC(now.year, now.month - 1, now.day)
 
-        let created = 0
-        let skipped = 0
-
-        // Parcourir chaque jour sur N semaines
-        for (let dayOffset = 0; dayOffset < weeksAhead * 7; dayOffset++) {
-            const date = new Date(startUTCms + dayOffset * 86_400_000)
-
-            const dayOfWeek = date.getUTCDay()
-
-            // Sauter les jours hors planning (dimanche + lundi)
-            if (!DELIVERY_DAYS.includes(dayOfWeek)) continue
-
-            // Générer les créneaux horaires pour cette journée
-            for (let hour = START_HOUR; hour < END_HOUR; hour++) {
-                const startTime = `${String(hour).padStart(2, "0")}:00`
-                const endTime = `${String(hour + 1).padStart(2, "0")}:00`
-
-                // Vérifier si le créneau existe déjà (éviter les doublons) — par type, pour
-                // pouvoir générer des créneaux de retrait sans être bloqué par la livraison.
-                const existing = await prisma.deliverySlot.findFirst({
-                    where: {
-                        date,
-                        startTime,
-                        type: slotType,
-                    }
-                })
-
-                if (existing) {
-                    skipped++
-                    continue
+        // One bounded, idempotent insert preserves existing closures and capacity.
+        const candidates = []
+        for (const slotType of slotTypes) {
+            for (let offset = 1; offset <= weeksAhead * 7; offset++) {
+                const date = new Date(startUTCms + offset * 86_400_000)
+                for (let hour = START_HOUR; hour < END_HOUR; hour++) {
+                    candidates.push({ date, type: slotType,
+                        startTime: `${String(hour).padStart(2, "0")}:00`,
+                        endTime: `${String(hour + 1).padStart(2, "0")}:00`,
+                        maxOrders: MAX_ORDERS_PER_SLOT, isActive: true })
                 }
-
-                await prisma.deliverySlot.create({
-                    data: {
-                        date,
-                        startTime,
-                        endTime,
-                        type: slotType,
-                        maxOrders: MAX_ORDERS_PER_SLOT,
-                        isActive: true,
-                    }
-                })
-                created++
             }
         }
+        const result = await prisma.deliverySlot.createMany({ data: candidates, skipDuplicates: true })
+        const created = result.count
+        const skipped = candidates.length - created
 
         return NextResponse.json({
             success: true,
             message: `${created} créneaux créés, ${skipped} déjà existants`,
             created,
             skipped,
-            planning: `${getDayName(DELIVERY_DAYS[0])} → ${getDayName(DELIVERY_DAYS[DELIVERY_DAYS.length - 1])}, ${START_HOUR}h-${END_HOUR}h`,
+            planning: `Tous les jours, ${START_HOUR}h-${END_HOUR}h`,
             semaines: weeksAhead,
         })
     } catch (error) {
@@ -100,7 +71,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE() {
     try {
         const session = await auth()
-        if (session?.user?.role !== "admin") {
+        if (session?.user?.role !== "admin" || session.user.disabled) {
             return NextResponse.json({ error: "Non autorisé" }, { status: 401 })
         }
 

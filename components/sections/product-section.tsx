@@ -2,15 +2,17 @@ import { prisma } from "@/lib/db"
 import ProductGrid from "@/components/product/product-grid"
 import { productImage } from "@/lib/product-image"
 import { getCompositionsByTypes } from "@/app/actions/compositions"
+import { FEATURED_PRODUCTS_KEY, parseFeaturedIds } from "@/lib/featured-products"
 
 export default async function ProductSection() {
-  const [products, compositionResult] = await Promise.all([
+  const [products, compositionResult, featuredSetting] = await Promise.all([
     prisma.product.findMany({
       where: { inStock: true },
       orderBy: [{ category: { name: 'asc' } }, { name: 'asc' }],
       include: { category: true }
     }),
-    getCompositionsByTypes()
+    getCompositionsByTypes(),
+    prisma.siteSetting.findUnique({ where: { key: FEATURED_PRODUCTS_KEY }, select: { value: true } }),
   ])
   const compositions = compositionResult.data
 
@@ -59,6 +61,7 @@ export default async function ProductSection() {
           products={formattedProducts}
           compositions={formattedCompositions}
           categories={categories}
+          featuredIds={parseFeaturedIds(featuredSetting?.value)}
         />
       </div>
     </section>
