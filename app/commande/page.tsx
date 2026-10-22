@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState, useEffect } from "react"
+import { Suspense, useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import CartArtwork from "@/components/cart/cart-artwork"
 import SelectionSummary from "@/components/cart/selection-summary"
@@ -12,7 +12,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import { getCartItems } from "@/app/actions/cart"
-import { getUserProfile } from "@/app/actions/account"
+import { getUserProfile, saveCheckoutContact } from "@/app/actions/account"
+import { checkoutContactIssues, normalizePhone, isValidPhone, type CheckoutContact } from "@/lib/contact-details"
 import { getDeliveryConfig } from "@/app/actions/content"
 import { cartItemUnitPrice, deliveryFee as computeDeliveryFee } from "@/lib/pricing"
 import { compositionUnit, describeSelection } from "@/lib/composition-pricing"
@@ -66,6 +67,35 @@ function CommandeContent() {
   const [city, setCity] = useState("")
   const [postalCode, setPostalCode] = useState("")
   const [phone, setPhone] = useState("")
+  const [attempted, setAttempted] = useState(false)
+  const [phoneTouched, setPhoneTouched] = useState(false)
+  const [contactStatus, setContactStatus] = useState<"idle" | "saving" | "saved" | "error">("idle")
+  const [hasProfile, setHasProfile] = useState(false)
+  const phoneInput = useRef<HTMLInputElement>(null)
+  const contactQueue = useRef<Promise<void>>(Promise.resolve())
+
+  const issues = checkoutContactIssues({ method: deliveryMethod, address, postalCode, city, phone, hasSlot: !!selectedDelivery?.slotId })
+  const fieldError = (id: string) => issues.find(issue => issue.id === id)?.message
+  const focusField = (id: string) => {
+    const field = document.getElementById(id)
+    field?.focus()
+    field?.scrollIntoView({ behavior: "smooth", block: "center" })
+  }
+  async function persistContact(contact: CheckoutContact, redirectToLogin = false) {
+    setContactStatus("saving")
+    // Serialize blur and submit saves so a slower, older number cannot overwrite a newer one.
+    const operation = contactQueue.current.then(() => saveCheckoutContact(contact))
+    contactQueue.current = operation.then(() => undefined, () => undefined)
+    try {
+      const result = await operation
+      if (redirectToLogin && "requiresLogin" in result && result.requiresLogin) router.replace(`/connexion?callbackUrl=${encodeURIComponent("/commande" + window.location.search)}`)
+      if (normalizePhone(phoneInput.current?.value ?? "") === contact.phone) setContactStatus(result.success ? "saved" : "error")
+      return result.success
+    } catch {
+      if (normalizePhone(phoneInput.current?.value ?? "") === contact.phone) setContactStatus("error")
+      return false
+    }
+  }
 
   useEffect(() => {
     async function loadData() {
@@ -81,11 +111,13 @@ function CommandeContent() {
           setItems(cartRes.data)
         }
         if (profileRes.success && profileRes.data) {
+          setHasProfile(true)
           const u = profileRes.data
           setAddress(u.address || "")
           setCity(u.city || "")
           setPostalCode(u.postalCode || "")
           setPhone(u.phone || "")
+          if (u.phone && isValidPhone(u.phone)) setContactStatus("saved")
         }
         if (cfgRes) {
           setDeliveryConfig(cfgRes)
@@ -165,34 +197,12 @@ function CommandeContent() {
 
   const handleCheckout = async () => {
     if (isCheckingOut) return
-    if (!selectedDelivery) {
-      toast.error(
-        deliveryMethod === "livraison"
-          ? "Veuillez choisir une date et un créneau de livraison"
-          : "Veuillez choisir une date et une heure de retrait",
-      )
-      return
-    }
-    // Le téléphone est le seul moyen de joindre le client en cas d'imprévu (rupture,
-    // absence à la livraison, commande prête plus tôt) : exigé dans les deux modes.
-    // Même règle que le serveur (≥ 10 chiffres) : sinon le bouton s'active, le client
-    // clique, et le serveur rejette en 400 — rejet tardif et déroutant.
-    if (!/^(?:\+)?[0-9]{10,15}$/.test(phone.replace(/[\s.()\-]/g, ""))) {
-      toast.error("Numéro de téléphone invalide (au moins 10 chiffres)")
-      return
-    }
-    if (deliveryMethod === "livraison") {
-      if (!address.trim()) {
-        toast.error("Veuillez renseigner votre adresse de livraison")
-        return
-      }
-      if (!postalCode.trim() || !city.trim()) {
-        toast.error("Veuillez renseigner le code postal et la ville de livraison")
-        return
-      }
-    }
+    setAttempted(true)
+    if (issues.length) { focusField(issues[0].id); return }
     try {
       setIsCheckingOut(true)
+      const saved = await persistContact({ phone: normalizePhone(phone), ...(deliveryMethod === "livraison" ? { address, postalCode, city } : {}) }, true)
+      if (!saved) { setContactStatus("error"); focusField("phone"); return }
       const res = await fetch("/api/orders/place", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -204,7 +214,7 @@ function CommandeContent() {
           deliveryAddress: address,
           deliveryCity: city,
           deliveryPostalCode: postalCode,
-          phone,
+          phone: normalizePhone(phone),
           promoCode: appliedPromo?.code || null,
           paymentMethod,
         }),
@@ -323,35 +333,44 @@ function CommandeContent() {
                         <label htmlFor="address" className="text-xs text-zinc-400 font-medium mb-1 block">Adresse *</label>
                         <Input
                           id="address"
+                          aria-invalid={attempted && !!fieldError("address")}
+                          aria-describedby={attempted && fieldError("address") ? "address-error" : undefined}
                           autoComplete="street-address"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                           placeholder="123 Rue de la Paix"
                           className="bg-white/5 border-white/10 text-white placeholder:text-zinc-600 rounded-xl"
                         />
+                        {attempted && fieldError("address") && <p id="address-error" className="mt-1 text-sm text-amber-200">{fieldError("address")}</p>}
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label htmlFor="postalCode" className="text-xs text-zinc-400 font-medium mb-1 block">Code postal *</label>
                           <Input
                             id="postalCode"
+                            aria-invalid={attempted && !!fieldError("postalCode")}
+                            aria-describedby={attempted && fieldError("postalCode") ? "postalCode-error" : undefined}
                           autoComplete="postal-code"
                           value={postalCode}
                             onChange={(e) => setPostalCode(e.target.value)}
                             placeholder="94140"
                             className="bg-white/5 border-white/10 text-white placeholder:text-zinc-600 rounded-xl"
                           />
+                          {attempted && fieldError("postalCode") && <p id="postalCode-error" className="mt-1 text-sm text-amber-200">{fieldError("postalCode")}</p>}
                         </div>
                         <div>
                           <label htmlFor="city" className="text-xs text-zinc-400 font-medium mb-1 block">Ville *</label>
                           <Input
                             id="city"
+                            aria-invalid={attempted && !!fieldError("city")}
+                            aria-describedby={attempted && fieldError("city") ? "city-error" : undefined}
                           autoComplete="address-level2"
                           value={city}
                             onChange={(e) => setCity(e.target.value)}
                             placeholder="Alfortville"
                             className="bg-white/5 border-white/10 text-white placeholder:text-zinc-600 rounded-xl"
                           />
+                          {attempted && fieldError("city") && <p id="city-error" className="mt-1 text-sm text-amber-200">{fieldError("city")}</p>}
                         </div>
                       </div>
                     </CardContent>
@@ -371,13 +390,24 @@ function CommandeContent() {
                     <label htmlFor="phone" className="text-xs text-zinc-400 font-medium mb-1 block">Téléphone *</label>
                     <Input
                       id="phone"
+                      ref={phoneInput}
+                      aria-invalid={(attempted || phoneTouched) && !!fieldError("phone")}
+                      aria-describedby="phone-help"
                           autoComplete="tel"
                           type="tel"
                           value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => { setPhone(e.target.value); setContactStatus("idle") }}
+                      onBlur={() => { setPhoneTouched(true); if (hasProfile && isValidPhone(phone) && phone.trim().length <= 30) void persistContact({ phone: normalizePhone(phone) }) }}
                       placeholder="0690 XX XX XX"
                       className="bg-white/5 border-white/10 text-white placeholder:text-zinc-600 rounded-xl"
                     />
+                    <div id="phone-help" className="mt-2 text-sm" aria-live="polite">
+                      {(attempted || phoneTouched) && fieldError("phone") ? <p className="text-amber-200">{fieldError("phone")}</p> :
+                        <p className="text-zinc-400">Ce numéro sera enregistré dans votre compte pour vos prochaines commandes.</p>}
+                      {contactStatus === "saving" && <p className="text-zinc-300">Enregistrement du numéro…</p>}
+                      {contactStatus === "saved" && <p className="text-green-300">Numéro enregistré dans votre compte.</p>}
+                      {contactStatus === "error" && <p role="alert" className="text-amber-200">Impossible d’enregistrer vos coordonnées. Réessayez en quittant ce champ ou en confirmant la commande.</p>}
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -385,8 +415,8 @@ function CommandeContent() {
               {/* Date et créneau : exigés dans les deux modes.
                   En retrait, sans horaire choisi le commerçant ne sait pas quand préparer
                   la commande ni quand attendre le client. */}
-              <div>
-                <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-4">
+              <div id="deliverySlot" tabIndex={-1} aria-labelledby="deliverySlot-label" aria-describedby={attempted && fieldError("deliverySlot") ? "deliverySlot-error" : undefined}>
+                <h2 id="deliverySlot-label" className="text-sm font-bold uppercase tracking-widest text-zinc-500 mb-4">
                   {deliveryMethod === "livraison" ? "Date et créneau de livraison" : "Date et heure de retrait"}
                 </h2>
                 <DeliveryCalendar
@@ -396,6 +426,7 @@ function CommandeContent() {
                   selectedDelivery={selectedDelivery}
                   mode={deliveryMethod === "retrait" ? "retrait" : "livraison"}
                 />
+                {attempted && fieldError("deliverySlot") && <p id="deliverySlot-error" className="mt-2 text-sm text-amber-200">{fieldError("deliverySlot")}</p>}
               </div>
 
               {deliveryMethod === "retrait" && (
@@ -559,15 +590,16 @@ function CommandeContent() {
                     <span className="text-2xl font-black text-[#ffcd47]">{total.toFixed(2)}€</span>
                   </div>
 
+                  {issues.length > 0 && <div role="status" aria-live="polite" aria-label="Champs à compléter" className="rounded-xl border border-amber-300/30 bg-amber-300/10 p-3 text-sm text-amber-100">
+                    <p className="font-bold">À compléter pour confirmer :</p>
+                    <ol className="mt-2 list-decimal space-y-2 pl-5">
+                      {issues.map(issue => <li key={issue.id}><button type="button" onClick={() => focusField(issue.id)} className="text-left underline underline-offset-2 whitespace-normal">{issue.message}</button></li>)}
+                    </ol>
+                  </div>}
                   <Button
                     onClick={handleCheckout}
-                    disabled={
-                      isCheckingOut ||
-                      !selectedDelivery ||
-                      !/^(?:\+)?[0-9]{10,15}$/.test(phone.replace(/[\s.()\-]/g, "")) ||
-                      (deliveryMethod === "livraison" && (!address.trim() || !postalCode.trim() || !city.trim()))
-                    }
-                    className="w-full bg-[#ffcd47] hover:bg-[#ffe18a] text-white font-bold py-6 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.3)] text-base disabled:opacity-50"
+                    disabled={isCheckingOut}
+                    className="flex h-auto min-h-12 w-full flex-wrap whitespace-normal bg-[#ffcd47] hover:bg-[#ffe18a] text-white font-bold px-3 py-4 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.3)] text-base disabled:opacity-50"
                   >
                     {isCheckingOut ? (
                       <>

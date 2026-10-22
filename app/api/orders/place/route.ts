@@ -11,6 +11,8 @@ import { describeSelection } from "@/lib/composition-pricing"
 import crypto from "crypto"
 import { rateLimit, clientIp } from "@/lib/rate-limit"
 import { isPickupDateAllowed } from "@/lib/pickup-policy"
+import { checkoutContactSchema, normalizePhone, isValidPhone } from "@/lib/contact-details"
+import { persistAccountContact } from "@/lib/account-contact"
 
 function generatePickupCode() {
     return crypto.randomBytes(4).toString("hex").toUpperCase()
@@ -39,7 +41,7 @@ export async function POST(req: NextRequest) {
             deliveryAddress,
             deliveryCity,
             deliveryPostalCode,
-            phone,
+            phone: providedPhone,
             promoCode,
             paymentMethod, // "cash" ou "card_on_delivery"
         } = body
@@ -68,7 +70,9 @@ export async function POST(req: NextRequest) {
                 { status: 400 },
             )
         }
-        if (!phone || typeof phone !== "string" || !/^(?:\+)?[0-9]{10,15}$/.test(phone.replace(/[\s.()\-]/g, ""))) {
+        const user = await prisma.user.findUnique({ where: { id: session.user.id } })
+        const phone = normalizePhone(typeof providedPhone === "string" ? providedPhone : providedPhone == null ? user?.phone || "" : "")
+        if (!isValidPhone(phone)) {
             return NextResponse.json({ error: "Numéro de téléphone manquant ou invalide" }, { status: 400 })
         }
 
@@ -186,7 +190,6 @@ export async function POST(req: NextRequest) {
 
         // Lire les coordonnées AVANT toute écriture de commande : une panne de lecture
         // après création ne doit pas faire croire au client qu'il faut recommander.
-        const user = await prisma.user.findUnique({ where: { id: session.user.id } })
 
         // Validation et application du code promo
         let promoDiscount = 0
@@ -249,6 +252,12 @@ export async function POST(req: NextRequest) {
                 { status: 400 },
             )
         }
+
+        const contact = checkoutContactSchema.safeParse({ phone,
+            ...(isDelivery ? { address: finalAddress, city: finalCity, postalCode: finalPostalCode } : {}) })
+        if (!contact.success) return NextResponse.json({ error: contact.error.issues[0].message }, { status: 400 })
+        // Same User columns as the profile page; Order keeps its own contact snapshot.
+        await persistAccountContact(session.user.id, contact.data)
 
         // Numéro de facture séquentiel (obligation de numérotation continue, cf. lib/invoice)
         const invoiceNumber = await nextInvoiceNumber()

@@ -5,6 +5,7 @@ import { z } from "zod"
 import { sendWelcomeEmail } from "@/lib/email"
 import { rateLimit, clientIp } from "@/lib/rate-limit"
 import { avatarSettingKey, DEFAULT_POWER_AVATAR, isPowerAvatarKey } from "@/lib/power-avatars"
+import { phoneSchema } from "@/lib/contact-details"
 
 const registerSchema = z.object({
     // L'email est normalisé dès la validation : sans cela « Jean@x.fr » et « jean@x.fr »
@@ -18,8 +19,7 @@ const registerSchema = z.object({
     firstName: z.string().trim().min(1, "Le prénom est requis"),
     lastName: z.string().trim().min(1, "Le nom est requis"),
     avatarKey: z.string().optional(),
-    phone: z.string().trim().max(30).transform(v => v.replace(/[\s.()\-]/g, ""))
-        .refine(v => /^\+?[0-9]{10,15}$/.test(v), "Numéro de téléphone invalide").optional(),
+    phone: phoneSchema.optional(),
     clientType: z.enum(["particulier", "professionnel"]).default("particulier"),
 })
 

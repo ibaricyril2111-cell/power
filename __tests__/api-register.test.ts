@@ -17,6 +17,9 @@ vi.mock('@/auth', () => ({
   auth: vi.fn(),
 }))
 
+// Registration tests must never call the real email provider, including in CI.
+vi.mock('@/lib/email', () => ({ sendWelcomeEmail: vi.fn().mockResolvedValue(undefined) }))
+
 vi.mock('bcryptjs', () => ({
   default: {
     hash: vi.fn().mockResolvedValue('hashed_password'),

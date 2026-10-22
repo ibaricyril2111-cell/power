@@ -4,11 +4,13 @@ import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
 import { z } from "zod"
 import { avatarSettingKey, DEFAULT_POWER_AVATAR, isPowerAvatarKey } from "@/lib/power-avatars"
+import { checkoutContactSchema, phoneSchema, type CheckoutContact } from "@/lib/contact-details"
+import { persistAccountContact } from "@/lib/account-contact"
 
 const updateProfileSchema = z.object({
     firstName: z.string().trim().min(1).max(80).optional(),
     lastName: z.string().trim().min(1).max(80).optional(),
-    phone: z.string().trim().max(30).optional(),
+    phone: phoneSchema.or(z.literal("")).optional(),
     address: z.string().trim().max(240).optional(),
     city: z.string().trim().max(100).optional(),
     postalCode: z.string().trim().max(20).optional(),
@@ -21,6 +23,19 @@ const updateProfileSchema = z.object({
 })
 
 const ACCOUNT_TYPES = ["particulier", "professionnel"]
+
+export async function saveCheckoutContact(data: CheckoutContact) {
+    const session = await auth()
+    if (!session?.user?.id || session.user.disabled) return { success: false, requiresLogin: true, error: "Connectez-vous pour enregistrer vos coordonnées." }
+    const parsed = checkoutContactSchema.safeParse(data)
+    if (!parsed.success) return { success: false, error: parsed.error.issues[0].message }
+    try {
+        const contact = await persistAccountContact(session.user.id, parsed.data)
+        return { success: true, data: contact }
+    } catch {
+        return { success: false, error: "Impossible d’enregistrer vos coordonnées. Réessayez avant de confirmer." }
+    }
+}
 
 const publicProfileSelect = {
     id: true,

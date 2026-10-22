@@ -22,6 +22,7 @@ const mockOrderItemCreate = vi.fn()
 const mockProductFindMany = vi.fn()
 const mockProductUpdate = vi.fn()
 const mockUserFindUnique = vi.fn()
+const mockUserUpdate = vi.fn()
 const mockSlotFindUnique = vi.fn()
 const mockSlotUpdateMany = vi.fn()
 const mockSendOrderConfirmation = vi.fn()
@@ -49,7 +50,7 @@ vi.mock('@/lib/db', () => ({
       findMany: (...a: any[]) => mockProductFindMany(...a),
       update: (...a: any[]) => mockProductUpdate(...a),
     },
-    user: { findUnique: (...a: any[]) => mockUserFindUnique(...a) },
+    user: { findUnique: (...a: any[]) => mockUserFindUnique(...a), update: (...a: any[]) => mockUserUpdate(...a) },
     deliverySlot: {
       findUnique: (...a: any[]) => mockSlotFindUnique(...a),
       updateMany: (...a: any[]) => mockSlotUpdateMany(...a),
@@ -134,6 +135,7 @@ describe('POST /api/orders/place', () => {
       id: 'u1', email: 'client@test.fr', firstName: 'Jean', lastName: 'Dupont',
       address: '5 rue des Lilas', city: 'Alfortville', postalCode: '94140',
     })
+    mockUserUpdate.mockResolvedValue({ phone: '0612345678' })
     mockSlotFindUnique.mockResolvedValue({ id: "s1", date: new Date("2099-08-10"), startTime: "10:00", endTime: "12:00", type: "livraison", isActive: true, currentOrders: 1, maxOrders: 5 })
     mockCartFindUnique.mockResolvedValue(null)
     mockSendOrderConfirmation.mockResolvedValue(undefined)
@@ -144,6 +146,27 @@ describe('POST /api/orders/place', () => {
     mockAuth.mockResolvedValueOnce(null)
     const res = await POST(makeRequest())
     expect(res.status).toBe(401)
+  })
+
+  it('enregistre le téléphone normalisé sur le compte authentifié et sur la commande', async () => {
+    const res = await POST(makeRequest({ phone: '+33 6 12 34 56 78', userId: 'other-user' }))
+    expect(res.status).toBe(200)
+    expect(mockUserUpdate).toHaveBeenCalledWith(expect.objectContaining({ where: { id: 'u1' }, data: expect.objectContaining({ phone: '+33612345678' }) }))
+    expect(mockOrderCreate).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ userId: 'u1', phone: '+33612345678' }) }))
+  })
+
+  it('reprend le téléphone SQL du compte si le client ne le transmet pas', async () => {
+    mockUserFindUnique.mockResolvedValueOnce({ id:'u1', phone:'0612345678' })
+    const res = await POST(makeRequest({ phone: undefined }))
+    expect(res.status).toBe(200)
+    expect(mockOrderCreate).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ phone:'0612345678' }) }))
+  })
+
+  it('ne crée aucune commande si les coordonnées ne peuvent pas être enregistrées', async () => {
+    mockUserUpdate.mockRejectedValueOnce(new Error('database unavailable'))
+    expect((await POST(makeRequest())).status).toBe(500)
+    expect(mockOrderCreate).not.toHaveBeenCalled()
+    expect(mockCartItemDelete).not.toHaveBeenCalled()
   })
 
   it.each([

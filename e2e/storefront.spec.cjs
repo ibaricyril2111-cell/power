@@ -146,3 +146,28 @@ test('une confirmation absente ne présente jamais une commande comme réussie',
   await expect(page.getByText(/Votre paiement a été traité avec succès/)).toHaveCount(0)
   await expect(page.getByRole('link',{name:'Voir mes commandes',exact:true})).toBeVisible()
 })
+
+test('les coordonnées manquantes sont expliquées dans l’ordre sans bloquer silencieusement le panier', async ({ page }) => {
+  await home(page)
+  await page.getByRole('textbox',{name:'Rechercher dans les produits'}).fill('Basilic')
+  await page.getByRole('button',{name:'Ajouter Basilic Frais au panier',exact:true}).filter({visible:true}).click()
+  await expect(page.getByRole('banner').getByRole('button',{name:'Panier',exact:true})).toContainText('1',{timeout:20000})
+  await page.goto('/commande')
+  await expect(page.getByRole('heading',{name:/Finaliser ma commande/})).toBeVisible()
+  const missing=page.getByRole('status',{name:'Champs à compléter',exact:true})
+  await expect(missing.getByRole('button')).toHaveText([
+    'Renseignez votre adresse de livraison.','Renseignez votre code postal.','Renseignez votre ville.',
+    'Renseignez votre numéro de téléphone.','Choisissez une date et un créneau disponible.',
+  ])
+  const confirm=page.getByRole('button',{name:/^Confirmer/})
+  await expect(confirm).toBeEnabled()
+  await confirm.click()
+  await expect(page.getByLabel('Adresse *',{exact:true})).toBeFocused()
+  await page.getByRole('button',{name:/Retrait en magasin/}).click()
+  await confirm.click()
+  await expect(page.getByLabel('Téléphone *',{exact:true})).toBeFocused()
+  await expect(page.getByLabel('Téléphone *',{exact:true})).toHaveAttribute('aria-invalid','true')
+  await expect(page.getByLabel('Adresse *',{exact:true})).toHaveCount(0)
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
+  // No order is submitted and no real customer's phone is changed.
+})
